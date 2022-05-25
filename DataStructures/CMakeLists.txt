@@ -11,6 +11,7 @@ set(HEADER_FILES
         Tree/Tree.h
         Heap/heap.h
         Heap/heap_sort.h
+        DisjointSets/disjoint_sets.h
         )
 
 set(SOURCE_FILES
@@ -23,6 +24,7 @@ set(SOURCE_FILES
         Stack/stack.cpp
         Tree/Tree.cpp
         Heap/heap.cpp
+        DisjointSets/disjoint_sets.cpp
         )
 
 add_library(DataStructures STATIC ${SOURCE_FILES} ${HEADER_FILES})
