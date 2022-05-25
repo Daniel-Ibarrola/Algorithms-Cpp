@@ -23,7 +23,6 @@ set(SOURCE_FILES
         Stack/stack.cpp
         Tree/Tree.cpp
         Heap/heap.cpp
-        Heap/heap_sort.cpp
         )
 
 add_library(DataStructures STATIC ${SOURCE_FILES} ${HEADER_FILES})
