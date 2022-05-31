@@ -159,12 +159,15 @@ TEST_F(AdjacencyListGraphFixture, GetNeighbors)
 
 TEST_F(AdjacencyListGraphFixture, IsTherePathBetween)
 {
+    // A node is always reachable form itself
+    EXPECT_EQ(c4.pathBetween(0, 0), true);
+
     EXPECT_EQ(c4.pathBetween(0, 1), true);
     EXPECT_EQ(c4.pathBetween(0, 2), true);
     EXPECT_EQ(c4.pathBetween(0, 3), true);
 
-    EXPECT_EQ(graph_2.pathBetween(0, 4), false);
-    EXPECT_EQ(graph_2.pathBetween(1, 4), false);
+    EXPECT_EQ(graph_2.pathBetween(0, 3), false);
+    EXPECT_EQ(graph_2.pathBetween(1, 3), false);
     EXPECT_EQ(graph_2.pathBetween(0, 2), true);
 
     EXPECT_EQ(graph_3.pathBetween(0, 2), true);
@@ -174,4 +177,24 @@ TEST_F(AdjacencyListGraphFixture, IsTherePathBetween)
 
     EXPECT_EQ(graph_4.pathBetween(5, 7), true);
     EXPECT_EQ(graph_4.pathBetween(6, 2), false);
+    EXPECT_EQ(graph_4.pathBetween(6, 3), false);
+}
+
+TEST_F(AdjacencyListGraphFixture, NumberOfConnectedComponents)
+{
+    // Test with an empty graph
+    ListGraph g;
+    EXPECT_EQ(g.numConnectedComponents(), 0);
+
+    // Test a graph with no edges
+    ListGraph j(20);
+    EXPECT_EQ(j.numConnectedComponents(), 20);
+
+    EXPECT_EQ(c4.numConnectedComponents(), 1);
+
+    EXPECT_EQ(graph_2.numConnectedComponents(), 2);
+
+    EXPECT_EQ(graph_3.numConnectedComponents(), 2);
+
+    EXPECT_EQ(graph_4.numConnectedComponents(), 3);
 }

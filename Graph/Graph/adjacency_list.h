@@ -9,8 +9,9 @@
 
 #include <algorithm>
 #include <list>
-#include <vector>
 #include <iostream>
+#include <vector>
+#include <stack>
 
 class invalid_node_error : public std::exception
 {
@@ -28,6 +29,11 @@ private:
     int m_numEdges {0};
 
     void validateNode(int node) const;
+
+    bool pathBetweenUtil(int currentNode, int endNode,
+                         std::vector<bool>& visited) const;
+
+    void explore(int currentNode, std::vector<bool>& visited) const;
 
 public:
 
@@ -52,4 +58,8 @@ public:
     int numNeighbors(int node) const;
 
     std::vector<int> getNeighbors(int node) const;
+
+    bool pathBetween(int startNode, int endNode) const;
+
+    int numConnectedComponents() const;
 };

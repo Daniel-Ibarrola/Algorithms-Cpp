@@ -64,3 +64,70 @@ std::vector<int> ListGraph::getNeighbors(int node) const
     }
     return neighbors;
 }
+
+bool ListGraph::pathBetweenUtil(int currentNode, int endNode,
+                                std::vector<bool> &visited) const
+{
+    // Util function to traverse the graph recursively
+
+    // If the node is reachable then there is a path between them
+    if (currentNode == endNode)
+        return true;
+    bool isReachable {false};
+
+    visited[currentNode] = true;
+    for (auto neighbor : m_adjacencyList[currentNode])
+    {
+        if(!visited[neighbor])
+        {
+            isReachable = pathBetweenUtil(neighbor, endNode, visited);
+            if (isReachable)
+                break;
+        }
+    }
+    return isReachable;
+}
+
+
+bool ListGraph::pathBetween(int startNode, int endNode) const
+{
+    // Returns true if there is a path between the given nodes.
+    validateNode(startNode);
+    validateNode(endNode);
+
+    std::vector<bool> visited(numNodes(), false);
+    return pathBetweenUtil(startNode, endNode, visited);
+}
+
+void ListGraph::explore(int currentNode, std::vector<bool> &visited) const
+{
+    // Explore the nodes reachable from the currenNode
+    visited[currentNode] = true;
+    for (auto neighbor : m_adjacencyList[currentNode])
+    {
+        if(!visited[neighbor])
+            explore(neighbor, visited);
+    }
+}
+
+int ListGraph::numConnectedComponents() const
+{
+    // Returns the number of connected components
+
+    // Do a depth first search while counting the number of connected components
+    std::vector<bool> visited(numNodes(), false);
+    int connectedComponents {0};
+
+    for (int node {0}; node < numNodes(); ++node)
+    {
+        if(!visited[node])
+        {
+            explore(node, visited);
+            connectedComponents++;
+        }
+    }
+    return connectedComponents;
+}
+
+
+
