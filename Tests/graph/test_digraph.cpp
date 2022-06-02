@@ -81,3 +81,49 @@ TEST(Digraph, NodeOutgoingEdges)
     EXPECT_EQ(edges_0, graph.getOutNeighbors(0));
 }
 
+TEST(Digraph, IsCyclic)
+{
+    Digraph graph_1(4);
+    graph_1.addEdge(0, 1);
+    graph_1.addEdge(1, 2);
+    graph_1.addEdge(2, 0);
+    graph_1.addEdge(3, 0);
+
+    EXPECT_EQ(graph_1.isCyclic(), true);
+
+    Digraph graph_2(5);
+    graph_2.addEdge(0, 3);
+    graph_2.addEdge(0, 2);
+    graph_2.addEdge(0, 1);
+    graph_2.addEdge(1, 2);
+    graph_2.addEdge(1, 4);
+    graph_2.addEdge(2, 3);
+    graph_2.addEdge(2, 4);
+
+    EXPECT_EQ(graph_2.isCyclic(), false);
+
+    Digraph graph_3(8);
+    graph_3.addEdge(0, 1);
+    graph_3.addEdge(1, 2);
+    graph_3.addEdge(2, 3);
+    graph_3.addEdge(3, 4);
+    graph_3.addEdge(4, 5);
+    graph_3.addEdge(5, 6);
+    graph_3.addEdge(6, 7);
+    graph_3.addEdge(7, 0);
+
+    EXPECT_EQ(graph_3.isCyclic(), true);
+
+    Digraph graph_4(8);
+    graph_4.addEdge(0, 1);
+    graph_4.addEdge(1, 2);
+    graph_4.addEdge(2, 3);
+    graph_4.addEdge(3, 4);
+    graph_4.addEdge(4, 5);
+    graph_4.addEdge(5, 6);
+    graph_4.addEdge(6, 7);
+    graph_4.addEdge(0, 7);
+
+    EXPECT_EQ(graph_4.isCyclic(), false);
+
+}

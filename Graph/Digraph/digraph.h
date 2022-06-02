@@ -19,6 +19,14 @@ class invalid_node_error : public std::exception
     }
 };
 
+enum Color
+{
+    // Colors for labeling the nodes in the hasCycle functions
+    white, // Node not processed
+    gray, // Node being processed
+    black, // Node completely processed
+};
+
 class Digraph
 {
 private:
@@ -26,6 +34,8 @@ private:
     int m_numEdges {0};
 
     void validateNode(int node) const;
+
+    bool isCyclicUtil(int currentNode, std::vector<int>& colors) const;
 
 public:
 
@@ -46,4 +56,6 @@ public:
 
     int numOutEdges(int node) const;
     std::list<int> getOutNeighbors(int node) const;
+
+    bool isCyclic() const;
 };
