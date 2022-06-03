@@ -38,7 +38,11 @@ private:
     void validateNode(int node) const;
 
     bool isCyclicUtil(int currentNode, std::vector<int>& colors) const;
-    void topologicalOrderUtil(int currentNode,
+
+
+    void explore(int currentNode,
+                          std::vector<bool>& visited) const;
+    void exploreAndStack(int currentNode,
                               std::vector<bool>& visited,
                               std::stack<int>& stack
                               ) const;

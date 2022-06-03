@@ -170,6 +170,11 @@ TEST(Digraph, ToplogicalOrdering)
 
 TEST(Digraph, TestReverseGraph)
 {
+    Digraph emptyGraph;
+    Digraph reverse {emptyGraph.reverseGraph()};
+    ASSERT_EQ(reverse.numNodes(), 0);
+    ASSERT_EQ(reverse.numEdges(), 0);
+
     Digraph graph_1(4);
     graph_1.addEdge(0, 1);
     graph_1.addEdge(2, 0);
@@ -190,6 +195,20 @@ TEST(Digraph, TestReverseGraph)
 
 TEST(Digraph, NumberStronglyConnectedComponents)
 {
+    // The empty graph should have 0 SCC
+    Digraph emptyGraph;
+    ASSERT_EQ(emptyGraph.numStronglyConnectedComponents(), 0);
+
+    // A non-empty graph must have at least 1 SCC
+    Digraph singleNodeGraph(1);
+    ASSERT_EQ(singleNodeGraph.numStronglyConnectedComponents(), 1);
+
+    // For graphs with no edges the number of SCC is equal to the number of nodes
+    Digraph noEdgesGraph(20);
+    ASSERT_EQ(noEdgesGraph.numStronglyConnectedComponents(), 20);
+
+    // Continue with non-trivial test cases
+
     Digraph graph_1(4);
     graph_1.addEdge(0, 1);
     graph_1.addEdge(1, 2);

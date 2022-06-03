@@ -93,21 +93,33 @@ bool Digraph::isCyclic() const
     return false;
 }
 
-void Digraph::topologicalOrderUtil(int currentNode,
+void Digraph::exploreAndStack(int currentNode,
                                    std::vector<bool> &visited,
                                    std::stack<int> &stack) const
 {
-    // Util function to find the topological ordering of the graph
-    // by using DFS
+    // Traverse all the nodes reachable from the given node and push them
+    // into a stack
 
     visited[currentNode] = true;
     for (auto node : m_adjacencyList[currentNode])
     {
         if (!visited[node])
-            topologicalOrderUtil(node, visited, stack);
+            exploreAndStack(node, visited, stack);
     }
 
     stack.push(currentNode);
+}
+
+void Digraph::explore(int currentNode,
+                               std::vector<bool> &visited) const
+{
+    // Traverse all the nodes reachable from the given node
+    visited[currentNode] = true;
+    for (auto node : m_adjacencyList[currentNode])
+    {
+        if (!visited[node])
+            explore(node, visited);
+    }
 }
 
 
@@ -124,7 +136,7 @@ std::vector<int> Digraph::topologicalOrder() const
     for(int node {0}; node < numNodes(); ++node)
     {
         if (!visited[node])
-            topologicalOrderUtil(node, visited, stack);
+            exploreAndStack(node, visited, stack);
     }
     assert(stack.size() == m_adjacencyList.size() && "Stack does not contain all nodes");
 
@@ -139,12 +151,6 @@ std::vector<int> Digraph::topologicalOrder() const
     return topOrder;
 }
 
-int Digraph::numStronglyConnectedComponents() const
-{
-    // Returns the number of strongly connected components in the graph
-    return 0;
-}
-
 Digraph Digraph::reverseGraph() const
 {
     // Returns the reverse graph (the graph obtained by reversing all the edges).
@@ -156,3 +162,37 @@ Digraph Digraph::reverseGraph() const
     }
     return reverse;
 }
+
+int Digraph::numStronglyConnectedComponents() const
+{
+    // Returns the number of strongly connected components in the graph
+
+    // Depth first search of the original graph
+    std::vector<bool> visited(m_adjacencyList.size(), false);
+    std::stack<int> stack;
+    for (int node {0}; node < numNodes(); ++node)
+    {
+        if (!visited[node])
+            exploreAndStack(node, visited, stack);
+    }
+    assert(stack.size() == m_adjacencyList.size() && "Stack does not contain all nodes");
+
+    // Depth first search of the reverse graph and count the number of SCC
+    int scc {0};
+    Digraph reverse {reverseGraph()};
+    std::fill(visited.begin(), visited.end(), false);
+    while(!stack.empty())
+    {
+        int node {stack.top()};
+        stack.pop();
+        if (!visited[node])
+        {
+            reverse.explore(node, visited);
+            scc++;
+        }
+    }
+    return scc;
+}
+
+
+
