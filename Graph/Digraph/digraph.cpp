@@ -93,3 +93,66 @@ bool Digraph::isCyclic() const
     return false;
 }
 
+void Digraph::topologicalOrderUtil(int currentNode,
+                                   std::vector<bool> &visited,
+                                   std::stack<int> &stack) const
+{
+    // Util function to find the topological ordering of the graph
+    // by using DFS
+
+    visited[currentNode] = true;
+    for (auto node : m_adjacencyList[currentNode])
+    {
+        if (!visited[node])
+            topologicalOrderUtil(node, visited, stack);
+    }
+
+    stack.push(currentNode);
+}
+
+
+std::vector<int> Digraph::topologicalOrder() const
+{
+    // Returns a vector with the topological order of the graph
+
+    // For cyclic graphs topological ordering is not possible, so we return empty vec
+    if (isCyclic())
+        return {};
+
+    std::vector<bool> visited(m_adjacencyList.size(), false);
+    std::stack<int> stack;
+    for(int node {0}; node < numNodes(); ++node)
+    {
+        if (!visited[node])
+            topologicalOrderUtil(node, visited, stack);
+    }
+    assert(stack.size() == m_adjacencyList.size() && "Stack does not contain all nodes");
+
+    std::vector<int> topOrder(m_adjacencyList.size());
+    for (auto ii {0}; ii < topOrder.size(); ++ii)
+    {
+        topOrder[ii] = stack.top();
+        stack.pop();
+    }
+    assert(stack.empty() && "Stack isn't empty");
+
+    return topOrder;
+}
+
+int Digraph::numStronglyConnectedComponents() const
+{
+    // Returns the number of strongly connected components in the graph
+    return 0;
+}
+
+Digraph Digraph::reverseGraph() const
+{
+    // Returns the reverse graph (the graph obtained by reversing all the edges).
+    Digraph reverse(numNodes());
+    for (int node_1 {0}; node_1 < numNodes(); ++node_1)
+    {
+        for (auto node_2 : m_adjacencyList[node_1])
+            reverse.addEdge(node_2, node_1);
+    }
+    return reverse;
+}

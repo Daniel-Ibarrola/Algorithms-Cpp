@@ -8,7 +8,9 @@
 #endif //ALGORITHMS_DIGRAPH_H
 
 #include <algorithm>
+#include <cassert>
 #include <list>
+#include <stack>
 #include <vector>
 
 class invalid_node_error : public std::exception
@@ -21,7 +23,7 @@ class invalid_node_error : public std::exception
 
 enum Color
 {
-    // Colors for labeling the nodes in the hasCycle functions
+    // Colors for labeling the nodes in the isCyclic functions
     white, // Node not processed
     gray, // Node being processed
     black, // Node completely processed
@@ -36,6 +38,10 @@ private:
     void validateNode(int node) const;
 
     bool isCyclicUtil(int currentNode, std::vector<int>& colors) const;
+    void topologicalOrderUtil(int currentNode,
+                              std::vector<bool>& visited,
+                              std::stack<int>& stack
+                              ) const;
 
 public:
 
@@ -58,4 +64,8 @@ public:
     std::list<int> getOutNeighbors(int node) const;
 
     bool isCyclic() const;
+    std::vector<int> topologicalOrder() const;
+    int numStronglyConnectedComponents() const;
+
+    Digraph reverseGraph() const;
 };
