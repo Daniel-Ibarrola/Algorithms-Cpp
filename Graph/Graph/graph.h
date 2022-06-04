@@ -8,10 +8,12 @@
 #endif //ALGORITHMS_ADJACENCY_LIST_H
 
 #include <algorithm>
-#include <list>
 #include <iostream>
-#include <vector>
+#include <list>
+#include <queue>
+#include <tuple>
 #include <stack>
+#include <vector>
 
 class invalid_node_error : public std::exception
 {
@@ -21,7 +23,7 @@ class invalid_node_error : public std::exception
     }
 };
 
-class ListGraph
+class Graph
 {
     // ListGraph class that uses an adjacency list. Nodes are integers starting from 0
 private:
@@ -37,29 +39,30 @@ private:
 
 public:
 
-    ListGraph() = default;;
+    Graph() = default;;
 
-    explicit ListGraph(int numNodes)
+    explicit Graph(int numNodes)
         : m_adjacencyList(numNodes, std::list<int>())
     {
 
     }
 
     int numNodes() const {return static_cast<int>(m_adjacencyList.size());}
-
     int numEdges() const {return m_numEdges;}
 
     void addNode();
-
+    void addEdge(int node_1, int node_2);
+    void addEdges(const std::vector<std::tuple<int, int>>& edges);
+    void addEdgesToNode(int node, const std::vector<int>& toNodes);
     bool isEdge(int node_1, int node_2) const;
 
-    void addEdge(int node_1, int node_2);
-
     int numNeighbors(int node) const;
-
     std::vector<int> getNeighbors(int node) const;
 
     bool pathBetween(int startNode, int endNode) const;
-
     int numConnectedComponents() const;
+
+    std::vector<int> distancesFromNode(int node);
+    int shortestPath(int startNode, int endNode);
+
 };

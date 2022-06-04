@@ -10,7 +10,7 @@ add_executable(Google_Tests_run
         data_structures/test_hash_table.cpp
         data_structures/test_substring.cpp
         graph/test_adjacency_matrix.cpp
-        graph/test_adjacency_list.cpp
+        graph/test_graph.cpp
         graph/test_digraph.cpp
         )
 

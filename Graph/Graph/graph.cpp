@@ -2,22 +2,22 @@
 // Created by daniel on 29/05/22.
 //
 
-#include "adjacency_list.h"
+#include "graph.h"
 
-void ListGraph::validateNode(int node) const
+void Graph::validateNode(int node) const
 {
     // Checks if the given node is valid
     if (node < 0 or node >= numNodes())
         throw invalid_node_error();
 }
 
-void ListGraph::addNode()
+void Graph::addNode()
 {
     // Adds a new node to the graph
     m_adjacencyList.emplace_back(std::list<int>());
 }
 
-bool ListGraph::isEdge(int node_1, int node_2) const
+bool Graph::isEdge(int node_1, int node_2) const
 {
     // Check if there is an edge between two nodes
     validateNode(node_1);
@@ -31,7 +31,7 @@ bool ListGraph::isEdge(int node_1, int node_2) const
     return false;
 }
 
-void ListGraph::addEdge(int node_1, int node_2)
+void Graph::addEdge(int node_1, int node_2)
 {
     // Adds a new edge to the graph
     if (!isEdge(node_1, node_2))
@@ -42,14 +42,28 @@ void ListGraph::addEdge(int node_1, int node_2)
     }
 }
 
-int ListGraph::numNeighbors(int node) const
+void Graph::addEdges(const std::vector<std::tuple<int, int>> &edges)
+{
+    // Add multiple edges to the graph
+    for(const auto& nodes : edges)
+        addEdge(std::get<0>(nodes), std::get<1>(nodes));
+}
+
+void Graph::addEdgesToNode(int node, const std::vector<int> &toNodes)
+{
+    // Add multiple edges to the given node
+    for (auto n: toNodes)
+        addEdge(node, n);
+}
+
+int Graph::numNeighbors(int node) const
 {
    // Returns the number of neighbors of a given node
     validateNode(node);
     return static_cast<int>(m_adjacencyList[node].size());
 }
 
-std::vector<int> ListGraph::getNeighbors(int node) const
+std::vector<int> Graph::getNeighbors(int node) const
 {
     // Returns a vector with the neighbors of a node. It makes a
     // copy of the list of neighbors
@@ -65,7 +79,7 @@ std::vector<int> ListGraph::getNeighbors(int node) const
     return neighbors;
 }
 
-bool ListGraph::pathBetweenUtil(int currentNode, int endNode,
+bool Graph::pathBetweenUtil(int currentNode, int endNode,
                                 std::vector<bool> &visited) const
 {
     // Util function to traverse the graph recursively
@@ -89,7 +103,7 @@ bool ListGraph::pathBetweenUtil(int currentNode, int endNode,
 }
 
 
-bool ListGraph::pathBetween(int startNode, int endNode) const
+bool Graph::pathBetween(int startNode, int endNode) const
 {
     // Returns true if there is a path between the given nodes.
     validateNode(startNode);
@@ -99,7 +113,7 @@ bool ListGraph::pathBetween(int startNode, int endNode) const
     return pathBetweenUtil(startNode, endNode, visited);
 }
 
-void ListGraph::explore(int currentNode, std::vector<bool> &visited) const
+void Graph::explore(int currentNode, std::vector<bool> &visited) const
 {
     // Explore the nodes reachable from the currenNode
     visited[currentNode] = true;
@@ -110,7 +124,7 @@ void ListGraph::explore(int currentNode, std::vector<bool> &visited) const
     }
 }
 
-int ListGraph::numConnectedComponents() const
+int Graph::numConnectedComponents() const
 {
     // Returns the number of connected components
 
@@ -129,5 +143,44 @@ int ListGraph::numConnectedComponents() const
     return connectedComponents;
 }
 
+std::vector<int> Graph::distancesFromNode(int node)
+{
+    // Returns a vector with the distances from all nodes to the given node
+    // Uses a breadth first search traversal to find the distances.
+    validateNode(node);
 
+    std::vector<int> distances(m_adjacencyList.size(),
+                               std::numeric_limits<int>::max());
+    distances[node] = 0;
+    std::queue<int> queue;
+    queue.push(node);
+
+    while (!queue.empty())
+    {
+        int currentNode {queue.front()};
+        queue.pop();
+        for (int neighbor : m_adjacencyList[currentNode])
+        {
+            // Traverse the adjacency list of the node but only consider
+            // nodes that have not been visited (their distance is max)
+            if (distances[neighbor] == std::numeric_limits<int>::max())
+            {
+                queue.push(neighbor);
+                distances[neighbor] = distances[currentNode] + 1;
+            }
+        }
+    }
+
+    return distances;
+}
+
+int Graph::shortestPath(int startNode, int endNode)
+{
+    // Returns the shortest path form startNode to endNode.
+    // -1 is returned if there is no path between the given nodes.
+    int distance {distancesFromNode(startNode)[endNode]};
+    if (distance == std::numeric_limits<int>::max())
+        return -1;
+    return distance;
+}
 

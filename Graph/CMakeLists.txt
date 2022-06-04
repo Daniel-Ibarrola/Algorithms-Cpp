@@ -1,13 +1,13 @@
 project(Graph)
 
 set(HEADER_FILES
-        Graph/adjacency_list.h
+        Graph/graph.h
         Graph/adjacency_matrix.h
         Digraph/digraph.h
         )
 
 set(SOURCE_FILES
-        Graph/adjacency_list.cpp
+        Graph/graph.cpp
         Graph/adjacency_matrix.cpp
         Digraph/digraph.cpp
         )
