@@ -250,3 +250,52 @@ TEST_F(AdjacencyListGraphFixture, NumberOfConnectedComponents)
     EXPECT_EQ(graph_4.numConnectedComponents(), 3);
 }
 
+TEST(AdjacencyListGraph, IsGraphBipartite)
+{
+    // Empty graph should be bipartite
+    Graph emptyGraph;
+    ASSERT_EQ(emptyGraph.isBipartite(), true);
+
+    // A graph with no edges is also bipartite
+    Graph noEdgesGraph(5);
+    ASSERT_EQ(noEdgesGraph.isBipartite(), true);
+
+    Graph graph(4);
+    graph.addEdges({
+        {0, 1}, {0, 2}, {0, 3}, {1, 2}
+    });
+    ASSERT_EQ(graph.numEdges(), 4);
+    ASSERT_EQ(graph.isBipartite(), false);
+
+    Graph graph_2(5);
+    graph_2.addEdges({
+        {0, 3}, {1, 3}, {1, 4}, {2, 3}
+    });
+    ASSERT_EQ(graph_2.numEdges(), 4);
+    ASSERT_EQ(graph_2.isBipartite(), true);
+
+    Graph graph_3(5);
+    graph_3.addEdges({
+        {0, 1}, {1, 2}, {1, 3}, {2, 4}, {3, 4}
+    });
+    ASSERT_EQ(graph_3.numEdges(), 5);
+    ASSERT_EQ(graph_3.isBipartite(), true);
+
+    // Test a multiple component graph
+    Graph graph_4(7);
+    graph_4.addEdges({
+        {0, 1}, {1, 2}, {2, 3},
+        {4, 5}, {4, 6}, {5, 6}
+    });
+    ASSERT_EQ(graph_4.numEdges(), 6);
+    ASSERT_EQ(graph_4.isBipartite(), false);
+
+    Graph graph_5(8);
+    graph_5.addEdges({
+         {0, 1}, {1, 2}, {2, 3},
+         {4, 5}, {5, 6}, {6, 7},
+         {7, 4}
+    });
+    ASSERT_EQ(graph_5.numEdges(), 7);
+    ASSERT_EQ(graph_5.isBipartite(), true);
+}

@@ -37,6 +37,8 @@ private:
 
     void explore(int currentNode, std::vector<bool>& visited) const;
 
+    bool isBipartiteUtil(int node, std::vector<int>& colors) const;
+
 public:
 
     Graph() = default;;
@@ -62,7 +64,8 @@ public:
     bool pathBetween(int startNode, int endNode) const;
     int numConnectedComponents() const;
 
-    std::vector<int> distancesFromNode(int node);
-    int shortestPath(int startNode, int endNode);
+    std::vector<int> distancesFromNode(int node) const;
+    int shortestPath(int startNode, int endNode) const;
 
+    bool isBipartite() const;
 };

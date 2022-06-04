@@ -143,7 +143,7 @@ int Graph::numConnectedComponents() const
     return connectedComponents;
 }
 
-std::vector<int> Graph::distancesFromNode(int node)
+std::vector<int> Graph::distancesFromNode(int node) const
 {
     // Returns a vector with the distances from all nodes to the given node
     // Uses a breadth first search traversal to find the distances.
@@ -174,7 +174,7 @@ std::vector<int> Graph::distancesFromNode(int node)
     return distances;
 }
 
-int Graph::shortestPath(int startNode, int endNode)
+int Graph::shortestPath(int startNode, int endNode) const
 {
     // Returns the shortest path form startNode to endNode.
     // -1 is returned if there is no path between the given nodes.
@@ -184,3 +184,48 @@ int Graph::shortestPath(int startNode, int endNode)
     return distance;
 }
 
+bool Graph::isBipartiteUtil(int node, std::vector<int>& colors) const
+{
+    // Util function to color the nodes reachable from the given node
+
+    // The graph is bipartite if its nodes can be colored by two different colors
+    // such that any two adjacent nodes have different colors.
+    // We use a breadth first search approach for coloring the graph
+
+    // In the following vector -1 will represent a node that has not been visited.
+    // 0 will be the first color and 1 the second color.
+    std::queue<int> queue;
+    queue.push(node);
+    colors[node] = 1;
+
+    while (!queue.empty())
+    {
+        int currentNode {queue.front()};
+        queue.pop();
+        for (int neighbor : m_adjacencyList[currentNode])
+        {
+            if (colors[neighbor] == colors[currentNode])
+                return false;
+            if (colors[neighbor] == -1)
+            {
+                colors[neighbor] = 1 - colors[currentNode];
+                queue.push(neighbor);
+            }
+
+        }
+    }
+
+    return true;
+}
+
+bool Graph::isBipartite() const
+{
+    // Returns true if the graph is bipartite.
+    std::vector<int> colors(m_adjacencyList.size(), -1);
+    for (int node {0}; node < numNodes(); ++node)
+    {
+        if (colors[node] == -1 && !isBipartiteUtil(node, colors))
+            return false;
+    }
+    return true;
+}
