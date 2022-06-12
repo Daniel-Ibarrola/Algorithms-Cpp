@@ -4,10 +4,10 @@
 
 #include "digraph.h"
 
-void Digraph::validateNode(int node) const
+void validateNode(int node, int numberOfNodes)
 {
     // Check if a node is part of the graph
-    if (node < 0 || node >= m_adjacencyList.size())
+    if (node < 0 || node >= numberOfNodes)
         throw invalid_node_error();
 }
 
@@ -30,8 +30,8 @@ void Digraph::addNode()
 bool Digraph::isEdge(int outNode, int inNode) const
 {
     // Check if there is an edge that goes from the outNode to the inNode
-    validateNode(outNode);
-    validateNode(inNode);
+    validateNode(outNode, numNodes());
+    validateNode(inNode, numNodes());
 
     if (std::any_of(m_adjacencyList[outNode].begin(),
                     m_adjacencyList[outNode].end(),
@@ -45,7 +45,7 @@ bool Digraph::isEdge(int outNode, int inNode) const
 int Digraph::numOutEdges(int node) const
 {
     // Returns the number of outgoing edges from the given node
-    validateNode(node);
+    validateNode(node, numNodes());
     return static_cast<int>(m_adjacencyList[node].size());
 }
 

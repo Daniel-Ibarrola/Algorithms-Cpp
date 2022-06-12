@@ -13,6 +13,8 @@
 #include <stack>
 #include <vector>
 
+void validateNode(int node, int numberOfNodes);
+
 class invalid_node_error : public std::exception
 {
     const char* what() const noexcept override
@@ -34,8 +36,6 @@ class Digraph
 private:
     std::vector<std::list<int>> m_adjacencyList;
     int m_numEdges {0};
-
-    void validateNode(int node) const;
 
     bool isCyclicUtil(int currentNode, std::vector<int>& colors) const;
 

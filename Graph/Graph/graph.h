@@ -56,8 +56,8 @@ public:
     void addEdge(int node_1, int node_2);
     void addEdges(const std::vector<std::tuple<int, int>>& edges);
     void addEdgesToNode(int node, const std::vector<int>& toNodes);
-    bool isEdge(int node_1, int node_2) const;
 
+    bool isEdge(int node_1, int node_2) const;
     int numNeighbors(int node) const;
     std::vector<int> getNeighbors(int node) const;
 
