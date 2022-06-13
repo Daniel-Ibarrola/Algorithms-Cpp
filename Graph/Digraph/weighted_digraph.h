@@ -8,6 +8,7 @@
 #endif //ALGORITHMS_WEIGHTED_DIGRAPH_H
 
 #include <array>
+#include <queue> // std::priority_queue
 #include <list>
 #include <vector>
 #include "Digraph/digraph.h" // for invalid_node_error, validate_node
@@ -60,5 +61,7 @@ public:
     int outDegree(int node) const;
     const std::list<Edge>& getOutNeighbors(int node) const;
 
+    std::vector<int> getDistances(int startNode) const;
+    int shortestPathLength(int startNode, int endNode) const;
 
 };

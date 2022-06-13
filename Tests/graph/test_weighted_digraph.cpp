@@ -92,3 +92,53 @@ TEST(WeightedDigraph, NodeOutgoingEdges)
 }
 
 
+TEST(DijkstraShortestPath, DistancesAndShortestPath)
+{
+    WeightedDigraph noEdgesGraph(4);
+    std::vector<int> distances(4, std::numeric_limits<int>::max());
+    distances[0] = 0;
+    ASSERT_EQ(noEdgesGraph.getDistances(0), distances);
+    ASSERT_EQ(noEdgesGraph.shortestPathLength(0, 3), -1);
+
+    WeightedDigraph graphWithNoPath(3);
+    graphWithNoPath.addEdges({
+        {0, 1, 7},
+        {0, 2, 5},
+        {1, 2, 2}
+    });
+    std::vector<int> distances_no_path(3, std::numeric_limits<int>::max());
+    distances_no_path[2] = 0;
+    ASSERT_EQ(graphWithNoPath.getDistances(2), distances_no_path);
+    ASSERT_EQ(graphWithNoPath.shortestPathLength(2, 1), -1);
+
+    WeightedDigraph graph_1(4);
+    graph_1.addEdges({
+        {0, 1, 1},
+        {0, 2, 5},
+        {1, 2, 2},
+        {3, 0, 2},
+    });
+    std::vector<int> distances_1 {0, 1, 3, std::numeric_limits<int>::max()};
+    ASSERT_EQ(graph_1.getDistances(0), distances_1);
+    ASSERT_EQ(graph_1.shortestPathLength(0, 2), 3);
+    ASSERT_EQ(graph_1.shortestPathLength(0, 3), -1);
+
+    WeightedDigraph graph_2(5);
+    graph_2.addEdges({
+        {0, 1, 4},
+        {0, 2, 2},
+        {1, 2, 3},
+        {1, 3, 2},
+        {1, 4, 3},
+        {2, 1, 1},
+        {2, 3, 4},
+        {2, 4, 4},
+        {4, 3, 1}
+    });
+    std::vector<int> distances_2 {
+        0, 3, 2, 5, 6
+    };
+    ASSERT_EQ(graph_2.numEdges(), 9);
+    ASSERT_EQ(graph_2.getDistances(0), distances_2);
+    ASSERT_EQ(graph_2.shortestPathLength(0, 4), 6);
+}

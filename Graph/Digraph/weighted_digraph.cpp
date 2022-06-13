@@ -74,3 +74,49 @@ const std::list<Edge>& WeightedDigraph::getOutNeighbors(int node) const
     validateNode(node, numNodes());
     return m_adjacencyList[node];
 }
+
+std::vector<int> WeightedDigraph::getDistances(int startNode) const
+{
+    // Returns a vector with the minimum weight distances from startNode to all
+    // the other nodes in the graph
+    validateNode(startNode, numNodes());
+
+    // At first no nodes have been discovered so, we set their distances to max
+    std::vector<int> distances(m_adjacencyList.size(), std::numeric_limits<int>::max());
+    distances[startNode] = 0;
+    // Create a min-heap that stores the nodes by their distance
+    auto compare = [](Edge edge_1, Edge edge_2)
+        { return edge_1.weight > edge_2.weight; };
+    std::priority_queue<Edge, std::vector<Edge>, decltype(compare)> heap(compare);
+    heap.push(Edge{startNode, 0});
+
+    while (!heap.empty())
+    {
+        int node {heap.top().toNode};
+        heap.pop();
+        for (const auto& neighbor : m_adjacencyList[node])
+        {
+            // If we find a shorter path we update the distance
+            if (distances[neighbor.toNode] > distances[node] + neighbor.weight)
+            {
+                distances[neighbor.toNode] = distances[node] + neighbor.weight;
+                heap.push(Edge{neighbor.toNode, distances[neighbor.toNode]});
+            }
+        }
+    }
+
+    return distances;
+}
+
+int WeightedDigraph::shortestPathLength(int startNode, int endNode) const
+{
+    // Returns the shortest path between startNode and endNode.
+    // All weights in the graph must be positive for it to work
+    validateNode(startNode, numNodes());
+    validateNode(endNode, numNodes());
+
+    int length {getDistances(startNode)[endNode]};
+    if (length == std::numeric_limits<int>::max())
+        return -1;
+    return length;
+}
