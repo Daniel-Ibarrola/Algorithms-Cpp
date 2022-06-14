@@ -147,8 +147,11 @@ TEST(BellmanFordAlgorithm, ShortestPathNoNegativeCycles)
 {
     // Trivial Cases
     WeightedDigraph noEdgesGraph(3);
+    std::vector<int> noEdgesDistances {0,
+                                       std::numeric_limits<int>::max(),
+                                       std::numeric_limits<int>::max()};
     ASSERT_EQ(noEdgesGraph.shortestPathsBF(0),
-              std::vector<int>(3, std::numeric_limits<int>::max()));
+              noEdgesDistances);
 
     WeightedDigraph positiveEdgesGraph(4);
     positiveEdgesGraph.addEdges({
@@ -174,7 +177,9 @@ TEST(BellmanFordAlgorithm, ShortestPathNoNegativeCycles)
                 {2, 0, 1},
                 {3, 0, 2}
     });
-    std::vector<int> distances_2 {0, -2, 0, std::numeric_limits<int>::max()};
+    std::vector<int> distances_2 {0, -2, 0,
+                                  std::numeric_limits<int>::max(),
+                                  std::numeric_limits<int>::max()};
     ASSERT_EQ(graph_2.shortestPathsBF(0), distances_2);
 
     WeightedDigraph graph_3(5);

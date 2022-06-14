@@ -124,8 +124,43 @@ int WeightedDigraph::shortestPathLength(int startNode, int endNode) const
 std::vector<int> WeightedDigraph::shortestPathsBF(int startNode) const
 {
     // Returns a vector with the length of the shortest path from the given node
-    // to every other node. The graph must not contain negative cycles
-    return {};
+    // to every other node. The graph must not contain negative cycles.
+    // Uses Bellman-Ford shortest path algorithm.
+    validateNode(startNode, numNodes());
+
+    std::vector<int> distances(m_adjacencyList.size(),
+                               std::numeric_limits<int>::max());
+    distances[startNode] = 0;
+
+    std::vector<bool> visited(m_adjacencyList.size(), false);
+    std::queue<int> queue;
+    queue.push(startNode);
+
+    // Relax all the edges for numberOfNodes - 1 iterations or until
+    // no more edges can be relaxed
+    for (int ii {0}; ii < numNodes() - 1; ++ii)
+    {
+        // We traverse all edges reachable from the start node, and if possible relaxing them
+        while (!queue.empty())
+        {
+            int fromNode {queue.front()};
+            queue.pop();
+            visited[startNode] = true;
+
+            for (auto edge : m_adjacencyList[fromNode])
+            {
+                if (distances[edge.toNode] > distances[fromNode] + edge.weight)
+                    distances[edge.toNode] = distances[fromNode] + edge.weight;
+                if (!visited[edge.toNode])
+                    queue.push(edge.toNode);
+            }
+        }
+
+        // Restart visited and queue for the next iteration
+        std::fill(visited.begin(), visited.end(), false);
+        queue.push(startNode);
+    }
+    return distances;
 }
 
 bool WeightedDigraph::hasNegativeCycle() const
