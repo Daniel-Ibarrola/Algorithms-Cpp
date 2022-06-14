@@ -2,6 +2,7 @@ project(Graph)
 
 set(HEADER_FILES
         validate_node.h
+        graph_base.h
         Graph/graph.h
         Graph/adjacency_matrix.h
         Digraph/digraph.h
@@ -11,6 +12,7 @@ set(HEADER_FILES
 
 set(SOURCE_FILES
         validate_node.cpp
+        graph_base.cpp
         Graph/graph.cpp
         Graph/adjacency_matrix.cpp
         Digraph/digraph.cpp
