@@ -9,14 +9,7 @@
 
 #include <vector>
 #include <iostream>
-
-class invalid_node_error : public std::exception
-{
-    const char* what() const noexcept override
-    {
-        return "Invalid node";
-    }
-};
+#include "validate_node.h"
 
 
 class MatrixGraph

@@ -4,13 +4,6 @@
 
 #include "graph.h"
 
-void Graph::validateNode(int node) const
-{
-    // Checks if the given node is valid
-    if (node < 0 or node >= numNodes())
-        throw invalid_node_error();
-}
-
 void Graph::addNode()
 {
     // Adds a new node to the graph
@@ -20,8 +13,8 @@ void Graph::addNode()
 bool Graph::isEdge(int node_1, int node_2) const
 {
     // Check if there is an edge between two nodes
-    validateNode(node_1);
-    validateNode(node_2);
+    validateNode(node_1, numNodes());
+    validateNode(node_2, numNodes());
     if (std::any_of(m_adjacencyList[node_1].begin(),
                     m_adjacencyList[node_1].end(),
                     [node_2](int n) {return n == node_2;}
@@ -59,7 +52,7 @@ void Graph::addEdgesToNode(int node, const std::vector<int> &toNodes)
 int Graph::numNeighbors(int node) const
 {
    // Returns the number of neighbors of a given node
-    validateNode(node);
+    validateNode(node, numNodes());
     return static_cast<int>(m_adjacencyList[node].size());
 }
 
@@ -67,7 +60,7 @@ std::vector<int> Graph::getNeighbors(int node) const
 {
     // Returns a vector with the neighbors of a node. It makes a
     // copy of the list of neighbors
-    validateNode(node);
+    validateNode(node, numNodes());
 
     std::vector<int> neighbors(m_adjacencyList[node].size());
     int index {0};
@@ -106,8 +99,8 @@ bool Graph::pathBetweenUtil(int currentNode, int endNode,
 bool Graph::pathBetween(int startNode, int endNode) const
 {
     // Returns true if there is a path between the given nodes.
-    validateNode(startNode);
-    validateNode(endNode);
+    validateNode(startNode, numNodes());
+    validateNode(endNode, numNodes());
 
     std::vector<bool> visited(numNodes(), false);
     return pathBetweenUtil(startNode, endNode, visited);
@@ -147,7 +140,7 @@ std::vector<int> Graph::distancesFromNode(int node) const
 {
     // Returns a vector with the distances from all nodes to the given node
     // Uses a breadth first search traversal to find the distances.
-    validateNode(node);
+    validateNode(node, numNodes());
 
     std::vector<int> distances(m_adjacencyList.size(),
                                std::numeric_limits<int>::max());

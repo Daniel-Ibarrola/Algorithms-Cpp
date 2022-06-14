@@ -14,14 +14,8 @@
 #include <tuple>
 #include <stack>
 #include <vector>
+#include "validate_node.h"
 
-class invalid_node_error : public std::exception
-{
-    const char* what() const noexcept override
-    {
-        return "Invalid node";
-    }
-};
 
 class Graph
 {
@@ -29,8 +23,6 @@ class Graph
 private:
     std::vector<std::list<int>> m_adjacencyList;
     int m_numEdges {0};
-
-    void validateNode(int node) const;
 
     bool pathBetweenUtil(int currentNode, int endNode,
                          std::vector<bool>& visited) const;
