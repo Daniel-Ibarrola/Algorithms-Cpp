@@ -14,15 +14,6 @@
 #include <vector>
 #include "validate_node.h"
 
-//void validateNode(int node, int numberOfNodes);
-//
-//class invalid_node_error : public std::exception
-//{
-//    const char* what() const noexcept override
-//    {
-//        return "Invalid node";
-//    }
-//};
 
 enum Color
 {
