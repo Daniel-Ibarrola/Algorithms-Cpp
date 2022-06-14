@@ -64,4 +64,7 @@ public:
     std::vector<int> getDistances(int startNode) const;
     int shortestPathLength(int startNode, int endNode) const;
 
+    std::vector<int> shortestPathsBF(int startNode) const;
+    bool hasNegativeCycle() const;
+
 };

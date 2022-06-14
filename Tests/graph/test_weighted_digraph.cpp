@@ -142,3 +142,114 @@ TEST(DijkstraShortestPath, DistancesAndShortestPath)
     ASSERT_EQ(graph_2.getDistances(0), distances_2);
     ASSERT_EQ(graph_2.shortestPathLength(0, 4), 6);
 }
+
+TEST(BellmanFordAlgorithm, ShortestPathNoNegativeCycles)
+{
+    // Trivial Cases
+    WeightedDigraph noEdgesGraph(3);
+    ASSERT_EQ(noEdgesGraph.shortestPathsBF(0),
+              std::vector<int>(3, std::numeric_limits<int>::max()));
+
+    WeightedDigraph positiveEdgesGraph(4);
+    positiveEdgesGraph.addEdges({
+             {0, 1, 1},
+             {0, 2, 5},
+             {1, 2, 2},
+             {3, 0, 2},
+             });
+    std::vector<int> positiveGraphDistances {0, 1, 3, std::numeric_limits<int>::max()};
+    ASSERT_EQ(positiveEdgesGraph.shortestPathsBF(0),
+              positiveGraphDistances);
+
+    // Non-trivial test cases. Graphs with negative weights
+    WeightedDigraph graph_1(3);
+    graph_1.addEdges({{0, 1, 5}, {0, 2, 10}, {2, 1, -20}});
+    std::vector<int> distances_1 {0, -10, 10};
+    ASSERT_EQ(graph_1.shortestPathsBF(0), distances_1);
+
+    WeightedDigraph graph_2(5);
+    graph_2.addEdges({
+                {0, 1, -2},
+                {1, 2, 2},
+                {2, 0, 1},
+                {3, 0, 2}
+    });
+    std::vector<int> distances_2 {0, -2, 0, std::numeric_limits<int>::max()};
+    ASSERT_EQ(graph_2.shortestPathsBF(0), distances_2);
+
+    WeightedDigraph graph_3(5);
+    graph_3.addEdges({
+          {0, 1, 4},
+          {0, 2, 3},
+          {1, 2, -2},
+          {1, 3, 4},
+          {2, 3, -3},
+          {2, 4, 1},
+          {3, 4, 2}
+    });
+    std::vector<int> distances_3 {0, 4, 2, -1, 1};
+    ASSERT_EQ(graph_3.shortestPathsBF(0), distances_3);
+}
+
+
+TEST(BellmanFordAlgorithm, DetectNegativeCycle)
+{
+    // Trivial Cases
+    WeightedDigraph emptyGraph;
+    ASSERT_EQ(emptyGraph.hasNegativeCycle(), false);
+
+    WeightedDigraph noEdgesGraph(3);
+    ASSERT_EQ(noEdgesGraph.hasNegativeCycle(), false);
+
+    WeightedDigraph positiveEdgeGraph(3);
+    positiveEdgeGraph.addEdges({{0, 1, 2}, {0, 2, 4}, {1, 2, 3}});
+    ASSERT_EQ(positiveEdgeGraph.hasNegativeCycle(), false);
+
+    // Non-trivial test cases. Graphs with negative weights
+    WeightedDigraph noNegativeCycleGraph_1(3);
+    noNegativeCycleGraph_1.addEdges({{0, 1, 5}, {0, 2, 10}, {2, 1, -20}});
+    ASSERT_EQ(noNegativeCycleGraph_1.hasNegativeCycle(), false);
+
+    WeightedDigraph noNegativeCycleGraph_2(5);
+    noNegativeCycleGraph_2.addEdges({
+          {0, 1, -2},
+          {1, 2, 2},
+          {2, 0, 1},
+          {3, 0, 2}
+    });
+    ASSERT_EQ(noNegativeCycleGraph_2.hasNegativeCycle(), false);
+
+    WeightedDigraph negativeCycleGraph_1(5);
+    negativeCycleGraph_1.addEdges({
+        {0, 1, 4},
+        {0, 2, 3},
+        {1, 2, -2},
+        {2, 3, -3},
+        {2, 4, 1},
+        {3, 1, 4},
+        {3, 4, 2}
+    });
+    ASSERT_EQ(negativeCycleGraph_1.hasNegativeCycle(), true);
+
+    WeightedDigraph negativeCycleGraph_2(5);
+    negativeCycleGraph_2.addEdges({
+        {0, 1, -5},
+        {1, 2, 2},
+        {2, 0, 1},
+        {3, 0, 2}
+    });
+    ASSERT_EQ(negativeCycleGraph_2.hasNegativeCycle(), true);
+
+    WeightedDigraph negativeCycleGraph_3(6);
+    negativeCycleGraph_3.addEdges({
+        {0, 1, 10},
+        {0, 2, 100},
+        {1, 2, 5},
+        {2, 4, 7},
+        {3, 2, -18},
+        {4, 3, 10},
+        {5, 0, -1}
+    });
+    ASSERT_EQ(negativeCycleGraph_3.hasNegativeCycle(), true);
+}
+

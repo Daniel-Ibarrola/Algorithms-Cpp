@@ -120,3 +120,17 @@ int WeightedDigraph::shortestPathLength(int startNode, int endNode) const
         return -1;
     return length;
 }
+
+std::vector<int> WeightedDigraph::shortestPathsBF(int startNode) const
+{
+    // Returns a vector with the length of the shortest path from the given node
+    // to every other node. The graph must not contain negative cycles
+    return {};
+}
+
+bool WeightedDigraph::hasNegativeCycle() const
+{
+    // Returns true if the graph has a negative cycle.
+    return false;
+}
+
