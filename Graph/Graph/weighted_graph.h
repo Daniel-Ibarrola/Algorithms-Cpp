@@ -1,0 +1,8 @@
+//
+// Created by daniel on 14/06/22.
+//
+
+#ifndef ALGORITHMS_WEIGHTED_GRAPH_H
+#define ALGORITHMS_WEIGHTED_GRAPH_H
+
+#endif //ALGORITHMS_WEIGHTED_GRAPH_H

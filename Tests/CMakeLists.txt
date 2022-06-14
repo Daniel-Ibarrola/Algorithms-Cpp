@@ -13,6 +13,7 @@ add_executable(Google_Tests_run
         graph/test_graph.cpp
         graph/test_digraph.cpp
         graph/test_weighted_digraph.cpp
+        graph/test_weigthed_graph.cpp
         )
 
 # linking Google_Tests_run with DateConverter_lib which will be tested
