@@ -12,52 +12,25 @@
 #include <queue> // std::priority_queue
 #include <list>
 #include <vector>
-#include "validate_node.h"
-
-struct Edge
-{
-    // Struct to save weighted directed edges in an adjacency
-    // list. We only store toNode because the in the adjacency list
-    // we already know fromNode
-    int toNode;
-    int weight;
-
-    Edge(int toNode_, int weight_)
-        : toNode {toNode_}, weight {weight_}
-    {
-
-    }
-
-    friend bool operator==(const Edge& edge_1, const Edge& edge_2);
-};
+#include "graph_base.h"
 
 
-class WeightedDigraph
+class WeightedDigraph : public WeightedGraphBase
 {
     // A directed graph with weighted edges
-private:
-    std::vector<std::list<Edge>> m_adjacencyList;
-    int m_numEdges{0};
 
 public:
 
     WeightedDigraph() = default;
 
-    explicit WeightedDigraph(int nodes)
-     : m_adjacencyList(nodes)
+    explicit WeightedDigraph(int numNodes)
+     : WeightedGraphBase {numNodes}
     {
 
     }
 
-    int numNodes() const {return static_cast<int>(m_adjacencyList.size());}
-    int numEdges() const {return m_numEdges;}
-
     void addEdge(int fromNode, int toNode, int weight);
     void addEdges(const std::vector<std::array<int, 3>>& edges);
-    int getWeight(int fromNode, int toNode) const;
-    bool isEdge(int fromNode, int toNode) const;
-
-    void addNode();
 
     int outDegree(int node) const;
     const std::list<Edge>& getOutNeighbors(int node) const;

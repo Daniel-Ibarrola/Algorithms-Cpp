@@ -4,12 +4,6 @@
 
 #include "weighted_digraph.h"
 
-bool operator==(const Edge& edge_1, const Edge& edge_2)
-{
-    // Returns true if two Edge structs are equal
-    return edge_1.toNode == edge_2.toNode && edge_1.weight == edge_2.weight;
-}
-
 
 void WeightedDigraph::addEdge(int fromNode, int toNode, int weight)
 {
@@ -30,36 +24,6 @@ void WeightedDigraph::addEdges(const std::vector<std::array<int, 3>>& edgeList)
         addEdge(edge[0], edge[1], edge[2]);
 }
 
-int WeightedDigraph::getWeight(int fromNode, int toNode) const
-{
-    // Returns the weight of the given edge
-    validateNode(fromNode, numNodes());
-    validateNode(toNode, numNodes());
-
-    for (const auto& edge: m_adjacencyList[fromNode])
-    {
-        if (edge.toNode == toNode)
-            return edge.weight;
-    }
-}
-
-bool WeightedDigraph::isEdge(int fromNode, int toNode) const
-{
-    // Returns true if there is and edge from "fromNode" to "toNode"
-    validateNode(fromNode, numNodes());
-    validateNode(toNode, numNodes());
-
-    return std::any_of(m_adjacencyList[fromNode].begin(),
-                    m_adjacencyList[fromNode].end(),
-                    [toNode](Edge edge) {return edge.toNode == toNode;}
-                    );
-}
-
-void WeightedDigraph::addNode()
-{
-    // Adds a new node to the graph
-    m_adjacencyList.emplace_back(std::list<Edge>());
-}
 
 int WeightedDigraph::outDegree(int node) const
 {
