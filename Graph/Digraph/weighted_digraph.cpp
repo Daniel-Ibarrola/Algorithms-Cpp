@@ -136,6 +136,8 @@ std::vector<int> WeightedDigraph::shortestPathsBF(int startNode) const
     std::queue<int> queue;
     queue.push(startNode);
 
+    bool edgeRelaxed {false}; // Flag to know if any edge could be relaxed in an iteration
+
     // Relax all the edges for numberOfNodes - 1 iterations or until
     // no more edges can be relaxed
     for (int ii {0}; ii < numNodes() - 1; ++ii)
@@ -145,20 +147,29 @@ std::vector<int> WeightedDigraph::shortestPathsBF(int startNode) const
         {
             int fromNode {queue.front()};
             queue.pop();
-            visited[startNode] = true;
+            visited[fromNode] = true;
 
             for (auto edge : m_adjacencyList[fromNode])
             {
                 if (distances[edge.toNode] > distances[fromNode] + edge.weight)
+                {
                     distances[edge.toNode] = distances[fromNode] + edge.weight;
+                    edgeRelaxed = true;
+                }
                 if (!visited[edge.toNode])
                     queue.push(edge.toNode);
             }
         }
 
+        // If no edge could be relaxed we can safely assume that all the
+        // shortest paths have been found
+        if (!edgeRelaxed)
+            break;
+
         // Restart visited and queue for the next iteration
         std::fill(visited.begin(), visited.end(), false);
         queue.push(startNode);
+        edgeRelaxed = false;
     }
     return distances;
 }
@@ -166,6 +177,47 @@ std::vector<int> WeightedDigraph::shortestPathsBF(int startNode) const
 bool WeightedDigraph::hasNegativeCycle() const
 {
     // Returns true if the graph has a negative cycle.
+    if (numNodes() == 0)
+        return false;
+
+    std::vector<int> distances(m_adjacencyList.size(),
+                               std::numeric_limits<int>::max());
+    distances[0] = 0;
+
+    std::vector<bool> visited(m_adjacencyList.size(), false);
+    std::queue<int> queue;
+    queue.push(0);
+
+    // Relax all the edges for numberOfNodes - 1 iterations or until
+    // no more edges can be relaxed
+    for (int ii {0}; ii < numNodes(); ++ii)
+    {
+        // We traverse all edges reachable from the start node, and if possible relaxing them
+        while (!queue.empty())
+        {
+            int fromNode {queue.front()};
+            queue.pop();
+            visited[fromNode] = true;
+
+            for (auto edge : m_adjacencyList[fromNode])
+            {
+                if (distances[edge.toNode] > distances[fromNode] + edge.weight)
+                {
+                    distances[edge.toNode] = distances[fromNode] + edge.weight;
+                    if (ii == numNodes() - 1)
+                        // This means there was an update in the numNodes-th iteration
+                        // so the graph contains a negative cycle
+                        return true;
+                }
+                if (!visited[edge.toNode])
+                    queue.push(edge.toNode);
+            }
+        }
+        // Restart visited and queue for the next iteration
+        std::fill(visited.begin(), visited.end(), false);
+        queue.push(0);
+    }
+
     return false;
 }
 
