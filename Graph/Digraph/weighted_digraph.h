@@ -7,11 +7,12 @@
 
 #endif //ALGORITHMS_WEIGHTED_DIGRAPH_H
 
+#include <algorithm>
 #include <array>
 #include <queue> // std::priority_queue
 #include <list>
 #include <vector>
-#include "Digraph/digraph.h" // for invalid_node_error, validate_node
+#include "validate_node.h"
 
 struct Edge
 {

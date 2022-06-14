@@ -4,12 +4,12 @@
 
 #include "digraph.h"
 
-void validateNode(int node, int numberOfNodes)
-{
-    // Check if a node is part of the graph
-    if (node < 0 || node >= numberOfNodes)
-        throw invalid_node_error();
-}
+//void validateNode(int node, int numberOfNodes)
+//{
+//    // Check if a node is part of the graph
+//    if (node < 0 || node >= numberOfNodes)
+//        throw invalid_node_error();
+//}
 
 void Digraph::addEdge(int outNode, int inNode)
 {
