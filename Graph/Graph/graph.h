@@ -14,15 +14,14 @@
 #include <tuple>
 #include <stack>
 #include <vector>
+#include "graph_base.h"
 #include "validate_node.h"
 
 
-class Graph
+class Graph : public GraphBase
 {
-    // ListGraph class that uses an adjacency list. Nodes are integers starting from 0
+    // Graph class that uses an adjacency list. Nodes are integers starting from 0
 private:
-    std::vector<std::list<int>> m_adjacencyList;
-    int m_numEdges {0};
 
     bool pathBetweenUtil(int currentNode, int endNode,
                          std::vector<bool>& visited) const;
@@ -33,23 +32,18 @@ private:
 
 public:
 
-    Graph() = default;;
+    Graph() = default;
 
     explicit Graph(int numNodes)
-        : m_adjacencyList(numNodes, std::list<int>())
+        : GraphBase {numNodes}
     {
 
     }
 
-    int numNodes() const {return static_cast<int>(m_adjacencyList.size());}
-    int numEdges() const {return m_numEdges;}
-
-    void addNode();
     void addEdge(int node_1, int node_2);
     void addEdges(const std::vector<std::tuple<int, int>>& edges);
     void addEdgesToNode(int node, const std::vector<int>& toNodes);
 
-    bool isEdge(int node_1, int node_2) const;
     int numNeighbors(int node) const;
     std::vector<int> getNeighbors(int node) const;
 

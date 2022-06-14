@@ -13,7 +13,7 @@
 class GraphBase
 {
     // Base class for unweighted graphs. Graph and Digraph will inherit from this class.
-private:
+protected:
     std::vector<std::list<int>> m_adjacencyList;
     int m_numEdges {0};
 

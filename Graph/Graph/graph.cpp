@@ -4,26 +4,6 @@
 
 #include "graph.h"
 
-void Graph::addNode()
-{
-    // Adds a new node to the graph
-    m_adjacencyList.emplace_back(std::list<int>());
-}
-
-bool Graph::isEdge(int node_1, int node_2) const
-{
-    // Check if there is an edge between two nodes
-    validateNode(node_1, numNodes());
-    validateNode(node_2, numNodes());
-    if (std::any_of(m_adjacencyList[node_1].begin(),
-                    m_adjacencyList[node_1].end(),
-                    [node_2](int n) {return n == node_2;}
-                    ))
-        return true;
-
-    return false;
-}
-
 void Graph::addEdge(int node_1, int node_2)
 {
     // Adds a new edge to the graph

@@ -14,26 +14,6 @@ void Digraph::addEdge(int outNode, int inNode)
     }
 }
 
-void Digraph::addNode()
-{
-    // Adds a new node to the graph
-    m_adjacencyList.emplace_back(std::list<int>());
-}
-
-bool Digraph::isEdge(int outNode, int inNode) const
-{
-    // Check if there is an edge that goes from the outNode to the inNode
-    validateNode(outNode, numNodes());
-    validateNode(inNode, numNodes());
-
-    if (std::any_of(m_adjacencyList[outNode].begin(),
-                    m_adjacencyList[outNode].end(),
-                    [inNode](int node) {return node == inNode;}
-                    ))
-        return true;
-
-    return false;
-}
 
 int Digraph::numOutEdges(int node) const
 {
@@ -41,6 +21,7 @@ int Digraph::numOutEdges(int node) const
     validateNode(node, numNodes());
     return static_cast<int>(m_adjacencyList[node].size());
 }
+
 
 std::list<int> Digraph::getOutNeighbors(int node) const
 {
