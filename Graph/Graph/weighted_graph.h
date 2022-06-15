@@ -6,6 +6,7 @@
 #define ALGORITHMS_WEIGHTED_GRAPH_H
 
 #include <array>
+#include "DisjointSets/disjoint_sets.h"
 #include "graph_base.h"
 
 class WeightedGraph : public WeightedGraphBase
@@ -22,6 +23,8 @@ public:
 
     void addEdge(int fromNode, int toNode, int weight);
     void addEdges(const std::vector<std::array<int, 3>>& edges);
+
+    WeightedGraph kruskalMST() const;
 
 };
 
