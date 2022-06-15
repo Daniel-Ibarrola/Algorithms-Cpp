@@ -68,7 +68,7 @@ protected:
 };
 
 
-TEST_F(MinimumSpanningTree, KruskalAndPrimAlgorithm)
+TEST_F(MinimumSpanningTree, KruskalAlgorithm)
 {
     WeightedGraph mstEmptyGraph_kruskal {emptyGraph.kruskalMST()};
     ASSERT_EQ(mstEmptyGraph_kruskal.numNodes(), 0);
@@ -91,4 +91,29 @@ TEST_F(MinimumSpanningTree, KruskalAndPrimAlgorithm)
     ASSERT_EQ(mst_2_kruskal.isEdge(2, 3), true);
     ASSERT_EQ(mst_2_kruskal.isEdge(4, 2), true);
     ASSERT_EQ(mst_2_kruskal.isEdge(5, 3), true);
+}
+
+TEST_F(MinimumSpanningTree, PrimsAlgorithm)
+{
+    WeightedGraph mstEmptyGraph_prim {emptyGraph.primsMST()};
+    ASSERT_EQ(mstEmptyGraph_prim.numNodes(), 0);
+    ASSERT_EQ(mstEmptyGraph_prim.numEdges(), 0);
+
+    WeightedGraph mst_1_prim {graph_1.primsMST()};
+    ASSERT_EQ(mst_1_prim.numNodes(), graph_1.numNodes());
+    ASSERT_EQ(mst_1_prim.numEdges(), 5);
+    ASSERT_EQ(mst_1_prim.isEdge(0, 1), true);
+    ASSERT_EQ(mst_1_prim.isEdge(0, 3), true);
+    ASSERT_EQ(mst_1_prim.isEdge(0, 4), true);
+    ASSERT_EQ(mst_1_prim.isEdge(1, 5), true);
+    ASSERT_EQ(mst_1_prim.isEdge(5, 2), true);
+
+    WeightedGraph mst_2_prim {graph_2.primsMST()};
+    ASSERT_EQ(mst_2_prim.numNodes(), graph_2.numNodes());
+    ASSERT_EQ(mst_2_prim.numEdges(), 5);
+    ASSERT_EQ(mst_2_prim.isEdge(0, 1), true);
+    ASSERT_EQ(mst_2_prim.isEdge(1, 2), true);
+    ASSERT_EQ(mst_2_prim.isEdge(2, 3), true);
+    ASSERT_EQ(mst_2_prim.isEdge(4, 2), true);
+    ASSERT_EQ(mst_2_prim.isEdge(5, 3), true);
 }

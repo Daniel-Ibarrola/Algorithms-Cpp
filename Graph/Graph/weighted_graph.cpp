@@ -66,3 +66,53 @@ WeightedGraph WeightedGraph::kruskalMST() const
 
     return minimumSpanningTree;
 }
+
+WeightedGraph WeightedGraph::primsMST() const
+{
+    // Returns the minimum spanning tree of the graph.
+    // Uses Prim's algorithm
+    WeightedGraph minimumSpanningTree(numNodes());
+    if (numNodes() <= 1)
+        return minimumSpanningTree;
+
+    std::vector<int> parent(m_adjacencyList.size(), -1);
+    std::vector<bool> inMST(m_adjacencyList.size(), false);
+    std::vector<int> cost(m_adjacencyList.size(), std::numeric_limits<int>::max());
+    cost[0] = 0;
+    struct Node
+    {
+        int nodeIndex;
+        int cost;
+    };
+    // We create a min-heap that stores nodes by their cost
+    auto compare = [](Node node_1, Node node_2)
+            { return node_1.cost > node_2.cost; };
+    std::priority_queue<Node, std::vector<Node>, decltype(compare)> queue(compare);
+    queue.push({0, cost[0]});
+
+    while(!queue.empty())
+    {
+        int node {queue.top().nodeIndex};
+        queue.pop();
+
+        if (inMST[node])
+            continue;
+
+        inMST[node] = true;
+        for (const auto& neighbor : m_adjacencyList[node])
+        {
+            if (!inMST[neighbor.toNode] && cost[neighbor.toNode] > neighbor.weight)
+            {
+                cost[neighbor.toNode] = neighbor.weight;
+                parent[neighbor.toNode] = node;
+                queue.push(Node {neighbor.toNode, cost[neighbor.toNode]});
+            }
+        }
+    }
+
+    // Now we construct the graph from the parent array
+    for (int node{1}; node < numNodes(); ++node)
+        minimumSpanningTree.addEdge(node, parent[node], cost[node]);
+
+    return minimumSpanningTree;
+}
