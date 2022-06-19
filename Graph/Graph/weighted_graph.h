@@ -22,6 +22,8 @@ public:
 
     }
 
+
+
     void addEdge(int fromNode, int toNode, int weight);
     void addEdges(const std::vector<std::array<int, 3>>& edges);
 
@@ -29,5 +31,6 @@ public:
     WeightedGraph primsMST() const;
 
 };
+
 
 #endif //ALGORITHMS_WEIGHTED_GRAPH_H

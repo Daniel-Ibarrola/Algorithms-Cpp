@@ -1,0 +1,8 @@
+//
+// Created by daniel on 19/06/22.
+//
+
+#ifndef ALGORITHMS_PATTERN_TRIE_H
+#define ALGORITHMS_PATTERN_TRIE_H
+
+#endif //ALGORITHMS_PATTERN_TRIE_H

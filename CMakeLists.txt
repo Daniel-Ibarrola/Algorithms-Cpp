@@ -9,6 +9,8 @@ include_directories(DataStructures)
 add_subdirectory(DataStructures)
 include_directories(Graph)
 add_subdirectory(Graph)
+include_directories(Strings)
+add_subdirectory(Strings)
 
 add_library(Algorithms library.cpp)
 add_subdirectory(Tests)
