@@ -15,6 +15,7 @@ add_executable(Google_Tests_run
         graph/test_weighted_digraph.cpp
         graph/test_weigthed_graph.cpp
         strings/test_pattern_trie.cpp
+        strings/test_multipattern_match.cpp
         )
 
 # linking Google_Tests_run with my other libraries
