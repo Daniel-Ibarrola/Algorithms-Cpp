@@ -20,37 +20,28 @@ void PatternTrie::addChild(int node, char key)
 void PatternTrie::constructTrie(const std::vector<std::string>& patterns)
 {
     // Construct the tree from a set of patterns
+
     for (const auto& pattern : patterns)
     {
-        // Traverse the tree until we find a character that doesn't match
-        // or, we get to a leave node
-        std::queue<int> queue;
-        queue.push(0);
-        std::size_t currentChar {0};
         int currentNode {0};
-
-        while (!queue.empty())
+        for (auto currentChar : pattern)
         {
-            int root {queue.front()};
-            queue.pop();
-            for (auto children : m_adjacencyList[root])
+            // Flag to know if there is an outgoing edge with the current character as label
+            bool hasEdge {false};
+            for (auto children : m_adjacencyList[currentNode])
             {
-                if (m_keys[children] == pattern[currentChar])
+                if (m_keys[children] == currentChar)
                 {
-                    currentChar++;
+                    hasEdge = true;
                     currentNode = children;
-                    queue.push(children);
                     break;
                 }
             }
-
-        }
-        // Now create a node for each of the remaining characters of the
-        // pattern
-        for (; currentChar < pattern.size(); ++currentChar)
-        {
-            addChild(currentNode, pattern[currentChar]);
-            currentNode = m_numNodes - 1;
+            if (!hasEdge)
+            {
+                addChild(currentNode, currentChar);
+                currentNode = m_numNodes - 1;
+            }
         }
     }
 }
