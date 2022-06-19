@@ -45,3 +45,47 @@ void PatternTrie::constructTrie(const std::vector<std::string>& patterns)
         }
     }
 }
+
+
+
+std::vector<int> PatternTrie::matchText(const std::string &text) const
+{
+    // Returns the starting positions of the patterns in the text.
+
+    if (numNodes() == 1)
+        return {};
+
+    std::vector<int> positions;
+    for (auto ii {0}; ii < text.size(); ++ii)
+    {
+        int currentNode {0};
+        int currentPosition {ii};
+        while (true)
+        {
+            bool symbolMatch {false};
+            // If we find a leave node we have found a match
+            if (m_adjacencyList[currentNode].empty())
+            {
+                positions.push_back(ii);
+                break;
+            }
+            // Iterate the adjacency list of the node to find a node with the
+            // text current char.
+            for (auto children : m_adjacencyList[currentNode])
+            {
+                if (m_keys[children] == text[currentPosition])
+                {
+                    currentPosition++;
+                    currentNode = children;
+                    symbolMatch = true;
+                    break;
+                }
+            }
+
+            if (!symbolMatch)
+                break;
+        }
+    }
+
+    return positions;
+}

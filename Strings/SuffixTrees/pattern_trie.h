@@ -45,6 +45,8 @@ public:
 
     const std::vector<std::vector<int>>& getAdjacencyList() const { return m_adjacencyList; }
     const std::vector<char>& getKeys() const { return m_keys; }
+
+    std::vector<int> matchText(const std::string& text) const;
 };
 
 #endif //ALGORITHMS_PATTERN_TRIE_H
