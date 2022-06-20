@@ -21,6 +21,7 @@ private:
     // We start with just the root node
     std::vector<std::vector<int>> m_adjacencyList {1, std::vector<int>()};
     std::vector<char> m_keys {char(0)};
+    std::vector<bool> isPrefix{false};
 
     void constructTrie(const std::vector<std::string>& patterns);
     void addChild(int node, char key);

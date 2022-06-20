@@ -21,13 +21,14 @@ void PatternTrie::constructTrie(const std::vector<std::string>& patterns)
 {
     // Construct the tree from a set of patterns
 
+    // Flag to know if there is an outgoing edge with the current character as label
+    bool hasEdge;
     for (const auto& pattern : patterns)
     {
         int currentNode {0};
         for (auto currentChar : pattern)
         {
-            // Flag to know if there is an outgoing edge with the current character as label
-            bool hasEdge {false};
+            hasEdge = false;
             for (auto children : m_adjacencyList[currentNode])
             {
                 if (m_keys[children] == currentChar)
@@ -41,8 +42,14 @@ void PatternTrie::constructTrie(const std::vector<std::string>& patterns)
             {
                 addChild(currentNode, currentChar);
                 currentNode = m_numNodes - 1;
+
+                isPrefix.push_back(false);
             }
         }
+        // If an edge existed for the last character of the pattern it means
+        // that it is a prefix of another one.
+        if (hasEdge)
+            isPrefix[currentNode] = true;
     }
 }
 
@@ -63,8 +70,8 @@ std::vector<int> PatternTrie::matchText(const std::string &text) const
         while (true)
         {
             bool symbolMatch {false};
-            // If we find a leave node we have found a match
-            if (m_adjacencyList[currentNode].empty())
+            // If we find a leave node or the end of a pattern we have found a match
+            if (m_adjacencyList[currentNode].empty() || isPrefix[currentNode])
             {
                 positions.push_back(ii);
                 break;

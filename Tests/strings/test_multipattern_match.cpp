@@ -39,3 +39,16 @@ TEST(MultiplePatternMatching, FindPatternPositions)
     std::vector<int> expectedPositions_3 {1, 4, 11, 15};
     ASSERT_EQ(findPatternPositions(text_3, patterns_3), expectedPositions_3);
 }
+
+TEST(MultiplePatternMatching, PatternIsPrefixOfOtherPattern)
+{
+    std::string text {"ACATA"};
+    std::vector<std::string> patterns {"AT", "A", "AG"};
+    std::vector<int> expectedPositions {0, 2, 4};
+    ASSERT_EQ(findPatternPositions(text, patterns), expectedPositions);
+
+    std::string text_2 {"panamabananas"};
+    std::vector<std::string> patterns_2 {"ana", "a"};
+    std::vector<int> expectedPositions_2 {1, 3, 5, 7, 9, 11};
+    ASSERT_EQ(findPatternPositions(text_2, patterns_2), expectedPositions_2);
+}
