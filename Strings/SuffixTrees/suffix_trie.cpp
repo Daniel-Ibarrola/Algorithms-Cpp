@@ -13,7 +13,7 @@ void SuffixTrie::validateNode(int node) const
 }
 
 
-char SuffixTrie::getKey(int node) const
+int SuffixTrie::getKey(int node) const
 {
     // Returns the key of the given node
     validateNode(node);
@@ -45,10 +45,10 @@ void SuffixTrie::addChild(int node, int child)
 }
 
 
-void SuffixTrie::createNode(char key)
+void SuffixTrie::createNode(int key)
 {
     // Creates a new node
-    m_adjacencyList.emplace_back(Node {key});
+    m_adjacencyList.emplace_back(TrieNode {key});
     m_numNodes++;
 }
 
@@ -72,7 +72,7 @@ void SuffixTrie::build(const std::string &text)
             for (const auto& child : m_adjacencyList[currentNode].getChildren())
             {
                 // Check if there is an edge that starts with the current character
-                if (getKey(child) == currentChar)
+                if (text[getKey(child)] == currentChar)
                 {
                     hasEdge = true;
                     currentNode = child;
@@ -83,7 +83,7 @@ void SuffixTrie::build(const std::string &text)
             {
                 // We create a new node that is the numNodes - 1 node and create
                 // an edge between it and the current node.
-                createNode(currentChar);
+                createNode(jj);
                 addChild(currentNode, numNodes() - 1);
                 currentNode = numNodes() - 1;
             }

@@ -9,21 +9,21 @@
 #include <vector>
 
 
-class Node
+class TrieNode
 {
 private:
     std::vector<int> m_children;
-    char m_key;
+    int m_key; // Holds the index of the character in text
 
 public:
 
-    explicit Node(char key)
+    explicit TrieNode(int key)
         : m_key {key}
     {
 
     }
 
-    char getKey() const { return m_key; }
+    int getKey() const { return m_key; }
     const std::vector<int>& getChildren() const { return m_children; }
 
     bool hasChildren() const { return !m_children.empty(); }
@@ -46,7 +46,7 @@ class SuffixTrie
 private:
     int m_numNodes {1};
     int m_numEdges {0};
-    std::vector<Node> m_adjacencyList {Node(char(0))};
+    std::vector<TrieNode> m_adjacencyList {TrieNode(-1)};
 
     void validateNode(int node) const;
 
@@ -54,7 +54,7 @@ private:
 
     void addChild(int node, int child);
 
-    void createNode(char key);
+    void createNode(int key);
 
 public:
 
@@ -68,7 +68,7 @@ public:
     int numNodes() const { return m_numNodes; }
     int numEdges() const { return m_numEdges; }
 
-    char getKey(int node) const;
+    int getKey(int node) const;
     const std::vector<int>& getChildren(int node) const;
     bool hasChildren(int node) const;
 };

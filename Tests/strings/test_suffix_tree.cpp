@@ -6,7 +6,12 @@
 #include "SuffixTrees/suffix_tree.h"
 
 
-TEST(SuffixTrees, BuildSuffixTree)
+TEST(SuffixTrees, BuildSmallTree)
+{
+
+}
+
+TEST(SuffixTrees, FindSuffixInTree)
 {
     SuffixTree tree_1("A$");
     std::vector<std::string> suffixes_1 {tree_1.traversal()};
