@@ -35,7 +35,7 @@ void SuffixTree::addChild(int node, int child)
 }
 
 
-void SuffixTree::depthFirstSearch(int currentNode,
+void SuffixTree::buildUtil(int currentNode,
                                   int currentStart,
                                   int currentRoot,
                                   const SuffixTrie &trie,
@@ -70,7 +70,7 @@ void SuffixTree::depthFirstSearch(int currentNode,
             currentStart = trie.getKey(child);
 
         if (!visited[child])
-            depthFirstSearch(child, currentStart, currentRoot, trie, visited);
+            buildUtil(child, currentStart, currentRoot, trie, visited);
     }
 
 }
@@ -84,7 +84,31 @@ void SuffixTree::build(const std::string &text)
     SuffixTrie trie(text);
     // Depth first search traversal of the trie
     std::vector<bool> visited(trie.m_adjacencyList.size(), false);
-    depthFirstSearch(0, end, 0, trie, visited);
+    buildUtil(0, end, 0, trie, visited);
+}
+
+
+void SuffixTree::getSuffixesUtil(int currentNode,
+                                 std::vector<bool>& visited,
+                                 const std::string& text,
+                                 std::vector<std::string>& suffixes) const
+{
+    // Do a depth first search traversal while recovering all the suffixes
+    // present in the nodes of the tree
+    visited[currentNode] = true;
+
+    if (currentNode != 0)
+    {
+        int textStart {m_adjacencyList[currentNode].start()};
+        int textEnd {m_adjacencyList[currentNode].end() - textStart + 1};
+        suffixes.emplace_back(text.substr(textStart, textEnd));
+    }
+
+    for (auto child : m_adjacencyList[currentNode].getChildren())
+    {
+        if (!visited[child])
+            getSuffixesUtil(child, visited, text, suffixes);
+    }
 }
 
 
@@ -92,6 +116,7 @@ std::vector<std::string> SuffixTree::getAllSuffixes(const std::string& text) con
 {
     // Returns a vector with all the suffixes present int the tree.
     std::vector<std::string> suffixes {};
-    
+    std::vector<bool> visited(m_adjacencyList.size(), false);
+    getSuffixesUtil(0, visited, text, suffixes);
     return suffixes;
 }

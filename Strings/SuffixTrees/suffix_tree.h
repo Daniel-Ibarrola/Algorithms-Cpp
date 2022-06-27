@@ -61,11 +61,16 @@ private:
 
     void build(const std::string& text);
 
-    void depthFirstSearch(int currentNode,
+    void buildUtil(int currentNode,
                           int currentStart,
                           int currentRoot,
                           const SuffixTrie& trie,
                           std::vector<bool>& visited);
+
+    void getSuffixesUtil(int currentNode,
+                         std::vector<bool>& visited,
+                         const std::string& text,
+                         std::vector<std::string>& suffixes) const;
 
 public:
 
