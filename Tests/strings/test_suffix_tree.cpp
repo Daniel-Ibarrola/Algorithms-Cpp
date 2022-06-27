@@ -5,10 +5,86 @@
 #include "gtest/gtest.h"
 #include "SuffixTrees/suffix_tree.h"
 
+TEST(SuffixTreeNode, TestNode)
+{
+    TreeNode node(1, 4);
+    ASSERT_EQ(node.start(), 1);
+    ASSERT_EQ(node.end(), 4);
+    ASSERT_EQ(node.hasChildren(), false);
+
+    node.addChild(2);
+    node.addChild(3);
+    std::vector<int> children {2, 3};
+    ASSERT_EQ(node.getChildren(), children);
+}
+
+TEST(SuffixTree, CreateEmptyTree)
+{
+    SuffixTree tree;
+    ASSERT_EQ(tree.numNodes(), 1);
+    ASSERT_EQ(tree.numEdges(), 0);
+}
+
+TEST(SuffixTrees, TextWithNoRepeatedCharacters)
+{
+    std::string text {"barco"};
+    SuffixTree tree(text);
+    std::vector<int> children {1, 2, 3, 4, 5};
+    ASSERT_EQ(tree.numNodes(), 6);
+    ASSERT_EQ(tree.numEdges(), 5);
+    ASSERT_EQ(tree.getNode(0).getChildren(), children);
+
+    ASSERT_EQ(tree.getNode(1).start(), 4);
+    ASSERT_EQ(tree.getNode(1).end(), 4);
+    ASSERT_EQ(tree.getNode(1).hasChildren(), false);
+
+    ASSERT_EQ(tree.getNode(2).start(), 3);
+    ASSERT_EQ(tree.getNode(2).end(), 4);
+    ASSERT_EQ(tree.getNode(2).hasChildren(), false);
+
+    ASSERT_EQ(tree.getNode(3).start(), 2);
+    ASSERT_EQ(tree.getNode(3).end(), 4);
+    ASSERT_EQ(tree.getNode(3).hasChildren(), false);
+
+    ASSERT_EQ(tree.getNode(4).start(), 1);
+    ASSERT_EQ(tree.getNode(4).end(), 4);
+    ASSERT_EQ(tree.getNode(4).hasChildren(), false);
+
+    ASSERT_EQ(tree.getNode(5).start(), 0);
+    ASSERT_EQ(tree.getNode(5).end(), 4);
+    ASSERT_EQ(tree.getNode(5).hasChildren(), false);
+}
 
 TEST(SuffixTrees, BuildSmallTree)
 {
+    std::string text {"abaa$"};
+    SuffixTree tree(text);
+    ASSERT_EQ(tree.numNodes(), 6);
+    ASSERT_EQ(tree.numEdges(), 5);
 
+    std::vector<int> children {1, 2, 5};
+    ASSERT_EQ(tree.getNode(0).getChildren(), children);
+
+    ASSERT_EQ(tree.getNode(1).hasChildren(), false);
+    ASSERT_EQ(tree.getNode(1).start(), 6);
+    ASSERT_EQ(tree.getNode(1).end(), 6);
+
+    children = {3, 4};
+    ASSERT_EQ(tree.getNode(2).getChildren(), children);
+    ASSERT_EQ(tree.getNode(2).start(), 5);
+    ASSERT_EQ(tree.getNode(2).end(), 5);
+
+    ASSERT_EQ(tree.getNode(3).hasChildren(), false);
+    ASSERT_EQ(tree.getNode(3).start(), 6);
+    ASSERT_EQ(tree.getNode(3).end(), 6);
+
+    ASSERT_EQ(tree.getNode(4).hasChildren(), false);
+    ASSERT_EQ(tree.getNode(4).start(), 5);
+    ASSERT_EQ(tree.getNode(4).end(), 6);
+
+    ASSERT_EQ(tree.getNode(5).hasChildren(), false);
+    ASSERT_EQ(tree.getNode(5).start(), 3);
+    ASSERT_EQ(tree.getNode(5).end(), 6);
 }
 
 TEST(SuffixTrees, FindSuffixInTree)

@@ -71,6 +71,8 @@ public:
     int getKey(int node) const;
     const std::vector<int>& getChildren(int node) const;
     bool hasChildren(int node) const;
+
+    friend class SuffixTree;
 };
 
 #endif //ALGORITHMS_SUFFIX_TRIE_H
