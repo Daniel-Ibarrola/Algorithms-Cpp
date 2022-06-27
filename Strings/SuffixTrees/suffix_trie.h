@@ -29,6 +29,8 @@ public:
     bool hasChildren() const { return !m_children.empty(); }
 
     void addChild(int node) { m_children.push_back(node); }
+
+    int numChildren() const { return static_cast<int>(m_children.size()); }
 };
 
 
@@ -71,6 +73,7 @@ public:
     int getKey(int node) const;
     const std::vector<int>& getChildren(int node) const;
     bool hasChildren(int node) const;
+    int numChildren(int node) const;
 
     friend class SuffixTree;
 };

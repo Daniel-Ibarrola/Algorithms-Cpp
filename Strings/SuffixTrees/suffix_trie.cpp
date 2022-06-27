@@ -44,6 +44,13 @@ void SuffixTrie::addChild(int node, int child)
     m_numEdges++;
 }
 
+int SuffixTrie::numChildren(int node) const
+{
+    // Returns the number of children of the current node
+    validateNode(node);
+    return m_adjacencyList[node].numChildren();
+}
+
 
 void SuffixTrie::createNode(int key)
 {
@@ -92,3 +99,5 @@ void SuffixTrie::build(const std::string &text)
     }
 
 }
+
+

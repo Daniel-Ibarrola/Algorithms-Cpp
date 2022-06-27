@@ -77,7 +77,7 @@ public:
         build(text);
     }
 
-    std::vector<std::string> traversal() const;
+    std::vector<std::string> getAllSuffixes(const std::string& text) const;
 
     int numNodes() const {return m_numNodes;}
     int numEdges() const {return m_numEdges;}

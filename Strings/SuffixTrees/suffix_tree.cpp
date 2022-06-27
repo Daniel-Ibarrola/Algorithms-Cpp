@@ -44,37 +44,35 @@ void SuffixTree::depthFirstSearch(int currentNode,
     // Do a depth first search traversal of the trie, while at the same time
     // building the suffix tree
     visited[currentNode] = true;
+
+    // Case: The currentNode has two or more children, and it's not the root node,
+    // so we need to create a branch in the tree.
+    if (trie.numChildren(currentNode) > 1 && trie.getKey(currentNode) != -1)
+    {
+        addNode(currentStart, trie.getKey(currentNode));
+        addChild(currentRoot, m_numNodes -1);
+        currentRoot = m_numNodes - 1;
+    }
+    // Case: The currentNode is a leave node (has no children). We create a new node
+    // The end of these nodes will always be the text end.
+    if (!trie.hasChildren(currentNode))
+    {
+        addNode(currentStart, end);
+        addChild(currentRoot, m_numNodes - 1);
+    }
+
+    // If a node only has one child, we do nothing and just keep exploring the tree.
     for (auto child : trie.getChildren(currentNode))
     {
-        // If a node has more than one child we add a node, creating a branch
-        if (trie.getChildren(child).size() > 1 && trie.getKey(currentNode) != -1)
-        {
-            addNode(currentStart, trie.getKey(child));
-            addChild(currentRoot, m_numNodes -1);
-            currentRoot = currentNode;
-        }
-
-        // At the root node we update the current start and the current root
-        if (trie.getKey(currentNode) == -1)
-        {
+        // When node has more than one child we update current start, this applies also for
+        // the root node
+        if (trie.numChildren(currentNode) > 1)
             currentStart = trie.getKey(child);
-            currentRoot = 0;
-        }
 
         if (!visited[child])
             depthFirstSearch(child, currentStart, currentRoot, trie, visited);
     }
 
-    if (currentStart != -1)
-    {
-        // Here we have reached a leave node
-        if (!trie.hasChildren(currentNode))
-        {
-            addNode(currentStart, end);
-            addChild(currentRoot, m_numNodes - 1);
-        }
-
-    }
 }
 
 
@@ -86,12 +84,14 @@ void SuffixTree::build(const std::string &text)
     SuffixTrie trie(text);
     // Depth first search traversal of the trie
     std::vector<bool> visited(trie.m_adjacencyList.size(), false);
-    depthFirstSearch(0, -1, 0, trie, visited);
+    depthFirstSearch(0, end, 0, trie, visited);
 }
 
 
-std::vector<std::string> SuffixTree::traversal() const
+std::vector<std::string> SuffixTree::getAllSuffixes(const std::string& text) const
 {
-    // Returns a vector with the edge labels of the tree
-    return {};
+    // Returns a vector with all the suffixes present int the tree.
+    std::vector<std::string> suffixes {};
+    
+    return suffixes;
 }
