@@ -37,7 +37,7 @@ void SuffixTree::addChild(int node, int child)
 
 void SuffixTree::depthFirstSearch(int currentNode,
                                   int currentStart,
-                                  int currentEnd,
+                                  int currentRoot,
                                   const SuffixTrie &trie,
                                   std::vector<bool> &visited)
 {
@@ -46,15 +46,23 @@ void SuffixTree::depthFirstSearch(int currentNode,
     visited[currentNode] = true;
     for (auto child : trie.getChildren(currentNode))
     {
-        // If a node has more than one child we update the current end
-        if (trie.getChildren(child).size() > 1)
-            currentEnd = trie.getKey(child);
+        // If a node has more than one child we add a node, creating a branch
+        if (trie.getChildren(child).size() > 1 && trie.getKey(currentNode) != -1)
+        {
+            addNode(currentStart, trie.getKey(child));
+            addChild(currentRoot, m_numNodes -1);
+            currentRoot = currentNode;
+        }
 
+        // At the root node we update the current start and the current root
         if (trie.getKey(currentNode) == -1)
+        {
             currentStart = trie.getKey(child);
+            currentRoot = 0;
+        }
 
         if (!visited[child])
-            depthFirstSearch(child, currentStart, currentEnd, trie, visited);
+            depthFirstSearch(child, currentStart, currentRoot, trie, visited);
     }
 
     if (currentStart != -1)
@@ -63,7 +71,7 @@ void SuffixTree::depthFirstSearch(int currentNode,
         if (!trie.hasChildren(currentNode))
         {
             addNode(currentStart, end);
-            addChild(0, m_numNodes - 1);
+            addChild(currentRoot, m_numNodes - 1);
         }
 
     }
@@ -78,8 +86,9 @@ void SuffixTree::build(const std::string &text)
     SuffixTrie trie(text);
     // Depth first search traversal of the trie
     std::vector<bool> visited(trie.m_adjacencyList.size(), false);
-    depthFirstSearch(0, -1, end, trie, visited);
+    depthFirstSearch(0, -1, 0, trie, visited);
 }
+
 
 std::vector<std::string> SuffixTree::traversal() const
 {

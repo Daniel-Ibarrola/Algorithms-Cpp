@@ -63,7 +63,7 @@ private:
 
     void depthFirstSearch(int currentNode,
                           int currentStart,
-                          int currentEnd,
+                          int currentRoot,
                           const SuffixTrie& trie,
                           std::vector<bool>& visited);
 
