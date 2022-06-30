@@ -5,6 +5,7 @@
 #include "gtest/gtest.h"
 #include "BurrowsWheeler/burrows_wheeler.h"
 
+
 TEST(BurrowWheelers, ConstructBWMatrix)
 {
 
@@ -31,6 +32,7 @@ TEST(BurrowWheelers, ConstructBWMatrix)
     ASSERT_EQ(bw_2.matrix(), expected_matrix_2);
 }
 
+
 TEST(BurrowWheelers, GetTransformFromMatrix)
 {
     BurrowsWheeler bw_1("AA$");
@@ -44,4 +46,23 @@ TEST(BurrowWheelers, GetTransformFromMatrix)
 
     BurrowsWheeler bw_4("panamabananas$");
     ASSERT_EQ(bw_4.getTransform(), "smnpbnnaaaaa$a");
+
+    BurrowsWheeler bw_5("banana");
+    ASSERT_EQ(bw_5.getTransform(), "annb$aa");
+}
+
+
+TEST(BurrowWheelers, InverseBWTransform)
+{
+    InverseBW transform_1 ("AC$A");
+    ASSERT_EQ(transform_1.inverse(), "ACA$");
+
+    InverseBW transform_2 ("AGGGAA$");
+    ASSERT_EQ(transform_2.inverse(), "GAGAGA$");
+
+    InverseBW transform_3 ("smnpbnnaaaaa$a");
+    ASSERT_EQ(transform_3.inverse(), "panamabananas$");
+
+    InverseBW transform_4 ("annb$aa");
+    ASSERT_EQ(transform_4.inverse(), "banana$");
 }

@@ -32,6 +32,7 @@ std::vector<std::string> BurrowsWheeler::matrix() const
     return bwMatrix;
 }
 
+
 std::string BurrowsWheeler::getTransform() const
 {
     // Returns the Burrows-Wheeler transform of the text
@@ -40,5 +41,14 @@ std::string BurrowsWheeler::getTransform() const
     std::string transform;
     for (auto ii {0}; ii < size; ++ii)
         transform += bwMatrix[ii][size - 1];
+
     return transform;
+}
+
+
+std::string InverseBW::inverse() const
+{
+    // Get the inverse of the Burrows-Wheeler transform
+
+    std::string sortedTransform;
 }
