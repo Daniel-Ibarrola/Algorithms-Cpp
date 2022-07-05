@@ -46,9 +46,46 @@ std::string BurrowsWheeler::getTransform() const
 }
 
 
+std::vector<int> InverseBW::sortedPositions() const
+{
+    //  Returns an array with the indices that each character
+    //  would have in the sorted string
+
+    // Create a vector starting from 0 and ending in m_transform.size() - 1
+    std::vector<int> indices(m_transform.size());
+    std::iota(indices.begin(), indices.end(), 0);
+    // Get the indices of the sorted string
+    std::sort(indices.begin(), indices.end(),
+              [this] (int left, int right) -> bool {
+                  // sort indices according to corresponding string element
+                  return m_transform[left] < m_transform[right];
+
+    });
+    // Sort them again to get the indices that each character in the
+    // original string has in the sorted string
+    std::sort(indices.begin(), indices.end(),
+              [indices] (int left, int right) -> bool {
+                  return indices[left] < indices[right];
+              });
+    return indices;
+}
+
 std::string InverseBW::inverse() const
 {
     // Get the inverse of the Burrows-Wheeler transform
 
-    std::string sortedTransform;
+    std::string inverse(m_transform.size(), char(0));
+    std::vector<int> sortedIndices {sortedPositions()};
+    int nextIndex {0};
+    // The transform will give us the original string in reverse order
+    // so, to avoid reversing the string at the end we start filling from
+    // the second to last index. We skip the last index because it corresponds
+    // to the $ sign.
+    for (int ii {static_cast<int>(inverse.size()) - 2}; ii >= 0; --ii)
+    {
+        inverse[ii] = m_transform[nextIndex];
+        nextIndex = sortedIndices[nextIndex];
+    }
+    inverse[inverse.size() - 1] = '$';
+    return inverse;
 }

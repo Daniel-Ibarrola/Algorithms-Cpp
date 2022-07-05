@@ -47,10 +47,19 @@ TEST(BurrowWheelers, GetTransformFromMatrix)
     BurrowsWheeler bw_4("panamabananas$");
     ASSERT_EQ(bw_4.getTransform(), "smnpbnnaaaaa$a");
 
-    BurrowsWheeler bw_5("banana");
+    BurrowsWheeler bw_5("banana$");
     ASSERT_EQ(bw_5.getTransform(), "annb$aa");
 }
 
+
+TEST(BurrowWheelers, SortedPositionsArray)
+{
+    std::vector<int> positionsExpected {13, 8, 9, 12, 7, 10, 11, 1, 2, 3, 4, 5, 0, 6};
+    InverseBW transform {"smnpbnnaaaaa$a"};
+    std::vector<int> positionsActual {transform.sortedPositions()};
+
+    ASSERT_EQ(positionsExpected, positionsActual);
+}
 
 TEST(BurrowWheelers, InverseBWTransform)
 {

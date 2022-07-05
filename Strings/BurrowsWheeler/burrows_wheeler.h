@@ -7,6 +7,7 @@
 
 #include <algorithm>
 #include <cassert>
+#include <numeric>
 #include <string>
 #include <utility>
 #include <vector>
@@ -49,4 +50,5 @@ public:
 
     std::string inverse() const;
 
+    std::vector<int> sortedPositions() const;
 };
