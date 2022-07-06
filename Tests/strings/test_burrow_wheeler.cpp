@@ -110,3 +110,50 @@ TEST(BurrowsWheelers, PatternMatching)
     ASSERT_EQ(bw_2.patternCount("CT"), 0);
 }
 
+
+TEST(BurrowsWheelers, CountMap)
+{
+    std::map<char, std::vector<int>> expectedCount {
+            {'$', {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1}},
+            {'a', {0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 5, 5, 6}},
+            {'b', {0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}},
+            {'m', {0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}},
+            {'n', {0, 0, 0, 1, 1, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3}},
+            {'p', {0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}},
+            {'s', {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}}
+    };
+    std::map<char, std::vector<int>> actualCount {BurrowsWheeler::countMap("smnpbnnaaaaa$a")};
+
+    ASSERT_EQ(expectedCount, actualCount);
+}
+
+
+TEST(BurrowsWheelers, firstOccurence)
+{
+    std::map<char, int> expectedOccurrence {
+            {'$', 0},
+            {'a', 1},
+            {'b', 7},
+            {'m', 8},
+            {'n', 9},
+            {'p', 12},
+            {'s', 13}
+    };
+
+    std::map<char, int> actualOccurrences {BurrowsWheeler::firstOccurrence("$aaaaaabmnnnps")};
+    ASSERT_EQ(expectedOccurrence, actualOccurrences);
+}
+
+
+TEST(BurrowsWheelers, BetterPatternMatching)
+{
+    BurrowsWheeler bw_1 {"panamabananas$"};
+    ASSERT_EQ(bw_1.betterPatternCount("ana"), 3);
+
+    BurrowsWheeler bw_2 {"GAGAGA$"};
+    ASSERT_EQ(bw_2.betterPatternCount("GA"), 3);
+
+    BurrowsWheeler bw_3 {"AGGGAA$"};
+    ASSERT_EQ(bw_2.betterPatternCount("CT"), 0);
+}
+

@@ -8,6 +8,7 @@
 #include <array>
 #include <algorithm>
 #include <cassert>
+#include <map>
 #include <numeric>
 #include <string>
 #include <utility>
@@ -35,6 +36,10 @@ public:
     std::array<std::string, 2> firstAndLastColumn() const;
 
     int patternCount(const std::string& pattern) const;
+    int betterPatternCount(const std::string& pattern) const;
+
+    static std::map<char, std::vector<int>> countMap(const std::string& lastColumn);
+    static std::map<char, int> firstOccurrence(const std::string& firstColumn);
 };
 
 #endif //ALGORITHMS_BURROWS_WHEELER_H

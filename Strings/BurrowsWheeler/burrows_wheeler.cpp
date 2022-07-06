@@ -126,6 +126,55 @@ int BurrowsWheeler::patternCount(const std::string &pattern) const
 }
 
 
+std::map<char, std::vector<int>> BurrowsWheeler::countMap(const std::string &lastColumn)
+{
+    // Returns the count map of the las column
+
+    std::map<char, std::vector<int>> count;
+
+    // Get all different symbols
+    for (auto symbol : lastColumn)
+        count.emplace(symbol, std::vector<int>(lastColumn.size() + 1, 0));
+
+    // Now store the count
+    for (auto ii {0}; ii < lastColumn.size(); ++ii)
+    {
+        for (auto & itr : count)
+        {
+            if (itr.first == lastColumn[ii])
+                itr.second[ii + 1] = itr.second[ii] + 1;
+            else
+                itr.second[ii + 1] = itr.second[ii];
+        }
+    }
+
+    return count;
+}
+
+
+std::map<char, int> BurrowsWheeler::firstOccurrence(const std::string &firstColumn)
+{
+    // Returns the first occurrence map of the first column
+    std::map<char, int> occurrences;
+
+    for (auto ii {0}; ii < firstColumn.size(); ++ii)
+        occurrences.emplace(firstColumn[ii], ii);
+
+    return occurrences;
+}
+
+
+int BurrowsWheeler::betterPatternCount(const std::string &pattern) const
+{
+    // Count the number of occurrences of the given pattern in the text
+    // using a faster algorithm
+    return 0;
+}
+
+
+// Inverse Burrows Wheelers //
+// ------------------------- //
+
 std::vector<int> InverseBW::sortedPositions(const std::string& transform)
 {
     //  Returns an array with the indices that each character
@@ -170,3 +219,5 @@ std::string InverseBW::inverse() const
     inverse[inverse.size() - 1] = '$';
     return inverse;
 }
+
+
