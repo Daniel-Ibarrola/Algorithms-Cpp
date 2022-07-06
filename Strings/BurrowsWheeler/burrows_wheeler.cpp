@@ -128,7 +128,7 @@ int BurrowsWheeler::patternCount(const std::string &pattern) const
 
 std::map<char, std::vector<int>> BurrowsWheeler::countMap(const std::string &lastColumn)
 {
-    // Returns the count map of the las column
+    // Returns the count map of the last column
 
     std::map<char, std::vector<int>> count;
 
@@ -168,6 +168,39 @@ int BurrowsWheeler::betterPatternCount(const std::string &pattern) const
 {
     // Count the number of occurrences of the given pattern in the text
     // using a faster algorithm
+
+    if(pattern.empty())
+        return 0;
+
+    int top{0};
+    int bottom {static_cast<int>(m_text.size() - 1)};
+    int currentChar {static_cast<int>(pattern.size() - 1)};
+
+    std::array<std::string, 2> columns {firstAndLastColumn()};
+    std::map<char, int> firstOccur {firstOccurrence(columns[0])};
+    std::map<char, std::vector<int>> count {countMap(columns[1])};
+
+    while (top <= bottom)
+    {
+        if (currentChar >= 0)
+        {
+            char symbol {pattern[currentChar]};
+            // Check if the symbol exists in the map
+            auto itr {firstOccur.find(symbol)};
+            if (itr != firstOccur.end())
+            {
+                int occurrence {itr->second};
+                top = occurrence + count[symbol][top];
+                bottom = occurrence + count[symbol][bottom + 1] - 1;
+                currentChar--;
+            }
+            else
+                return 0;
+        }
+        else
+            return bottom - top + 1;
+    }
+
     return 0;
 }
 

@@ -154,6 +154,6 @@ TEST(BurrowsWheelers, BetterPatternMatching)
     ASSERT_EQ(bw_2.betterPatternCount("GA"), 3);
 
     BurrowsWheeler bw_3 {"AGGGAA$"};
-    ASSERT_EQ(bw_2.betterPatternCount("CT"), 0);
+    ASSERT_EQ(bw_3.betterPatternCount("CT"), 0);
 }
 
