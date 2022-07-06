@@ -65,14 +65,15 @@ TEST(BurrowsWheeler, FirstAndLastColumn)
     ASSERT_EQ(columns_expected, columns_actual);
 }
 
+
 TEST(BurrowWheelers, SortedPositionsArray)
 {
     std::vector<int> positionsExpected {13, 8, 9, 12, 7, 10, 11, 1, 2, 3, 4, 5, 0, 6};
-    InverseBW transform {"smnpbnnaaaaa$a"};
-    std::vector<int> positionsActual {transform.sortedPositions()};
+    std::vector<int> positionsActual {InverseBW::sortedPositions("smnpbnnaaaaa$a")};
 
     ASSERT_EQ(positionsExpected, positionsActual);
 }
+
 
 TEST(BurrowWheelers, InverseBWTransform)
 {
@@ -88,3 +89,24 @@ TEST(BurrowWheelers, InverseBWTransform)
     InverseBW transform_4 ("annb$aa");
     ASSERT_EQ(transform_4.inverse(), "banana$");
 }
+
+
+TEST(BurrowsWheelers, MatchEmptyPattern)
+{
+    BurrowsWheeler bw_1 {"panamabananas$"};
+    ASSERT_EQ(bw_1.patternCount(""), 0);
+}
+
+
+TEST(BurrowsWheelers, PatternMatching)
+{
+    BurrowsWheeler bw_1 {"panamabananas$"};
+    ASSERT_EQ(bw_1.patternCount("ana"), 3);
+
+    BurrowsWheeler bw_2 {"GAGAGA$"};
+    ASSERT_EQ(bw_2.patternCount("GA"), 3);
+
+    BurrowsWheeler bw_3 {"AGGGAA$"};
+    ASSERT_EQ(bw_2.patternCount("CT"), 0);
+}
+

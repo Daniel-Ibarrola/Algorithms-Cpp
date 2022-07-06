@@ -33,6 +33,8 @@ public:
     std::string getTransform() const;
 
     std::array<std::string, 2> firstAndLastColumn() const;
+
+    int patternCount(const std::string& pattern) const;
 };
 
 #endif //ALGORITHMS_BURROWS_WHEELER_H
@@ -53,5 +55,5 @@ public:
 
     std::string inverse() const;
 
-    std::vector<int> sortedPositions() const;
+    static std::vector<int> sortedPositions(const std::string& transform);
 };

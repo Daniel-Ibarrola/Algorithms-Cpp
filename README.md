@@ -58,7 +58,9 @@ The following algorithms/data structures can be found in the project:
 ## String Algorithms and Datastructures
 
 
-- [Burrows Wheeler transform](Strings/BurrowsWheeler/burrows_wheeler.cpp)
+- [Burrows-Wheeler transform](Strings/BurrowsWheeler/burrows_wheeler.cpp)
+- [Burrows-Wheeler inverse transform](Strings/BurrowsWheeler/burrows_wheeler.cpp)
+- [Burrows-Wheeler pattern matching](Strings/BurrowsWheeler/burrows_wheeler.cpp)
 - [Multiple pattern match](Strings/SuffixTrees/pattern_trie.cpp)
 - [Pattern trie](Strings/SuffixTrees/pattern_trie.cpp)
 - [Suffix trie](Strings/SuffixTrees/suffix_trie.cpp)

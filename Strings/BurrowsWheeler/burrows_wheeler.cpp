@@ -68,19 +68,77 @@ std::array<std::string, 2> BurrowsWheeler::firstAndLastColumn() const
 }
 
 
-std::vector<int> InverseBW::sortedPositions() const
+int BurrowsWheeler::patternCount(const std::string &pattern) const
+{
+    // Count the number of occurrences of the given pattern in the text
+
+    if (pattern.empty())
+        return 0;
+
+    std::array<std::string, 2> columns {firstAndLastColumn()};
+    std::vector<int> lastToFirst {InverseBW::sortedPositions(columns[1])};
+
+    int top {0};
+    int bottom {static_cast<int>(m_text.size()) - 1};
+    int currentChar {static_cast<int>(pattern.size()) - 1};  // Current character of the pattern
+
+    int topIndex {-1};
+    int bottomIndex {-1};
+    bool symbolInColumn {false};
+
+    while (top <= bottom)
+    {
+        if (currentChar >= 0)
+        {
+            // Check if last column from top to bottom contains current character
+            // and find the first and last position where this character occurs
+            for (auto ii {top}; ii <= bottom; ++ii)
+            {
+                // Update top index and bottom index, but continue searching in
+                // case there is another character closer to the bottom
+                if (columns[1][ii] == pattern[currentChar] && topIndex == -1)
+                {
+                    topIndex = ii;
+                    bottomIndex = ii;
+                    symbolInColumn = true;
+                }
+                else if (columns[1][ii] == pattern[currentChar])
+                    bottomIndex = ii;
+            }
+            if (symbolInColumn)
+            {
+                top = lastToFirst[topIndex];
+                bottom = lastToFirst[bottomIndex];
+            }
+            else
+                return 0;
+
+            symbolInColumn = false;
+            topIndex = -1;
+            bottomIndex = -1;
+            currentChar--;
+        }
+        else
+            return bottom - top + 1;
+    }
+
+    return 0;
+}
+
+
+std::vector<int> InverseBW::sortedPositions(const std::string& transform)
 {
     //  Returns an array with the indices that each character
     //  would have in the sorted string
 
     // Create a vector starting from 0 and ending in m_transform.size() - 1
-    std::vector<int> indices(m_transform.size());
+    std::vector<int> indices(transform.size());
     std::iota(indices.begin(), indices.end(), 0);
     // Get the indices of the sorted string
     std::sort(indices.begin(), indices.end(),
-              [this] (int left, int right) -> bool {
+              [transform] (int left, int right) -> bool {
                   // sort indices according to corresponding string element
-                  return m_transform[left] < m_transform[right];
+                  return transform[left] < transform[right];
 
     });
     // Sort them again to get the indices that each character in the
@@ -98,7 +156,7 @@ std::string InverseBW::inverse() const
     // Get the inverse of the Burrows-Wheeler transform
 
     std::string inverse(m_transform.size(), char(0));
-    std::vector<int> sortedIndices {sortedPositions()};
+    std::vector<int> sortedIndices {sortedPositions(m_transform)};
     int nextIndex {0};
     // The transform will give us the original string in reverse order
     // so, to avoid reversing the string at the end we start filling from
