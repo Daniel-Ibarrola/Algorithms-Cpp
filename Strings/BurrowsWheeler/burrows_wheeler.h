@@ -5,6 +5,7 @@
 #ifndef ALGORITHMS_BURROWS_WHEELER_H
 #define ALGORITHMS_BURROWS_WHEELER_H
 
+#include <array>
 #include <algorithm>
 #include <cassert>
 #include <numeric>
@@ -30,6 +31,8 @@ public:
 
     std::vector<std::string> matrix() const;
     std::string getTransform() const;
+
+    std::array<std::string, 2> firstAndLastColumn() const;
 };
 
 #endif //ALGORITHMS_BURROWS_WHEELER_H

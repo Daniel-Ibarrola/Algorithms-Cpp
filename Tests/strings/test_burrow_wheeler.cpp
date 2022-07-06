@@ -52,6 +52,19 @@ TEST(BurrowWheelers, GetTransformFromMatrix)
 }
 
 
+TEST(BurrowsWheeler, FirstAndLastColumn)
+{
+    BurrowsWheeler bw ("panamabananas$");
+    std::array<std::string , 2> columns_actual {bw.firstAndLastColumn()};
+    std::array<std::string , 2> columns_expected {
+        "$aaaaaabmnnnps",
+        "smnpbnnaaaaa$a",
+    };
+
+    ASSERT_EQ(columns_actual[0].size(), 14);
+    ASSERT_EQ(columns_expected, columns_actual);
+}
+
 TEST(BurrowWheelers, SortedPositionsArray)
 {
     std::vector<int> positionsExpected {13, 8, 9, 12, 7, 10, 11, 1, 2, 3, 4, 5, 0, 6};

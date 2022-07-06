@@ -46,6 +46,28 @@ std::string BurrowsWheeler::getTransform() const
 }
 
 
+std::array<std::string, 2> BurrowsWheeler::firstAndLastColumn() const
+{
+    // Returns an array where the first entry is the first column of the
+    // BW matrix and the second entry is the last column.
+    // The columns contain the indices of the characters in the text
+
+    std::array<std::string, 2> columns {
+        std::string (m_text.size(), char(0)),
+        std::string (m_text.size(), char(0)),
+    };
+
+    std::vector<std::string> matrixBW {matrix()};
+    for (auto ii {0}; ii < m_text.size(); ++ii)
+        columns[0][ii] = matrixBW[ii][0];
+
+    for (auto ii {0}; ii < m_text.size(); ++ii)
+        columns[1][ii] = matrixBW[ii][m_text.size() - 1];
+
+    return columns;
+}
+
+
 std::vector<int> InverseBW::sortedPositions() const
 {
     //  Returns an array with the indices that each character
@@ -69,6 +91,7 @@ std::vector<int> InverseBW::sortedPositions() const
               });
     return indices;
 }
+
 
 std::string InverseBW::inverse() const
 {
