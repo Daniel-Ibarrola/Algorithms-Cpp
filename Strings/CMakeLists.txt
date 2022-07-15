@@ -7,6 +7,7 @@ set(HEADER_FILES
         SuffixTrees/suffix_trie.h
         BurrowsWheeler/burrows_wheeler.h
         SuffixArray/suffix_array.h
+        KnuthMorris/prefix_function.h
         )
 
 set(SOURCE_FILES
@@ -16,6 +17,7 @@ set(SOURCE_FILES
         SuffixTrees/suffix_trie.cpp
         BurrowsWheeler/burrows_wheeler.cpp
         SuffixArray/suffix_array.cpp
+        KnuthMorris/prefix_function.cpp
         )
 
 add_library(Strings STATIC ${SOURCE_FILES} ${HEADER_FILES})

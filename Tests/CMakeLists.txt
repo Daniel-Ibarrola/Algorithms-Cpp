@@ -20,6 +20,7 @@ add_executable(Google_Tests_run
         strings/test_suffix_trie.cpp
         strings/test_burrow_wheeler.cpp
         strings/test_suffix_array.cpp
+        strings/test_knuth_morris.cpp
         )
 
 # linking Google_Tests_run with my other libraries
