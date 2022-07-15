@@ -65,4 +65,6 @@ The following algorithms/data structures can be found in the project:
 - [Pattern trie](Strings/SuffixTrees/pattern_trie.cpp)
 - [Suffix trie](Strings/SuffixTrees/suffix_trie.cpp)
 - [Suffix tree](Strings/SuffixTrees/suffix_tree.cpp)
+- [Suffix array](Strings/SuffixArray/suffix_array.cpp)
+- [Knuth-Morris-Pratt algorithm](Strings/KnuthMorris/pattern_matching.cpp)
 
