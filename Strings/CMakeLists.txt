@@ -7,6 +7,7 @@ set(HEADER_FILES
         SuffixTrees/suffix_trie.h
         BurrowsWheeler/burrows_wheeler.h
         SuffixArray/suffix_array.h
+        SuffixArray/count_sort.h
         KnuthMorris/prefix_function.h
         KnuthMorris/pattern_matching.h
         )
@@ -18,6 +19,7 @@ set(SOURCE_FILES
         SuffixTrees/suffix_trie.cpp
         BurrowsWheeler/burrows_wheeler.cpp
         SuffixArray/suffix_array.cpp
+        SuffixArray/count_sort.cpp
         KnuthMorris/prefix_function.cpp
         KnuthMorris/pattern_matching.cpp
         )

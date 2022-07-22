@@ -12,7 +12,7 @@ The following algorithms/data structures can be found in the project:
 - [Number of Inversions](ToolBox/Divide&Conquer/Inversions.cpp)
 - [Majority Element](ToolBox/Divide&Conquer/MajorityElement.cpp)
 - [Merge Sort](ToolBox/Divide&Conquer/MergeSort.cpp)
-- [Quick Sort](ToolBox/Divide&Conquer/QuickSort.cpp)
+- [Quick Sort](ToolBox/Divide&Conquer/Quicksort.cpp)
 
 #### Dynamic Programming
 
@@ -30,7 +30,7 @@ The following algorithms/data structures can be found in the project:
 - [Disjoint Sets](DataStructures/DisjointSets/disjoint_sets.h)
 - [Doubly Linked List](DataStructures/LinkedList/doublelist.h)
 - [Hash table](DataStructures/Hashing/hash_table.h)
-- [Heap](DataStructures/LinkedList/heap.h)
+- [Heap](DataStructures/Heap/heap.h)
 - [Linked List](DataStructures/LinkedList/linkedlist.h) 
 - [Splay Tree](DataStructures/Bst/SplayTree.h)
 - [Stack](DataStructures/Stack/stack.cpp)
