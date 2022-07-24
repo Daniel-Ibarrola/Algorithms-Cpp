@@ -42,7 +42,7 @@ std::vector<int> sortCharacters(const std::string& string)
     // occurrences of each unique character in the string.
     // Returns a vector with the indices of the sorted characters
 
-    std::vector<int> count(128);  // 128 for the number of ASCII characters
+    std::vector<int> count(128, 0);  // 128 for the number of ASCII characters
 
     // Compute number of occurrences of each char
     for (char jj : string)
