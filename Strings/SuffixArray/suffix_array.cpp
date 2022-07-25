@@ -29,7 +29,7 @@ std::vector<int> suffixArrayNaive(const std::string& text)
 }
 
 
-std::vector<int> getCharClasses(const std::string& text, const std::vector<int> order)
+std::vector<int> getCharClasses(const std::string& text, const std::vector<int>& order)
 {
     // Computes classNumber[i] which is the number of different cyclic shifts
     // of length L that are smaller than C_i. Where C_i is the partial cyclic
@@ -45,4 +45,35 @@ std::vector<int> getCharClasses(const std::string& text, const std::vector<int> 
     }
 
     return classNumber;
+}
+
+std::vector<int> sortDoubled(const std::string& text,
+                             int shiftSize,
+                             const std::vector<int>& order,
+                             const std::vector<int>& classNumbers)
+{
+    // Sorts the cyclic shifts of length shiftSize + 2.
+    // Returns a vector with the positions of the doubled cyclic shifts
+
+    // We use count sort, but we sort by classes instead of characters
+    std::vector<int> count(text.size());
+    std::vector<int> newOrder(text.size());
+
+    for (auto ii {0}; ii < classNumbers.size(); ++ii)
+        count[classNumbers[ii]]++;
+    for (auto jj {1}; jj < count.size(); ++jj)
+        count[jj] += count[jj - 1];
+
+    int size {static_cast<int>(text.size())};
+    for (int ii {size - 1}; ii >= 0; --ii)
+    {
+        // Get the start of the doubled cyclic shift. Add the length if the string
+        // to avoid negative numbers and take its modulo to get a number in the range of the string size
+        int start {(order[ii] - shiftSize + size) % size};
+        int classNum {classNumbers[start]};
+        count[classNum]--;
+        newOrder[count[classNum]] = start;
+    }
+
+    return newOrder;
 }

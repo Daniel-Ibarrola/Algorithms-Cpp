@@ -30,3 +30,14 @@ TEST(TestSuffixArray, GetCharClasses)
     std::vector<int> classesExpected {1, 2, 1, 2, 1, 1, 0};
     ASSERT_EQ(classesExpected, getCharClasses(text, order));
 }
+
+
+TEST(TestSuffixArray, SortDoubledCyclifShifts)
+{
+    std::string text {"ababaa$"};
+    std::vector<int> order {sortCharacters(text)};
+    std::vector<int> classNumber {getCharClasses(text, order)};
+
+    std::vector<int> orderExpected {6, 5, 4, 0, 2, 3, 1};
+    ASSERT_EQ(orderExpected, sortDoubled(text, 1, order, classNumber));
+}
