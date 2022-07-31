@@ -18,4 +18,8 @@ TEST(CountSortTest, SortCharacters)
     std::string text {"ababaa$"};
     std::vector<int> orderExpected {6, 0, 2, 4, 5, 1, 3};
     ASSERT_EQ(sortCharacters(text), orderExpected);
+
+    std::string text_1 {"AACGATAGCGGTAGA$"};
+    std::vector<int> orderExpected_1 {15,0,1,4,6,12,14,2,8,3,7,9,10,13,5,11};
+    ASSERT_EQ(sortCharacters(text_1), orderExpected_1);
 }

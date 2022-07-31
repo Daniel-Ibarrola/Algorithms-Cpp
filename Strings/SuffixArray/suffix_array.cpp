@@ -77,3 +77,51 @@ std::vector<int> sortDoubled(const std::string& text,
 
     return newOrder;
 }
+
+std::vector<int> updateClasses(const std::vector<int>& newOrder,
+                               const std::vector<int>& classNumbers,
+                               int shiftSize)
+{
+    // Updates the equivalence classes of the doubled cyclic shifts
+
+    int textSize {static_cast<int>(newOrder.size())};
+    std::vector<int> newClass(textSize);
+    newClass[newOrder[0]] = 0;
+
+    for (int ii {1}; ii < textSize; ++ii)
+    {
+        // Get the class number of the first element in the pair
+        int current {newOrder[ii]};
+        int prev {newOrder[ii - 1]};
+        // Now the class of the second element
+        int mid {(current + shiftSize) % textSize};
+        int midPrev {(prev + shiftSize) % textSize};
+        // If any of the classes in the pair are different we update the class number
+        if (classNumbers[current] != classNumbers[prev] ||
+            classNumbers[mid] != classNumbers[midPrev]
+        )
+            newClass[current] = newClass[prev] + 1;
+        else
+            newClass[current] = newClass[prev];
+
+    }
+
+    return newClass;
+}
+
+std::vector<int> suffixArray(const std::string& text)
+{
+    // Returns the suffix array of the given text. Works in O(|text|log|text| + |alphabet|)
+    std::vector<int> order {sortCharacters(text)};
+    std::vector<int> classNumbers {getCharClasses(text, order)};
+    int shiftSize {1};
+
+    while (shiftSize < static_cast<int>(text.size()))
+    {
+        order = sortDoubled(text, shiftSize, order, classNumbers);
+        classNumbers = updateClasses(order, classNumbers, shiftSize);
+        shiftSize *= 2;
+    }
+
+    return order;
+}
