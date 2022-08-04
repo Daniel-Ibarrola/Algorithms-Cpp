@@ -125,3 +125,67 @@ std::vector<int> suffixArray(const std::string& text)
 
     return order;
 }
+
+std::vector<int> invertSuffixArray(const std::vector<int>& suffixArray)
+{
+    // Returns an array that for each suffix starting in position i of the string
+    // indicates its position in the suffix array
+    std::vector<int> inverseSuffixArray(suffixArray.size());
+
+    for (auto ii {0}; ii < suffixArray.size(); ++ii)
+        inverseSuffixArray[suffixArray[ii]] = ii;
+
+    return inverseSuffixArray;
+}
+
+int suffixesLCP(const std::string& text, int suffixIndex_1,
+                int suffixIndex_2, int prevLCP)
+{
+    // Returns the LCP value between two suffixes.
+
+    // Take max with zero to allow negative numbers
+    int lcp {std::max(prevLCP, 0)};
+    int size {static_cast<int>(text.size())};
+
+    // Compare the suffixes starting from the lcp value
+    while (suffixIndex_1  + lcp < size && suffixIndex_2 + lcp < size)
+    {
+        if (text[suffixIndex_1 + lcp] != text[suffixIndex_2 + lcp])
+            break;
+        lcp++;
+    }
+
+    return lcp;
+}
+
+std::vector<int> lcpArray(const std::string& text, const std::vector<int>& suffixArray)
+{
+    // Returns the longest common prefix (lcp) array of the text.
+    // This is an array such that for each i lcp[i] = LCP(A[i], A[i + 1])
+    // where A denotes the suffix array and LCP is a function that returns the length
+    // of the longest common prefix between two strings.
+    std::vector<int> lcpArray(text.size() - 1);
+    std::vector<int> positionInSuffixArray {invertSuffixArray(suffixArray)};
+    int size {static_cast<int>(text.size())};
+    int suffix {suffixArray[0]};
+    int lcp {0};
+
+    for (auto ii {0}; ii < size; ++ii)
+    {
+        int suffixArrayIndex {positionInSuffixArray[suffix]};
+        if (suffixArrayIndex == lcpArray.size())
+        {
+            // Skip the last suffix in the suffix array as it's the last element and
+            // cannot be compared with another suffix
+            lcp = 0;
+            suffix = (suffix + 1) % size;
+            continue;
+        }
+        int nextSuffix {suffixArray[suffixArrayIndex + 1]};
+        lcp = suffixesLCP(text, suffix, nextSuffix, lcp - 1);
+        lcpArray[suffixArrayIndex] = lcp;
+
+        suffix = (suffix + 1) % size;
+    }
+    return lcpArray;
+}

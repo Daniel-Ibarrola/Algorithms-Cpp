@@ -28,4 +28,13 @@ std::vector<int> updateClasses(const std::vector<int>& newOrder,
 
 std::vector<int> suffixArray(const std::string& text);
 
+std::vector<int> invertSuffixArray(const std::vector<int>& suffixArray);
+
+int suffixesLCP(const std::string& text,
+                int suffixIndex_1,
+                int suffixIndex_2,
+                int prevLCP);
+
+std::vector<int> lcpArray(const std::string& text, const std::vector<int>& suffixArray);
+
 #endif //ALGORITHMS_SUFFIX_ARRAY_H
