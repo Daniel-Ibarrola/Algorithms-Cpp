@@ -75,7 +75,7 @@ public:
     bool hasChildren(int node) const;
     int numChildren(int node) const;
 
-    friend class SuffixTree;
+    friend class SuffixTreeFromTrie;
 };
 
 #endif //ALGORITHMS_SUFFIX_TRIE_H

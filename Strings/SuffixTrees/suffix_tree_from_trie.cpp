@@ -2,23 +2,23 @@
 // Created by daniel on 20/06/22.
 //
 
-#include "suffix_tree.h"
+#include "suffix_tree_from_trie.h"
 
 
-void SuffixTree::validateNode(int nodeIndex) const
+void SuffixTreeFromTrie::validateNode(int nodeIndex) const
 {
     if (nodeIndex >= numNodes())
         throw invalid_suffix_tree_node_error();
 }
 
-const TreeNode& SuffixTree::getNode(int nodeIndex) const
+const TreeNode& SuffixTreeFromTrie::getNode(int nodeIndex) const
 {
     // Returns a const reference to the node with given index
     return m_adjacencyList[nodeIndex];
 }
 
 
-void SuffixTree::addNode(int textStart, int textEnd)
+void SuffixTreeFromTrie::addNode(int textStart, int textEnd)
 {
     // Add a new node to the tree
     m_adjacencyList.emplace_back(TreeNode {textStart, textEnd});
@@ -26,7 +26,7 @@ void SuffixTree::addNode(int textStart, int textEnd)
 }
 
 
-void SuffixTree::addChild(int node, int child)
+void SuffixTreeFromTrie::addChild(int node, int child)
 {
     // Add a child to the given node
     validateNode(node);
@@ -35,11 +35,11 @@ void SuffixTree::addChild(int node, int child)
 }
 
 
-void SuffixTree::buildUtil(int currentNode,
-                                  int currentStart,
-                                  int currentRoot,
-                                  const SuffixTrie &trie,
-                                  std::vector<bool> &visited)
+void SuffixTreeFromTrie::buildUtil(int currentNode,
+                                   int currentStart,
+                                   int currentRoot,
+                                   const SuffixTrie &trie,
+                                   std::vector<bool> &visited)
 {
     // Do a depth first search traversal of the trie, while at the same time
     // building the suffix tree
@@ -76,7 +76,7 @@ void SuffixTree::buildUtil(int currentNode,
 }
 
 
-void SuffixTree::build(const std::string &text)
+void SuffixTreeFromTrie::build(const std::string &text)
 {
     // Builds the suffix tree. Non-linear time algorithm
 
@@ -88,10 +88,10 @@ void SuffixTree::build(const std::string &text)
 }
 
 
-void SuffixTree::getSuffixesUtil(int currentNode,
-                                 std::vector<bool>& visited,
-                                 const std::string& text,
-                                 std::vector<std::string>& suffixes) const
+void SuffixTreeFromTrie::getSuffixesUtil(int currentNode,
+                                         std::vector<bool>& visited,
+                                         const std::string& text,
+                                         std::vector<std::string>& suffixes) const
 {
     // Do a depth first search traversal while recovering all the suffixes
     // present in the nodes of the tree
@@ -112,7 +112,7 @@ void SuffixTree::getSuffixesUtil(int currentNode,
 }
 
 
-std::vector<std::string> SuffixTree::getAllSuffixes(const std::string& text) const
+std::vector<std::string> SuffixTreeFromTrie::getAllSuffixes(const std::string& text) const
 {
     // Returns a vector with all the suffixes present int the tree.
     std::vector<std::string> suffixes {};

@@ -2,8 +2,8 @@
 // Created by daniel on 20/06/22.
 //
 
-#ifndef ALGORITHMS_SUFFIX_TREE_H
-#define ALGORITHMS_SUFFIX_TREE_H
+#ifndef ALGORITHMS_SUFFIX_TREE_FROM_TRIE_H
+#define ALGORITHMS_SUFFIX_TREE_FROM_TRIE_H
 
 #include <string>
 #include <vector>
@@ -44,9 +44,10 @@ class invalid_suffix_tree_node_error : public std::exception
 };
 
 
-class SuffixTree
+class SuffixTreeFromTrie
 {
-    // Suffix tree data structure
+    // Suffix tree data structure. The tree is constructed from a suffix trie. It is built
+    // in O(n²)
 private:
     int m_numNodes {1};
     int m_numEdges {0};
@@ -74,9 +75,9 @@ private:
 
 public:
 
-    SuffixTree() = default;
+    SuffixTreeFromTrie() = default;
 
-    explicit SuffixTree(const std::string& text)
+    explicit SuffixTreeFromTrie(const std::string& text)
         : end {static_cast<int>(text.size() - 1)}
     {
         build(text);
@@ -91,4 +92,4 @@ public:
 
 };
 
-#endif //ALGORITHMS_SUFFIX_TREE_H
+#endif //ALGORITHMS_SUFFIX_TREE_FROM_TRIE_H

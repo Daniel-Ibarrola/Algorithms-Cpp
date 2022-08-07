@@ -3,7 +3,7 @@
 //
 #include <algorithm>
 #include "gtest/gtest.h"
-#include "SuffixTrees/suffix_tree.h"
+#include "SuffixTrees/suffix_tree_from_trie.h"
 
 TEST(SuffixTreeNode, TestNode)
 {
@@ -20,7 +20,7 @@ TEST(SuffixTreeNode, TestNode)
 
 TEST(SuffixTree, CreateEmptyTree)
 {
-    SuffixTree tree;
+    SuffixTreeFromTrie tree;
     ASSERT_EQ(tree.numNodes(), 1);
     ASSERT_EQ(tree.numEdges(), 0);
 }
@@ -28,7 +28,7 @@ TEST(SuffixTree, CreateEmptyTree)
 TEST(SuffixTrees, TextWithNoRepeatedCharacters)
 {
     std::string text {"barco"};
-    SuffixTree tree(text);
+    SuffixTreeFromTrie tree(text);
     std::vector<int> children {1, 2, 3, 4, 5};
     ASSERT_EQ(tree.numNodes(), 6);
     ASSERT_EQ(tree.numEdges(), 5);
@@ -58,7 +58,7 @@ TEST(SuffixTrees, TextWithNoRepeatedCharacters)
 TEST(SuffixTrees, BuildSmallTree)
 {
     std::string text {"babaa$"};
-    SuffixTree tree(text);
+    SuffixTreeFromTrie tree(text);
     ASSERT_EQ(tree.numNodes(), 9);
     ASSERT_EQ(tree.numEdges(), 8);
 
@@ -103,7 +103,7 @@ TEST(SuffixTrees, BuildSmallTree)
 TEST(SuffixTrees, FindSuffixInTree)
 {
     std::string text_1 {"A$"};
-    SuffixTree tree_1("A$");
+    SuffixTreeFromTrie tree_1("A$");
     std::vector<std::string> suffixes_1 {tree_1.getAllSuffixes(text_1)};
     ASSERT_EQ(tree_1.numNodes(), 3);
     ASSERT_EQ(tree_1.numEdges(), 2);
@@ -111,7 +111,7 @@ TEST(SuffixTrees, FindSuffixInTree)
     ASSERT_NE(std::find(suffixes_1.begin(), suffixes_1.end(), "$"), suffixes_1.end());
 
     std::string text_2 {"ACA$"};
-    SuffixTree tree_2("ACA$");
+    SuffixTreeFromTrie tree_2("ACA$");
     std::vector<std::string> suffixes_2 {tree_2.getAllSuffixes(text_2)};
     ASSERT_EQ(tree_2.numNodes(), 6);
     ASSERT_EQ(tree_2.numEdges(), 5);
@@ -121,7 +121,7 @@ TEST(SuffixTrees, FindSuffixInTree)
     ASSERT_NE(std::find(suffixes_2.begin(), suffixes_2.end(), "CA$"), suffixes_2.end());
 
     std::string text_3 {"ATAAATG$"};
-    SuffixTree tree_3(text_3);
+    SuffixTreeFromTrie tree_3(text_3);
     std::vector<std::string> suffixes_3 {tree_3.getAllSuffixes(text_3)};
     ASSERT_EQ(tree_3.numNodes(), 13);
     ASSERT_EQ(tree_3.numEdges(), 12);
