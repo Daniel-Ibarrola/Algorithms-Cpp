@@ -2,7 +2,7 @@
 
 This repository is used to study algorithms and data structures. It includes exercises from different sources including Coursera's Data Structures and Algorithms Specialization as well as some books and other resources around the web.
 
-The following algorithms/data structures can be found in the project:
+The following algorithms and data structures can be found in the project:
 
 ## Algorithmic Toolbox
 
@@ -61,10 +61,10 @@ The following algorithms/data structures can be found in the project:
 - [Burrows-Wheeler transform](Strings/BurrowsWheeler/burrows_wheeler.cpp)
 - [Burrows-Wheeler inverse transform](Strings/BurrowsWheeler/burrows_wheeler.cpp)
 - [Burrows-Wheeler pattern matching](Strings/BurrowsWheeler/burrows_wheeler.cpp)
+- [Knuth-Morris-Pratt algorithm](Strings/KnuthMorris/pattern_matching.cpp)
 - [Multiple pattern match](Strings/SuffixTrees/pattern_trie.cpp)
 - [Pattern trie](Strings/SuffixTrees/pattern_trie.cpp)
-- [Suffix trie](Strings/SuffixTrees/suffix_trie.cpp)
-- [Suffix tree](Strings/SuffixTrees/suffix_tree_from_trie.cpp)
 - [Suffix array](Strings/SuffixArray/suffix_array.cpp)
-- [Knuth-Morris-Pratt algorithm](Strings/KnuthMorris/pattern_matching.cpp)
-
+- [Suffix tree from suffix trie](Strings/SuffixTrees/suffix_tree_from_trie.cpp)
+- [Suffix tree from suffix array](Strings/SuffixTrees/suffix_tree.cpp)
+- [Suffix trie](Strings/SuffixTrees/suffix_trie.cpp)
