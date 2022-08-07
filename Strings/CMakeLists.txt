@@ -5,6 +5,7 @@ set(HEADER_FILES
         SuffixTrees/multipattern_match.h
         SuffixTrees/suffix_tree_from_trie.h
         SuffixTrees/suffix_trie.h
+        SuffixTrees/suffix_tree.h
         BurrowsWheeler/burrows_wheeler.h
         SuffixArray/suffix_array.h
         SuffixArray/count_sort.h
@@ -16,6 +17,7 @@ set(SOURCE_FILES
         SuffixTrees/pattern_trie.cpp
         SuffixTrees/multipattern_match.cpp
         SuffixTrees/suffix_tree_from_trie.cpp
+        SuffixTrees/suffix_tree.cpp
         SuffixTrees/suffix_trie.cpp
         BurrowsWheeler/burrows_wheeler.cpp
         SuffixArray/suffix_array.cpp
