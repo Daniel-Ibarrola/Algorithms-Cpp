@@ -189,3 +189,42 @@ std::vector<int> lcpArray(const std::string& text, const std::vector<int>& suffi
     }
     return lcpArray;
 }
+
+bool isPatternGreater(const std::string& text, const std::string& pattern, int suffix)
+{
+    // Check if a pattern is greater than a suffix from the text
+    return false;
+}
+
+bool isPatterSmaller(const std::string& text, const std::string& pattern, int suffix)
+{
+    // Check if a pattern is greater than a suffix from the text
+    return false;
+}
+
+std::pair<int, int> patternMatchSuffixArray(const std::vector<int>& suffixArray,
+                                            const std::string& text,
+                                            const std::string& pattern)
+{
+    // Returns a pair where the first element is the starting index in the suffix array
+    // where there is a match of the pattern and the second element is the last index where there is
+    // a match. If there are no matches it returns a pair of (-1, -1).
+    if (suffixArray.empty() || pattern.empty() || (pattern.size() > suffixArray.size()))
+        return {-1, -1};
+
+    // The suffixes are ordered in the suffix array. We can perform binary search on it to
+    // find if there are any matches
+    int minIndex {0};
+    int maxIndex {static_cast<int>(suffixArray.size())};
+
+    while (minIndex < maxIndex)
+    {
+        int midIndex {(minIndex + maxIndex) / 2};
+        if (isPatternGreater(text, pattern, suffixArray[minIndex]))
+            minIndex = midIndex + 1;
+        else
+            maxIndex = midIndex;
+    }
+
+    return {};
+}

@@ -8,6 +8,7 @@
 
 #include <algorithm>
 #include <numeric>
+#include <utility>  // std::pair
 #include <string>
 #include <vector>
 #include "count_sort.h"
@@ -36,5 +37,13 @@ int suffixesLCP(const std::string& text,
                 int prevLCP);
 
 std::vector<int> lcpArray(const std::string& text, const std::vector<int>& suffixArray);
+
+bool isPatternGreater(const std::string& text, const std::string& pattern, int suffix);
+
+bool isPatternSmaller(const std::string& text, const std::string& pattern, int suffix);
+
+std::pair<int, int> patternMatchSuffixArray(const std::vector<int>& suffixArray,
+                                            const std::string& text,
+                                            const std::string& pattern);
 
 #endif //ALGORITHMS_SUFFIX_ARRAY_H

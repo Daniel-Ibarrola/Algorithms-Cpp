@@ -107,3 +107,43 @@ TEST(TestSuffixArray, LCPArray)
     std::vector<int> expectedLCP {0, 1, 1, 3, 0, 2};
     ASSERT_EQ(expectedLCP, lcpArray(text, suffixArray));
 }
+
+TEST(TestSuffixArray, IsPatternGreater)
+{
+
+}
+
+TEST(TestSuffixArray, IsPatternSmaller)
+{
+
+}
+
+TEST(TestSuffixArray, PatternMatchingWithSuffixArray)
+{
+    // We expect a pair of (-1, -1) if no match was found
+    std::pair<int, int> noMatch {-1, -1};
+
+    // Test with an empty string
+    std::string emptyString;
+    std::vector<int> array {suffixArray("Shoes$")};
+    ASSERT_EQ(noMatch, patternMatchSuffixArray(array, "Shoes$", emptyString));
+
+    // Test with a pattern larger than the text
+    std::string largerPattern {"AAA$"};
+    std::string shorterText {"A$"};
+    std::vector<int> shorterTextSuffixArr {suffixArray(shorterText)};
+    ASSERT_EQ(noMatch, patternMatchSuffixArray(shorterTextSuffixArr, shorterText, largerPattern));
+
+    // Non-trivial test cases
+    std::string pattern_1 {"abra$"};
+    std::string text_1 {"abracadabra$"};
+    std::vector<int> suffixArray_1 {suffixArray((text_1))};
+    std::pair<int, int> indicesExpected_1 {2, 3};
+    ASSERT_EQ(indicesExpected_1, patternMatchSuffixArray(suffixArray_1, text_1, pattern_1));
+
+    std::string pattern_2 {"ana$"};
+    std::string text_2 {"panamabananas$"};
+    std::vector<int> suffixArray_2 {suffixArray((text_2))};
+    std::pair<int, int> indicesExpected_2 {3, 5};
+    ASSERT_EQ(indicesExpected_2, patternMatchSuffixArray(suffixArray_2, text_2, pattern_2));
+}
