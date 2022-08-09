@@ -47,6 +47,7 @@ std::vector<int> getCharClasses(const std::string& text, const std::vector<int>&
     return classNumber;
 }
 
+
 std::vector<int> sortDoubled(const std::string& text,
                              int shiftSize,
                              const std::vector<int>& order,
@@ -77,6 +78,7 @@ std::vector<int> sortDoubled(const std::string& text,
 
     return newOrder;
 }
+
 
 std::vector<int> updateClasses(const std::vector<int>& newOrder,
                                const std::vector<int>& classNumbers,
@@ -109,6 +111,7 @@ std::vector<int> updateClasses(const std::vector<int>& newOrder,
     return newClass;
 }
 
+
 std::vector<int> suffixArray(const std::string& text)
 {
     // Returns the suffix array of the given text. Works in O(|text|log|text| + |alphabet|)
@@ -126,6 +129,7 @@ std::vector<int> suffixArray(const std::string& text)
     return order;
 }
 
+
 std::vector<int> invertSuffixArray(const std::vector<int>& suffixArray)
 {
     // Returns an array that for each suffix starting in position i of the string
@@ -137,6 +141,7 @@ std::vector<int> invertSuffixArray(const std::vector<int>& suffixArray)
 
     return inverseSuffixArray;
 }
+
 
 int suffixesLCP(const std::string& text, int suffixIndex_1,
                 int suffixIndex_2, int prevLCP)
@@ -157,6 +162,7 @@ int suffixesLCP(const std::string& text, int suffixIndex_1,
 
     return lcp;
 }
+
 
 std::vector<int> lcpArray(const std::string& text, const std::vector<int>& suffixArray)
 {
@@ -190,17 +196,34 @@ std::vector<int> lcpArray(const std::string& text, const std::vector<int>& suffi
     return lcpArray;
 }
 
-bool isPatternGreater(const std::string& text, const std::string& pattern, int suffix)
+
+bool isPatternGreaterOrEqual(const std::string& text, const std::string& pattern, int suffix)
 {
-    // Check if a pattern is greater than a suffix from the text
-    return false;
+    // Check if a pattern is greater or equal than a suffix from the text
+
+    std::size_t ii {0};
+    std::size_t jj {static_cast<std::size_t>(suffix)};
+    while (ii < pattern.size() && jj < text.size())
+    {
+        if (pattern[ii] != text[jj])
+        {
+            if (pattern[ii] < text[jj])
+                return false;
+            else
+                return true;
+        }
+        ++ii;
+        ++jj;
+    }
+
+    if (jj < text.size())
+        // The suffix is larger than the pattern, so the pattern it's smaller
+        return false;
+    else
+        // The suffix is of the same length of the pattern, so they are equal
+        return true;
 }
 
-bool isPatterSmaller(const std::string& text, const std::string& pattern, int suffix)
-{
-    // Check if a pattern is greater than a suffix from the text
-    return false;
-}
 
 std::pair<int, int> patternMatchSuffixArray(const std::vector<int>& suffixArray,
                                             const std::string& text,
@@ -214,17 +237,35 @@ std::pair<int, int> patternMatchSuffixArray(const std::vector<int>& suffixArray,
 
     // The suffixes are ordered in the suffix array. We can perform binary search on it to
     // find if there are any matches
-    int minIndex {0};
-    int maxIndex {static_cast<int>(suffixArray.size())};
+    int minIndex {-1};
+    int maxIndex {static_cast<int>(suffixArray.size()) - 1};
 
-    while (minIndex < maxIndex)
+    // Search for the leftmost suffix which contains the pattern
+    while (maxIndex - minIndex > 1)
     {
-        int midIndex {(minIndex + maxIndex) / 2};
-        if (isPatternGreater(text, pattern, suffixArray[minIndex]))
-            minIndex = midIndex + 1;
+        int midIndex {minIndex + (maxIndex - minIndex) / 2};
+        if (!isPatternGreaterOrEqual(text, pattern, suffixArray[midIndex]))
+            maxIndex = midIndex;
+        else
+            minIndex = midIndex;
+    }
+    int first {maxIndex};
+
+    // Search for the rightmost suffix which contains the pattern
+    minIndex = 0;
+    maxIndex = static_cast<int>(suffixArray.size());
+    while (maxIndex - minIndex > 1)
+    {
+        int midIndex {minIndex + (maxIndex - minIndex) / 2};
+        if (isPatternGreaterOrEqual(text, pattern, suffixArray[midIndex]))
+            minIndex = midIndex;
         else
             maxIndex = midIndex;
     }
+    int last {minIndex};
 
-    return {};
+    if (first > last)
+        return {-1, -1};
+
+    return {first, last};
 }

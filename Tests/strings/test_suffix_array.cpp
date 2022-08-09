@@ -92,6 +92,7 @@ TEST(TestSuffixArray, InvertSuffixArray)
     ASSERT_EQ(expectedInverse, invertSuffixArray(suffixArray));
 }
 
+
 TEST(TestSuffixArray, SuffixesLCP)
 {
     std::string text {"ababaa$"};
@@ -99,6 +100,7 @@ TEST(TestSuffixArray, SuffixesLCP)
     ASSERT_EQ(suffixesLCP(text, 2, 0, 0), 3);
     ASSERT_EQ(suffixesLCP(text, 3, 1, 2), 2);
 }
+
 
 TEST(TestSuffixArray, LCPArray)
 {
@@ -108,15 +110,21 @@ TEST(TestSuffixArray, LCPArray)
     ASSERT_EQ(expectedLCP, lcpArray(text, suffixArray));
 }
 
-TEST(TestSuffixArray, IsPatternGreater)
-{
 
+TEST(TestSuffixArray, IsPatternGreaterorEqual)
+{
+    std::string text {"panamabananas"};
+    ASSERT_EQ(isPatternGreaterOrEqual(text, "ana", 10), false);
+    ASSERT_EQ(isPatternGreaterOrEqual(text, "ana", 5), true);
+    ASSERT_EQ(isPatternGreaterOrEqual(text, "ana", 9), false);
+    ASSERT_EQ(isPatternGreaterOrEqual(text, "anas$", 9), true);
+
+    std::string otherText {"abracadabra$"};
+    ASSERT_EQ(isPatternGreaterOrEqual(otherText, "bra", 10), true);
+    ASSERT_EQ(isPatternGreaterOrEqual(otherText, "bra", 7), true);
+    ASSERT_EQ(isPatternGreaterOrEqual(otherText, "bra", 4), false);
 }
 
-TEST(TestSuffixArray, IsPatternSmaller)
-{
-
-}
 
 TEST(TestSuffixArray, PatternMatchingWithSuffixArray)
 {
@@ -135,13 +143,13 @@ TEST(TestSuffixArray, PatternMatchingWithSuffixArray)
     ASSERT_EQ(noMatch, patternMatchSuffixArray(shorterTextSuffixArr, shorterText, largerPattern));
 
     // Non-trivial test cases
-    std::string pattern_1 {"abra$"};
+    std::string pattern_1 {"abra"};
     std::string text_1 {"abracadabra$"};
     std::vector<int> suffixArray_1 {suffixArray((text_1))};
     std::pair<int, int> indicesExpected_1 {2, 3};
     ASSERT_EQ(indicesExpected_1, patternMatchSuffixArray(suffixArray_1, text_1, pattern_1));
 
-    std::string pattern_2 {"ana$"};
+    std::string pattern_2 {"ana"};
     std::string text_2 {"panamabananas$"};
     std::vector<int> suffixArray_2 {suffixArray((text_2))};
     std::pair<int, int> indicesExpected_2 {3, 5};
