@@ -33,7 +33,7 @@ std::vector<int> getCharClasses(const std::string& text, const std::vector<int>&
 {
     // Computes classNumber[i] which is the number of different cyclic shifts
     // of length L that are smaller than C_i. Where C_i is the partial cyclic
-    // shift of length L starting at i.
+    // shift of length L starting at index i.
 
     std::vector<int> classNumber(text.size(), 0);
     for (auto ii {1}; ii < order.size(); ++ii)
@@ -253,32 +253,36 @@ std::pair<int, int> patternMatchSuffixArray(const std::vector<int>& suffixArray,
 
     // The suffixes are ordered in the suffix array. We can perform binary search on it to
     // find if there are any matches
-    int minIndex {-1};
-    int maxIndex {static_cast<int>(suffixArray.size()) - 1};
+    int left {-1};
+    int right {static_cast<int>(suffixArray.size()) - 1};
 
     // Search for the leftmost suffix which contains the pattern
-    while (maxIndex - minIndex > 1)
+    while (right - left > 1)
     {
-        int midIndex {minIndex + (maxIndex - minIndex) / 2};
-        if (!isSuffixGreater(text, pattern, suffixArray[midIndex]))
-            maxIndex = midIndex;
+        int middle {left + (right - left) / 2};
+        int suffix {suffixArray[middle]};
+        if (patternInSuffix(text, pattern, suffix)
+            || isSuffixGreater(text, pattern, suffix))
+            right = middle;
         else
-            minIndex = midIndex;
+            left = middle;
     }
-    int first {maxIndex};
+    int first {right};
 
     // Search for the rightmost suffix which contains the pattern
-    minIndex = 0;
-    maxIndex = static_cast<int>(suffixArray.size());
-    while (maxIndex - minIndex > 1)
+    left = 0;
+    right = static_cast<int>(suffixArray.size());
+    while (right - left > 1)
     {
-        int midIndex {minIndex + (maxIndex - minIndex) / 2};
-        if (isSuffixGreater(text, pattern, suffixArray[midIndex]))
-            minIndex = midIndex;
+        int middle {left + (right - left) / 2};
+        int suffix {suffixArray[middle]};
+        if (patternInSuffix(text, pattern, suffix)
+            || !isSuffixGreater(text, pattern, suffix))
+            left = middle;
         else
-            maxIndex = midIndex;
+            right = middle;
     }
-    int last {minIndex};
+    int last {left};
 
     if (first > last)
         return {-1, -1};
