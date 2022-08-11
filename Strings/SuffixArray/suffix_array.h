@@ -38,7 +38,9 @@ int suffixesLCP(const std::string& text,
 
 std::vector<int> lcpArray(const std::string& text, const std::vector<int>& suffixArray);
 
-bool isPatternGreaterOrEqual(const std::string& text, const std::string& pattern, int suffix);
+bool isSuffixGreater(const std::string& text, const std::string& pattern, int suffix);
+
+bool patternInSuffix(const std::string& text, const std::string& pattern, int suffix);
 
 std::pair<int, int> patternMatchSuffixArray(const std::vector<int>& suffixArray,
                                             const std::string& text,

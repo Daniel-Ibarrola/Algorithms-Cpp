@@ -197,31 +197,47 @@ std::vector<int> lcpArray(const std::string& text, const std::vector<int>& suffi
 }
 
 
-bool isPatternGreaterOrEqual(const std::string& text, const std::string& pattern, int suffix)
+bool isSuffixGreater(const std::string& text, const std::string& pattern, int suffix)
 {
-    // Check if a pattern is greater or equal than a suffix from the text
+    // Check if a suffix is greater than the pattern
 
     std::size_t ii {0};
     std::size_t jj {static_cast<std::size_t>(suffix)};
     while (ii < pattern.size() && jj < text.size())
     {
-        if (pattern[ii] != text[jj])
+        if (text[jj] != pattern[ii])
         {
-            if (pattern[ii] < text[jj])
-                return false;
-            else
+            if (text[jj] > pattern[ii])
                 return true;
+            else
+                return false;
         }
         ++ii;
         ++jj;
     }
 
     if (jj < text.size())
-        // The suffix is larger than the pattern, so the pattern it's smaller
-        return false;
+        // The suffix is larger in than the pattern, so it's greater
+        return true;
     else
         // The suffix is of the same length of the pattern, so they are equal
-        return true;
+        return false;
+}
+
+
+bool patternInSuffix(const std::string& text, const std::string& pattern, int suffix)
+{
+    // Check if the pattern is at the start of the suffix
+    std::size_t suffixIndex {static_cast<std::size_t>(suffix)};
+
+    if (text.size() - suffixIndex < pattern.size())
+        return false;
+
+    for (auto ii {0}; ii < pattern.size(); ++ii)
+        if (text[suffixIndex + ii] != pattern[ii])
+            return false;
+
+    return true;
 }
 
 
@@ -244,7 +260,7 @@ std::pair<int, int> patternMatchSuffixArray(const std::vector<int>& suffixArray,
     while (maxIndex - minIndex > 1)
     {
         int midIndex {minIndex + (maxIndex - minIndex) / 2};
-        if (!isPatternGreaterOrEqual(text, pattern, suffixArray[midIndex]))
+        if (!isSuffixGreater(text, pattern, suffixArray[midIndex]))
             maxIndex = midIndex;
         else
             minIndex = midIndex;
@@ -257,7 +273,7 @@ std::pair<int, int> patternMatchSuffixArray(const std::vector<int>& suffixArray,
     while (maxIndex - minIndex > 1)
     {
         int midIndex {minIndex + (maxIndex - minIndex) / 2};
-        if (isPatternGreaterOrEqual(text, pattern, suffixArray[midIndex]))
+        if (isSuffixGreater(text, pattern, suffixArray[midIndex]))
             minIndex = midIndex;
         else
             maxIndex = midIndex;

@@ -111,18 +111,42 @@ TEST(TestSuffixArray, LCPArray)
 }
 
 
-TEST(TestSuffixArray, IsPatternGreaterorEqual)
+TEST(TestSuffixArray, IsSuffixGreaterThanPattern)
 {
     std::string text {"panamabananas"};
-    ASSERT_EQ(isPatternGreaterOrEqual(text, "ana", 10), false);
-    ASSERT_EQ(isPatternGreaterOrEqual(text, "ana", 5), true);
-    ASSERT_EQ(isPatternGreaterOrEqual(text, "ana", 9), false);
-    ASSERT_EQ(isPatternGreaterOrEqual(text, "anas$", 9), true);
+    // Suffix is nas$
+    ASSERT_EQ(isSuffixGreater(text, "ana", 10), true);
+    // Suffix is abananas$
+    ASSERT_EQ(isSuffixGreater(text, "ana", 5), false);
+    // Suffix is anas$
+    ASSERT_EQ(isSuffixGreater(text, "ana", 9), true);
+    // Suffix is anas$
+    ASSERT_EQ(isSuffixGreater(text, "anas$", 9), false);
 
     std::string otherText {"abracadabra$"};
-    ASSERT_EQ(isPatternGreaterOrEqual(otherText, "bra", 10), true);
-    ASSERT_EQ(isPatternGreaterOrEqual(otherText, "bra", 7), true);
-    ASSERT_EQ(isPatternGreaterOrEqual(otherText, "bra", 4), false);
+    ASSERT_EQ(isSuffixGreater(otherText, "bra", 10), false);
+    ASSERT_EQ(isSuffixGreater(otherText, "bra", 7), false);
+    ASSERT_EQ(isSuffixGreater(otherText, "bra", 4), true);
+}
+
+
+TEST(TestSuffixArray, PatternStartsWithSuffix)
+{
+    std::string pattern {"abra"};
+    std::string text {"abracadabra$"};
+    ASSERT_EQ(patternInSuffix(text, pattern, 0), true);
+
+    // Suffix is "abra$"
+    ASSERT_EQ(patternInSuffix(text, pattern, 7), true);
+
+    // suffix is "bracadabra$";
+    ASSERT_EQ(patternInSuffix(text, pattern, 1), false);
+
+    // suffix is "adabra$";
+    ASSERT_EQ(patternInSuffix(text, pattern, 5), false);
+
+    // suffix is "a$";
+    ASSERT_EQ(patternInSuffix(text, pattern, 10), false);
 }
 
 
