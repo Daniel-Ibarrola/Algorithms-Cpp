@@ -68,3 +68,8 @@ The following algorithms and data structures can be found in the project:
 - [Suffix tree from suffix trie](Strings/SuffixTrees/suffix_tree_from_trie.cpp)
 - [Suffix tree from suffix array](Strings/SuffixTrees/suffix_tree.cpp)
 - [Suffix trie](Strings/SuffixTrees/suffix_trie.cpp)
+
+
+## Np-Complete Problems
+
+- [Graph Coloring to SAT](Np-complete/graph_coloring.cpp)

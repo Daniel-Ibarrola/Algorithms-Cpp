@@ -23,10 +23,12 @@ add_executable(Google_Tests_run
         strings/test_suffix_array.cpp
         strings/test_knuth_morris.cpp
         strings/test_sort_characters.cpp
+        np-complete/test_graph_coloring.cpp
         )
 
 # linking Google_Tests_run with my other libraries
 target_link_libraries(Google_Tests_run DataStructures)
 target_link_libraries(Google_Tests_run Graph)
 target_link_libraries(Google_Tests_run Strings)
+target_link_libraries(Google_Tests_run np-complete)
 target_link_libraries(Google_Tests_run gtest gtest_main)
