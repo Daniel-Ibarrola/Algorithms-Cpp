@@ -1,0 +1,8 @@
+//
+// Created by daniel on 6/09/22.
+//
+
+#ifndef ALGORITHMS_HAMILTONIAN_CYCLE_H
+#define ALGORITHMS_HAMILTONIAN_CYCLE_H
+
+#endif //ALGORITHMS_HAMILTONIAN_CYCLE_H

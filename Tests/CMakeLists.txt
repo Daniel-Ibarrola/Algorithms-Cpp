@@ -24,6 +24,7 @@ add_executable(Google_Tests_run
         strings/test_knuth_morris.cpp
         strings/test_sort_characters.cpp
         np-complete/test_graph_coloring.cpp
+        np-complete/test_hamiltonian_cycle.cpp
         )
 
 # linking Google_Tests_run with my other libraries
