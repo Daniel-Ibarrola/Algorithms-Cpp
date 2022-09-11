@@ -9,6 +9,7 @@
 
 #include <algorithm>
 #include <array>
+#include <limits>
 #include <queue> // std::priority_queue
 #include <list>
 #include <vector>

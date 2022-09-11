@@ -6,9 +6,11 @@
 #define ALGORITHMS_WEIGHTED_GRAPH_H
 
 #include <array>
+#include <limits>
 #include <queue>
 #include "DisjointSets/disjoint_sets.h"
 #include "graph_base.h"
+
 
 class WeightedGraph : public WeightedGraphBase
 {
