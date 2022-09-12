@@ -40,7 +40,7 @@ protected:
     std::vector<std::vector<int>> constrain_4 {
         {-1, -4},
         {-1, -7},
-        {-2, -7},
+        {-4, -7},
         {-2, -5},
         {-2, -8},
         {-5, -8},
@@ -101,4 +101,39 @@ TEST_F(CNFFormulaHamiltonianCycle, CompleteExpression)
                               constrain_5.begin(), constrain_5.end());
 
     ASSERT_EQ(completeExpression, hamiltonianCycleCNF(numNodes, edgeList));
+}
+
+
+class HCGraphTest : public testing::Test
+{
+protected:
+    void SetUp() override
+    {
+
+    }
+
+    std::vector<std::pair<int, int>> edgeList_1 {{1, 2}, {2, 3}};
+    std::vector<std::pair<int, int>> edgeList_2 {
+        {1, 2}, {1, 3}, {1, 4}};
+
+    HCGraph graph_1 {edgeList_1, 3};
+    HCGraph graph_2 {edgeList_2, 4};
+};
+
+
+TEST_F(HCGraphTest, ConnectivityClause)
+{
+    std::vector<std::vector<int>> expression_1 {
+            {-1, -5},
+            {-2, -9},
+    };
+
+    ASSERT_EQ(expression_1, graph_1.connectivityCNF());
+
+    std::vector<std::vector<int>> expression_2 {
+            {-1, -5},
+            {-2, -9},
+    };
+
+    ASSERT_EQ(expression_2, graph_2.connectivityCNF());
 }
