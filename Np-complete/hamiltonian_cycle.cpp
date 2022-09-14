@@ -5,12 +5,40 @@
 #include "hamiltonian_cycle.h"
 
 
+void HCGraph::createMatrix(const std::vector<std::pair<int, int>> &edgeList)
+{
+    // Create the adjacency matrix of the graph
+
+    std::size_t numNodes {edgeList.size()};
+    // First create a vector of bool for each node
+    for (auto ii {0}; ii < numNodes; ++ii)
+    {
+        std::vector<bool> row(numNodes - ii , false);
+        m_adMatrix[ii] = row;
+    }
+
+    // Add connectivity information
+    for (const auto& edge: edgeList)
+    {
+        m_adMatrix[edge.first - 1][edge.second - 1] = true;
+    }
+}
+
+
+matrix HCGraph::connectivityCNF() const
+{
+    // Returns a CNF formula for the nodes that are not connected
+    return {};
+}
+
+
 matrix hamiltonianCycleCNF(int numNodes,
                            const std::vector<std::pair<int, int>>& edgeList)
 {
     // Returns a CNF for the hamiltonian cycle for the given graph
     return {};
 }
+
 
 matrix nodeBelongsToPath(int numNodes)
 {
@@ -27,6 +55,7 @@ matrix nodeBelongsToPath(int numNodes)
     }
     return clauses;
 }
+
 
 matrix nodeAppearsOnce(int numNodes)
 {
@@ -52,6 +81,7 @@ matrix nodeAppearsOnce(int numNodes)
     return clauses;
 }
 
+
 matrix positionsOccupied(int numNodes)
 {
     // Constrain each position in a path to be occupied by some vertex
@@ -65,6 +95,7 @@ matrix positionsOccupied(int numNodes)
     }
     return clauses;
 }
+
 
 matrix differentPositions(int numNodes)
 {
