@@ -34,6 +34,9 @@ public:
     std::size_t numNodes() const { return m_adMatrix.size() + 1; }
     adjMatrix & getAdjacencyMatrix() { return m_adMatrix; }
     matrix connectivityCNF() const;
+    static void createClauses(int node_1, int node_2,
+                              int numNodes,
+                              matrix& clauses);
 };
 
 

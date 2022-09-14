@@ -20,7 +20,27 @@ void HCGraph::createMatrix(const std::vector<std::pair<int, int>> &edgeList)
     // Add connectivity information
     for (const auto& edge: edgeList)
     {
-        m_adMatrix[edge.first - 1][edge.second - 1] = true;
+        if (edge.first < edge.second)
+            m_adMatrix[edge.first - 1][edge.second - edge.first - 1] = true;
+        else if (edge.first > edge.second)
+            m_adMatrix[edge.second - 1][edge.first - edge.second - 1] = true;
+    }
+}
+
+
+void HCGraph::createClauses(int node_1, int node_2,
+                            int numNodes,
+                            matrix &clauses)
+{
+    // Creates the clauses for the connectivityCNF method
+    int literal_1 {-(numNodes * (node_1 - 1) + 1)};
+    int literal_2 {-(numNodes * (node_2 - 1) + 2)};
+
+    for (auto ii {0}; ii < numNodes - 1; ++ii)
+    {
+        clauses.push_back({literal_1, literal_2});
+        literal_1--;
+        literal_2--;
     }
 }
 
@@ -28,7 +48,22 @@ void HCGraph::createMatrix(const std::vector<std::pair<int, int>> &edgeList)
 matrix HCGraph::connectivityCNF() const
 {
     // Returns a CNF formula for the nodes that are not connected
-    return {};
+    matrix clauses;
+    int numNodes {static_cast<int>(m_adMatrix.size() + 1)};
+
+    for (auto ii {0}; ii < m_adMatrix.size(); ++ii)
+    {
+        for (auto jj {0}; jj < m_adMatrix[ii].size(); ++jj)
+        {
+            // If there is no edge create a set of clauses
+            if (!m_adMatrix[ii][jj])
+            {
+                createClauses(ii + 1, jj + ii + 2, numNodes, clauses);
+            }
+        }
+    }
+
+    return clauses;
 }
 
 

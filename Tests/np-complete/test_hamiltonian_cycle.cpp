@@ -50,7 +50,7 @@ protected:
     };
 
     matrix constrain_5 {
-        {-1, -5},
+        {-1, -8},
         {-2, -9},
     };
 };
@@ -112,11 +112,12 @@ protected:
 
     }
 
-    std::vector<std::pair<int, int>> edgeList_1 {{1, 2}, {2, 3}};
+    std::vector<std::pair<int, int>> edgeList_1 {
+        {1, 2}, {2, 3}};
+    HCGraph graph_1 {edgeList_1, 3};
+
     std::vector<std::pair<int, int>> edgeList_2 {
         {1, 2}, {1, 3}, {1, 4}};
-
-    HCGraph graph_1 {edgeList_1, 3};
     HCGraph graph_2 {edgeList_2, 4};
 };
 
@@ -140,10 +141,23 @@ TEST_F(HCGraphTest, AdjacencyMatrix)
 }
 
 
+TEST_F(HCGraphTest, CreateClauses)
+{
+    matrix clauses;
+    matrix expectedClauses {
+            {-5, -10},
+            {-6, -11},
+            {-7, -12},
+    };
+    HCGraph::createClauses(2, 3, 4, clauses);
+    ASSERT_EQ(clauses, expectedClauses);
+}
+
+
 TEST_F(HCGraphTest, ConnectivityClause)
 {
     matrix expression_1 {
-            {-1, -5},
+            {-1, -8},
             {-2, -9},
     };
 
