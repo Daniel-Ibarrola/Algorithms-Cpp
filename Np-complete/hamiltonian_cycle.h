@@ -31,9 +31,9 @@ public:
         createMatrix(edgeList);
     }
 
-    std::size_t numNodes() const { return m_adMatrix.size() + 1; }
+    [[nodiscard]] std::size_t numNodes() const { return m_adMatrix.size() + 1; }
     adjMatrix & getAdjacencyMatrix() { return m_adMatrix; }
-    matrix connectivityCNF() const;
+    void connectivityCNF(matrix& clauses) const;
     static void createClauses(int node_1, int node_2,
                               int numNodes,
                               matrix& clauses);
@@ -43,13 +43,13 @@ public:
 matrix hamiltonianCycleCNF(int numNodes,
                            const std::vector<std::pair<int, int>>& edgeList);
 
-matrix nodeBelongsToPath(int numNodes);
+matrix nodeBelongsToPath(int numNodes, matrix& clauses);
 
-matrix nodeAppearsOnce(int numNodes);
+matrix nodeAppearsOnce(int numNodes, matrix& clauses);
 
-matrix positionsOccupied(int numNodes);
+matrix positionsOccupied(int numNodes, matrix& clauses);
 
-matrix differentPositions(int numNodes);
+matrix differentPositions(int numNodes, matrix& clauses);
 
 
 #endif //ALGORITHMS_HAMILTONIAN_CYCLE_H

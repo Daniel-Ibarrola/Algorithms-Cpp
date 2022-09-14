@@ -58,27 +58,31 @@ protected:
 
 TEST_F(CNFFormulaHamiltonianCycle, Constrain_1)
 {
-    matrix expression {nodeBelongsToPath(3)};
+    matrix expression;
+    nodeBelongsToPath(3, expression);
     ASSERT_EQ(constrain_1, expression);
 }
 
 TEST_F(CNFFormulaHamiltonianCycle, Constrain_2)
 {
-    matrix expression {nodeAppearsOnce(3)};
+    matrix expression;
+    nodeAppearsOnce(3, expression);
     ASSERT_EQ(constrain_2, expression);
 }
 
 
 TEST_F(CNFFormulaHamiltonianCycle, Constrain_3)
 {
-    matrix expression {positionsOccupied(3)};
+    matrix expression;
+    positionsOccupied(3, expression);
     ASSERT_EQ(constrain_3, expression);
 }
 
 
 TEST_F(CNFFormulaHamiltonianCycle, Constrain_4)
 {
-    matrix expression {differentPositions(3)};
+    matrix expression;
+    differentPositions(3, expression);
     ASSERT_EQ(constrain_4, expression);
 }
 
@@ -156,14 +160,15 @@ TEST_F(HCGraphTest, CreateClauses)
 
 TEST_F(HCGraphTest, ConnectivityClause)
 {
-    matrix expression_1 {
+    matrix expectedExpression_1 {
             {-1, -8},
             {-2, -9},
     };
+    matrix expression;
+    graph_1.connectivityCNF(expression);
+    ASSERT_EQ(expectedExpression_1, expression);
 
-    ASSERT_EQ(expression_1, graph_1.connectivityCNF());
-
-    matrix expression_2 {
+    matrix expectedExpression_2 {
             {-5, -10},
             {-6, -11},
             {-7, -12},
@@ -174,6 +179,7 @@ TEST_F(HCGraphTest, ConnectivityClause)
             {-10, -15},
             {-11, -16}
     };
-
-    ASSERT_EQ(expression_2, graph_2.connectivityCNF());
+    matrix expression_2;
+    graph_2.connectivityCNF(expression_2);
+    ASSERT_EQ(expectedExpression_2, expression_2);
 }
