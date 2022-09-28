@@ -18,7 +18,7 @@ class HCGraph
 {
     // Graph to obtain a CNF formula for a hamiltonian path
 private:
-    // Graph is represented by a sparse adjacency matrix
+    // Graph is represented by an adjacency matrix
     adjMatrix m_adMatrix;
 
     void createMatrix(const std::vector<std::pair<int, int>>& edgeList);
@@ -26,17 +26,15 @@ private:
 public:
 
     HCGraph(const std::vector<std::pair<int, int>>& edgeList, int numNodes)
-        : m_adMatrix(numNodes - 1)
+        : m_adMatrix(numNodes, std::vector<bool>(numNodes, false))
     {
         createMatrix(edgeList);
     }
 
-    [[nodiscard]] std::size_t numNodes() const { return m_adMatrix.size() + 1; }
+    [[nodiscard]] std::size_t numNodes() const { return m_adMatrix.size(); }
     adjMatrix & getAdjacencyMatrix() { return m_adMatrix; }
     void connectivityCNF(matrix& clauses) const;
-    static void createClauses(int node_1, int node_2,
-                              int numNodes,
-                              matrix& clauses);
+
 };
 
 

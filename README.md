@@ -73,3 +73,4 @@ The following algorithms and data structures can be found in the project:
 ## Np-Complete Problems
 
 - [Graph Coloring to SAT](Np-complete/graph_coloring.cpp)
+- [Hamiltonian path to SAT](Np-complete/hamiltonian_cycle.cpp)

@@ -52,6 +52,8 @@ protected:
     matrix constrain_5 {
         {-1, -8},
         {-2, -9},
+        {-7, -2},
+        {-8, -3},
     };
 };
 
@@ -129,32 +131,21 @@ protected:
 TEST_F(HCGraphTest, AdjacencyMatrix)
 {
     adjMatrix adjMatrix_1 {
-            {true, false},
-            {true},
+            {false, true, false},
+            {true, false, true},
+            {false, true, false},
     };
     ASSERT_EQ(3, graph_1.numNodes());
     ASSERT_EQ(adjMatrix_1, graph_1.getAdjacencyMatrix());
 
     adjMatrix adjMatrix_2 {
-            {true, true, true},
-            {false, false},
-            {false},
+            {false, true, true, true},
+            {true, false, false, false},
+            {true, false, false, false},
+            {true, false, false, false},
     };
     ASSERT_EQ(4, graph_2.numNodes());
     ASSERT_EQ(adjMatrix_2, graph_2.getAdjacencyMatrix());
-}
-
-
-TEST_F(HCGraphTest, CreateClauses)
-{
-    matrix clauses;
-    matrix expectedClauses {
-            {-5, -10},
-            {-6, -11},
-            {-7, -12},
-    };
-    HCGraph::createClauses(2, 3, 4, clauses);
-    ASSERT_EQ(clauses, expectedClauses);
 }
 
 
@@ -163,21 +154,32 @@ TEST_F(HCGraphTest, ConnectivityClause)
     matrix expectedExpression_1 {
             {-1, -8},
             {-2, -9},
+            {-7, -2},
+            {-8, -3},
     };
     matrix expression;
     graph_1.connectivityCNF(expression);
     ASSERT_EQ(expectedExpression_1, expression);
 
     matrix expectedExpression_2 {
-            {-5, -10},
-            {-6, -11},
-            {-7, -12},
-            {-5, -14},
-            {-6, -15},
-            {-7, -16},
-            {-9, -14},
-            {-10, -15},
-            {-11, -16}
+        {-5, -10},
+        {-6, -11},
+        {-7, -12},
+        {-5, -14},
+        {-6, -15},
+        {-7, -16},
+        {-9, -6},
+        {-10, -7},
+        {-11, -8},
+        {-9, -14},
+        {-10, -15},
+        {-11, -16},
+        {-13, -6},
+        {-14, -7},
+        {-15, -8},
+        {-13, -10},
+        {-14, -11},
+        {-15, -12},
     };
     matrix expression_2;
     graph_2.connectivityCNF(expression_2);

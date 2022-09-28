@@ -9,38 +9,11 @@ void HCGraph::createMatrix(const std::vector<std::pair<int, int>> &edgeList)
 {
     // Create the adjacency matrix of the graph
 
-    std::size_t numNodes {edgeList.size()};
-    // First create a vector of bool for each node
-    for (auto ii {0}; ii < numNodes; ++ii)
-    {
-        std::vector<bool> row(numNodes - ii , false);
-        m_adMatrix[ii] = row;
-    }
-
     // Add connectivity information
     for (const auto& edge: edgeList)
     {
-        if (edge.first < edge.second)
-            m_adMatrix[edge.first - 1][edge.second - edge.first - 1] = true;
-        else if (edge.first > edge.second)
-            m_adMatrix[edge.second - 1][edge.first - edge.second - 1] = true;
-    }
-}
-
-
-void HCGraph::createClauses(int node_1, int node_2,
-                            int numNodes,
-                            matrix &clauses)
-{
-    // Creates the clauses for the connectivityCNF method
-    int literal_1 {-(numNodes * (node_1 - 1) + 1)};
-    int literal_2 {-(numNodes * (node_2 - 1) + 2)};
-
-    for (auto ii {0}; ii < numNodes - 1; ++ii)
-    {
-        clauses.push_back({literal_1, literal_2});
-        literal_1--;
-        literal_2--;
+        m_adMatrix[edge.first - 1][edge.second - 1] = true;
+        m_adMatrix[edge.second - 1][edge.first - 1] = true;
     }
 }
 
@@ -48,16 +21,19 @@ void HCGraph::createClauses(int node_1, int node_2,
 void HCGraph::connectivityCNF(matrix& clauses) const
 {
     // Returns a CNF formula for the nodes that are not connected
-    int numNodes {static_cast<int>(m_adMatrix.size() + 1)};
-
-    for (auto ii {0}; ii < m_adMatrix.size(); ++ii)
+    std::size_t nodes {m_adMatrix.size()};
+    for (auto ii {0}; ii < nodes; ++ii)
     {
-        for (auto jj {0}; jj < m_adMatrix[ii].size(); ++jj)
+        for (auto jj {0}; jj < nodes; ++jj)
         {
-            // If there is no edge create a set of clauses
-            if (!m_adMatrix[ii][jj])
+            if (ii != jj && !m_adMatrix[ii][jj])
             {
-                createClauses(ii + 1, jj + ii + 2, numNodes, clauses);
+                for (auto kk {0}; kk < nodes - 1; ++kk)
+                {
+                    int lit_1 {-(1 + static_cast<int>(nodes*ii + kk))};
+                    int lit_2 {-(2 + static_cast<int>(nodes*jj + kk))};
+                    clauses.push_back({lit_1, lit_2});
+                }
             }
         }
     }
