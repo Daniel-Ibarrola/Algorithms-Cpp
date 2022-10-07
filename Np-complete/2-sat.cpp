@@ -81,7 +81,7 @@ ImplicationGraph ImplicationGraph::reverse() const
 
 
 void ImplicationGraph::depthFirstSearch(int currentNode, std::vector<bool> &visited,
-                                        std::stack<int> &stack)
+                                        std::vector<int> &stack)
 {
     // Traverse the graph by depth first search, and push the nodes into a
     // stack.
@@ -92,7 +92,7 @@ void ImplicationGraph::depthFirstSearch(int currentNode, std::vector<bool> &visi
             depthFirstSearch(node, visited, stack);
     }
 
-    stack.push(currentNode);
+    stack.push_back(currentNode);
 }
 
 
@@ -133,26 +133,25 @@ std::vector<int> ImplicationGraph::SCC()
     // while the index |V|/2 to |V|-1 represent the negations of the literals 1,2,..,|V|/2
     std::vector<int> scc(numNodes(), 0);
     std::vector<bool> visited(numNodes(), false);
-    std::stack<int> stack;
+    m_stack.clear();
 
     for (const auto& neighbors : m_adjList)
     {
         if (!visited[getIndex(neighbors.first)])
-            depthFirstSearch(neighbors.first, visited, stack);
+            depthFirstSearch(neighbors.first, visited, m_stack);
     }
 
-    ImplicationGraph reverseGraph {reverse()};
     std::fill(visited.begin(), visited.end(), false);
-    std::stack<int> tempStack;
+
+    m_reverse = new ImplicationGraph(reverse());
     int sccNum {1};
-    while (!stack.empty())
+    for (int ii {static_cast<int>(m_stack.size() - 1)}; ii >= 0; --ii)
     {
-        int node {stack.top()};
-        stack.pop();
+        int node {m_stack[ii]};
         int index {getIndex(node)};
         if (!visited[index])
         {
-            reverseGraph.markSCC(node, sccNum, visited, scc);
+            m_reverse->markSCC(node, sccNum, visited, scc);
             sccNum++;
         }
     }
@@ -175,11 +174,88 @@ int ImplicationGraph::getNodeSCC(int node, const std::vector<int> &scc)
 }
 
 
+void ImplicationGraph::findOrdering(int currentNode, std::vector<bool> &visited)
+{
+    // Traverse the graph by dfs to find a topological ordering of the SCC
+    visited[getIndex(currentNode)] = true;
+    for (auto node : m_adjList[currentNode])
+    {
+        if (!visited[getIndex(node)])
+            findOrdering(node, visited);
+    }
+}
+
+
+std::vector<std::pair<int, int>> ImplicationGraph::sccOrdering()
+{
+    // Returns the topological ordering of the scc. It consists of a vector of
+    // pairs where the first element is the scc and the second the root node of
+    // that scc.
+    // Should be called after finding SCC.
+    std::vector<std::pair<int, int>> ordering;
+    if (m_reverse == nullptr)
+        return {};
+
+    std::vector<bool> visited(numNodes(), false);
+    int sccNum {1};
+    for (int ii {static_cast<int>(m_stack.size() - 1)}; ii >= 0; --ii)
+    {
+        int root {m_stack[ii]};
+        int index {getIndex(root)};
+        if (!visited[index])
+        {
+            m_reverse->findOrdering(root, visited);
+            ordering.emplace_back(sccNum, root);
+            sccNum++;
+        }
+    }
+    return ordering;
+}
+
+
+void ImplicationGraph::setLiterals(int currentNode, std::vector<bool> &visited, std::vector<int> &assignments)
+{
+    // Assign the literals of the CNF expression
+    visited[getIndex(currentNode)] = true;
+
+    int assignIndex {abs(currentNode) - 1};
+    if (assignments[assignIndex] == std::numeric_limits<int>::max())
+        assignments[assignIndex] = currentNode;
+
+    for (auto node : m_adjList[currentNode])
+    {
+        if (!visited[getIndex(node)])
+            setLiterals(node, visited, assignments);
+    }
+}
+
+
 std::vector<int> twoSAT(const std::vector<std::vector<int>>& cnfFormula,
                         int numLiterals)
 {
     // Given a 2-CNF expression returns a vector with the assignments of each
     // literal if the expression is satisfiable. If it's not satisfiable, it
     // returns an empty vector
-    return {-1};
+    ImplicationGraph graph(cnfFormula, numLiterals);
+    std::vector<int> scc {graph.SCC()};
+
+    // If literal x and its negation lie in the same scc, the formula is unsatisfiable
+    std::size_t negationStart {scc.size() / 2};
+    for (auto ii {0}; ii < scc.size() / 2; ++ii)
+    {
+        if (scc[ii] == scc[negationStart + ii])
+            return {};
+    }
+    // If we get to this point the formula is satisfiable, so we find an
+    // assignment of the literals
+    std::vector<int> assignments(numLiterals, std::numeric_limits<int>::max());
+    std::vector<std::pair<int, int>> ordering {graph.sccOrdering()};
+    std::vector<bool> visited(graph.numNodes(), false);
+
+    for (int ii {static_cast<int>(ordering.size()) - 1}; ii >= 0; --ii)
+    {
+        graph.setLiterals(ordering[ii].second, visited, assignments);
+    }
+
+    return assignments;
 }

@@ -6,8 +6,8 @@
 #define ALGORITHMS_2_SAT_H
 
 #include <algorithm>  // std::find, std::fill
+#include <limits>  // std::numeric_limits
 #include <list>
-#include <stack>
 #include <unordered_map>
 #include <vector>
 
@@ -18,13 +18,21 @@ class ImplicationGraph
 private:
     std::unordered_map<int, std::list<int>> m_adjList;
     std::size_t m_numEdges {0};
+    std::vector<int> m_stack;  // used for depth first search
+    ImplicationGraph* m_reverse {nullptr};
 
     void fromCNF(const std::vector<std::vector<int>>& cnfFormula, int numLiterals);
+
     void fromEdgeList(const std::vector<std::pair<int, int>>& edgeList, int numLiterals);
-    void depthFirstSearch(int currentNode, std::vector<bool>& visited,
-                          std::stack<int> &stack);
+
+    void depthFirstSearch(int currentNode, std::vector<bool> &visited,
+                          std::vector<int> &stack);
+
     void markSCC(int currentNode, int sccNum,
-                 std::vector<bool>& visited, std::vector<int>& scc);
+                 std::vector<bool> &visited, std::vector<int>& scc);
+
+    void findOrdering(int currentNode, std::vector<bool> &visited);
+
     int getIndex(int node) const;
 
 public:
@@ -61,6 +69,10 @@ public:
     std::vector<int> SCC();
     int numSCC();
     int getNodeSCC(int node, const std::vector<int>& scc);
+    std::vector<std::pair<int, int>> sccOrdering();
+
+    void setLiterals(int currentNode, std::vector<bool> &visited,
+                    std::vector<int>& assignments);
 };
 
 std::vector<int> twoSAT(const std::vector<std::vector<int>>& cnfFormula, int numLiterals);

@@ -126,6 +126,34 @@ TEST_F(ImplicationGraphTest, NumberOfSCC)
 }
 
 
+TEST_F(ImplicationGraphTest, SCCTopologicalOrdering)
+{
+    graph_1.SCC();
+    std::vector<std::pair<int,int>> ordering{graph_1.sccOrdering()};
+    std::vector<std::pair<int, int>> expected {
+            {1, -3}, {2, 4}, {3, 2}, {4, -4}
+    };
+    ASSERT_EQ(ordering, expected);
+}
+
+
+TEST_F(ImplicationGraphTest, LiteralsAssignment)
+{
+    graph_1.SCC();
+    std::vector<std::pair<int,int>> ordering{graph_1.sccOrdering()};
+    std::vector<int> assignments(4, -1);
+    std::vector<bool> visited(graph_1.numNodes(), std::numeric_limits<int>::max());
+
+    for (int ii {static_cast<int>(ordering.size()) - 1}; ii >= 0; --ii)
+    {
+        int node {ordering[ii].second};
+        graph_1.setLiterals(node, visited, assignments);
+    }
+
+    std::vector<int> expected {1, 2, 3, -4};
+}
+
+
 class CNFFormula2Clause  : public ::testing::Test
 {
 protected:
@@ -188,5 +216,5 @@ TEST_F(CNFFormula2Clause, SatisfiableFormulas)
 
     std::vector<int> assignment_2 {twoSAT(satisfiable_2, 3)};
     std::vector<int> expected_2 {1, 2, -3};
-    ASSERT_EQ(assignment_1, expected_1);
+    ASSERT_EQ(assignment_2, expected_2);
 }
