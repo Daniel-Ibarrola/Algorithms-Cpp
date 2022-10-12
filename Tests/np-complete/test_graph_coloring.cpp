@@ -2,7 +2,7 @@
 // Created by daniel on 24/08/22.
 //
 #include "gtest/gtest.h"
-#include "graph_coloring.h"
+#include "coloring/graph_coloring.h"
 
 std::vector<std::vector<int>> threeColorC3Expression()
 {

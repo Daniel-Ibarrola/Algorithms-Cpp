@@ -2,7 +2,7 @@
 // Created by daniel on 1/10/22.
 //
 
-#include "2-sat.h"
+#include "2-sat/2-sat.h"
 #include "gtest/gtest.h"
 
 

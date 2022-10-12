@@ -2,7 +2,7 @@
 // Created by daniel on 6/09/22.
 //
 #include "gtest/gtest.h"
-#include "hamiltonian_cycle.h"
+#include "hamiltonian_cycle/hamiltonian_cycle.h"
 
 
 class CNFFormulaHamiltonianCycle : public ::testing::Test
