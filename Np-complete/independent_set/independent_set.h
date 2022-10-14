@@ -5,6 +5,7 @@
 #ifndef ALGORITHMS_INDEPENDENT_SET_H
 #define ALGORITHMS_INDEPENDENT_SET_H
 
+#include <limits>
 #include <vector>
 #include <utility>  // std::pair
 
@@ -44,6 +45,8 @@ private:
 
     void build(const std::vector<std::pair<int, int>>& nodes,
                const std::vector<int>& weights);
+
+    int maxWeightRec(int currentNode, std::vector<int>& dp);
 
 public:
 
