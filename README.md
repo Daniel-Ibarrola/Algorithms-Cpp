@@ -76,3 +76,18 @@ The following algorithms and data structures can be found in the project:
 - [Hamiltonian path to SAT](Np-complete/hamiltonian_cycle/hamiltonian_cycle.cpp)
 - [2-SAT](Np-complete/2-sat/2-sat.cpp)
 - [Max Independent Set Weight in Tree](Np-complete/independent_set/independent_set.cpp)
+
+
+## Useful Resources
+
+### Books 
+- Algorithms by Dasgupta-Papadimitriou-Vazirani.
+- Bioinformatics Algorithms: An Active Learning Approach by Phillip Compeau & Pavel Pevzner
+
+### Youtube
+- [Dynamic programming playlist](https://www.youtube.com/playlist?list=PLEJXowNB4kPxBwaXtRO1qFLpCzF75DYrS) by TECH DOSE
+- [Graph algorithms playlist](https://www.youtube.com/playlist?list=PLEJXowNB4kPzByLnnFYNSCoqtFz0VKLk5) by TECHDOSE
+- [Data structures playlist](https://www.youtube.com/playlist?list=PL2_aWCzGMAwI3W_JlcBbtYTwiQSsOTa6P) by mycodeschool
+
+### Online courses
+- [Coursera's Data Structures and Algorithms](https://www.coursera.org/specializations/data-structures-algorithms)
