@@ -5,6 +5,7 @@ set(HEADER_FILES
         hamiltonian_cycle/hamiltonian_cycle.h
         2-sat/2-sat.h
         independent_set/independent_set.h
+        traveling_salesman/traveling_salesman.h
         )
 
 set(SOURCE_FILES
@@ -12,6 +13,7 @@ set(SOURCE_FILES
         hamiltonian_cycle/hamiltonian_cycle.cpp
         2-sat/2-sat.cpp
         independent_set/independent_set.cpp
+        traveling_salesman/traveling_salesman.cpp
         )
 
 add_library(np-complete STATIC ${SOURCE_FILES} ${HEADER_FILES})
