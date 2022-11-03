@@ -21,7 +21,8 @@ private:
     std::vector<std::vector<int>> m_adjMatrix;
     std::size_t m_numEdges {0};
 
-    int travelingSalesmanRec(int mask, int index) const;
+    int travelingSalesmanRec(int mask, int index,
+                             std::vector<std::vector<int>>& cost) const;
 
 public:
 
