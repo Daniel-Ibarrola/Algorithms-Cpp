@@ -5,17 +5,6 @@
 #include "traveling_salesman.h"
 
 
-int TSGraph::getWeight(int start, int end) const
-{
-    // Gets the edge weight between two nodes
-    for (const auto& edge : m_adjacencyList[start])
-    {
-        if (edge.end == end)
-            return edge.weight;
-    }
-    return -1;
-}
-
 std::vector<int> TSGraph::travelingSalesmanPath() const
 {
     // Returns
@@ -25,6 +14,13 @@ std::vector<int> TSGraph::travelingSalesmanPath() const
 
 int TSGraph::travelingSalesmanWeight() const
 {
-    // Returns
+    // Returns the optimal weight of the traveling salesman problem.
+
+    int numSubsets {static_cast<int>(std::pow(2, numNodes()))};
+    std::vector<std::vector<int>> cost(
+            numSubsets,std::vector<int>(numNodes(),std::numeric_limits<int>::max()
+            ));
+
+
     return 0;
 }

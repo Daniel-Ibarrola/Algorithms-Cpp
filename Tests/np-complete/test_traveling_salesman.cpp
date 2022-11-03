@@ -9,7 +9,7 @@
 class TravelingSalesmanTest : public ::testing::Test
 {
 protected:
-    void SetUp()
+    void SetUp() override
     {
 
     }
