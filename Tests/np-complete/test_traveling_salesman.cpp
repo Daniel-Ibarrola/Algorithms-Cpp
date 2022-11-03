@@ -70,16 +70,24 @@ TEST_F(TravelingSalesmanTest, TravelingSalesmanPath)
     std::vector<int> expectedPath_1 {1, 4, 3, 2};
     ASSERT_EQ(graph_1.travelingSalesmanPath(), expectedPath_1);
 
-    ASSERT_TRUE(graph_2.travelingSalesmanPath().empty());
-
     std::vector<int> expectedPath_3 {1, 3, 4, 2, 5};
     ASSERT_EQ(graph_3.travelingSalesmanPath(), expectedPath_3);
 }
 
 
+TEST_F(TravelingSalesmanTest, PathNoHamiltonianCycle)
+{
+    ASSERT_TRUE(graph_2.travelingSalesmanPath().empty());
+}
+
 TEST_F(TravelingSalesmanTest, TravelingSalesmanWeight)
 {
     ASSERT_EQ(graph_1.travelingSalesmanWeight(), 97);
-    ASSERT_EQ(graph_2.travelingSalesmanWeight(), -1);
     ASSERT_EQ(graph_3.travelingSalesmanWeight(), 9);
+}
+
+
+TEST_F(TravelingSalesmanTest, GraphWithNoHamiltonianCycle)
+{
+    ASSERT_EQ(graph_2.travelingSalesmanWeight(), -1);
 }
