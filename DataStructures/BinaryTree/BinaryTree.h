@@ -39,10 +39,6 @@ class BinaryTree
 private:
     std::vector<Node> nodes;
 
-    bool isSearchTreeRecursive(int index, int minValue, int maxValue) const;
-
-    bool isSearchTreeIterative() const;
-
     void preorder(int index, std::vector<int>& data) const;
 
     void postorder(int index, std::vector<int>& data) const;
@@ -79,12 +75,9 @@ public:
 
     bool isEmpty() const;
 
-    bool isBinarySearchTree(char method='r') const;
 
     std::vector<int> preorderTraversal() const;
-
     std::vector<int> postOrderTraversal() const;
-
     std::vector<int> inorderTraversal() const;
 
 };

@@ -107,19 +107,6 @@ bool BinaryTree::isEmpty() const
     return false;
 }
 
-bool BinaryTree::isBinarySearchTree(char method) const
-{
-    if (method == 'r')
-        return isSearchTreeRecursive(0,
-                                     std::numeric_limits<int>::min(),
-                                     std::numeric_limits<int>::max());
-    else if (method == 'i')
-        return isSearchTreeIterative();
-    else
-        throw;
-
-}
-
 std::vector<int> BinaryTree::preorderTraversal() const
 {
     // Returns a vector with the keys of the tree in pre-order
@@ -149,16 +136,6 @@ std::vector<int> BinaryTree::inorderTraversal() const
 
 
 // Private Methods
-
-bool BinaryTree::isSearchTreeRecursive(int index, int minValue, int maxValue) const
-{
-
-}
-
-bool BinaryTree::isSearchTreeIterative() const
-{
-
-}
 
 void BinaryTree::preorder(int index, std::vector<int>& data) const
 {

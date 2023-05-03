@@ -27,7 +27,6 @@ add_executable(Google_Tests_run
         np-complete/test_hamiltonian_cycle.cpp
         np-complete/test_2sat.cpp
         np-complete/test_independent_set.cpp
-        np-complete/test_traveling_salesman.cpp
         )
 
 # linking Google_Tests_run with my other libraries

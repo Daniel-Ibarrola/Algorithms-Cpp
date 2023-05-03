@@ -18,5 +18,4 @@ add_subdirectory(Strings)
 include_directories(Np-complete)
 add_subdirectory(Np-complete)
 
-add_library(Algorithms library.cpp)
 add_subdirectory(Tests)
