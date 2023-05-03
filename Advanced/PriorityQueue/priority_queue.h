@@ -5,4 +5,48 @@
 #ifndef ALGORITHMS_PRIORITY_QUEUE_H
 #define ALGORITHMS_PRIORITY_QUEUE_H
 
+#include <string>
+#include <vector>
+
+struct Task
+{
+    std::string* element;
+    int priority;
+
+    friend bool operator== (const Task& t1, const Task& t2);
+};
+
+
+class EmptyHeapError : public std::exception
+{
+public:
+    const char * what() const noexcept override {
+      return "Heap is empty";
+    };
+};
+
+
+class PQHeap
+{
+    // A priority queue implemented with a heap
+private:
+    std::vector<Task> m_tasks;
+
+    void bubbleUp(std::size_t index);
+    static std::size_t getParentIndex(std::size_t index);
+
+public:
+
+    PQHeap() = default;
+
+    void insert(std::string* task, int priority);
+    std::string peek() const;
+    std::string top();
+
+    bool empty() const { return m_tasks.empty(); }
+    std::size_t size() const { return m_tasks.size(); }
+
+};
+
+
 #endif //ALGORITHMS_PRIORITY_QUEUE_H
