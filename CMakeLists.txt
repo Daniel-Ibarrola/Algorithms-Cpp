@@ -18,4 +18,7 @@ add_subdirectory(Strings)
 include_directories(Np-complete)
 add_subdirectory(Np-complete)
 
+include_directories(Advanced)
+add_subdirectory(Advanced)
+
 add_subdirectory(Tests)

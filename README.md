@@ -77,11 +77,15 @@ The following algorithms and data structures can be found in the project:
 - [2-SAT](Np-complete/2-sat/2-sat.cpp)
 - [Max Independent Set Weight in Tree](Np-complete/independent_set/independent_set.cpp)
 
+## Advanced algorithms and data Structures
+
+- [Priority queue](Advanced/PriorityQueue/priority_queue.cpp)
 
 ## Useful Resources
 
 ### Books 
 - Algorithms by Dasgupta-Papadimitriou-Vazirani.
+- Advanced Algorithms and Data Structures by Marcello La Rocca
 - Bioinformatics Algorithms: An Active Learning Approach by Phillip Compeau & Pavel Pevzner
 
 ### Youtube
