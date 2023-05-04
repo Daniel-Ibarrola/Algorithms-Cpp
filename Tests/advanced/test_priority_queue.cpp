@@ -20,13 +20,13 @@ std::vector<int> priorities {
 TEST(PriorityQueue, InsertElement)
 {
     PQHeap heap;
-    heap.insert(&tasks[0], priorities[0]);
+    heap.insert(tasks[0], priorities[0]);
     ASSERT_EQ(heap.peek(), tasks[0]);
 
-    heap.insert(&tasks[1], priorities[1]);
+    heap.insert(tasks[1], priorities[1]);
     ASSERT_EQ(heap.peek(), tasks[1]);
 
-    heap.insert(&tasks[2], priorities[2]);
+    heap.insert(tasks[2], priorities[2]);
     ASSERT_EQ(heap.peek(), tasks[1]);
     ASSERT_EQ(heap.size(), 3);
 }
@@ -34,9 +34,9 @@ TEST(PriorityQueue, InsertElement)
 TEST(PriorityQueue, RemoveTopElement)
 {
     PQHeap heap;
-    heap.insert(&tasks[0], priorities[0]);
-    heap.insert(&tasks[1], priorities[1]);
-    heap.insert(&tasks[2], priorities[2]);
+    heap.insert(tasks[0], priorities[0]);
+    heap.insert(tasks[1], priorities[1]);
+    heap.insert(tasks[2], priorities[2]);
 
     ASSERT_EQ(heap.top(), tasks[1]);
     ASSERT_EQ(heap.size(), 2);
@@ -52,9 +52,9 @@ TEST(PriorityQueue, RemoveTopElement)
 TEST(PriorityQueue, RemoveElement)
 {
     PQHeap heap;
-    heap.insert(&tasks[0], priorities[0]);
-    heap.insert(&tasks[1], priorities[1]);
-    heap.insert(&tasks[2], priorities[2]);
+    heap.insert(tasks[0], priorities[0]);
+    heap.insert(tasks[1], priorities[1]);
+    heap.insert(tasks[2], priorities[2]);
 
     heap.remove(tasks[0]);
 
@@ -68,9 +68,9 @@ TEST(PriorityQueue, RemoveElement)
 TEST(PriorityQueue, UpdatePriority)
 {
     PQHeap heap;
-    heap.insert(&tasks[0], priorities[0]);
-    heap.insert(&tasks[1], priorities[1]);
-    heap.insert(&tasks[2], priorities[2]);
+    heap.insert(tasks[0], priorities[0]);
+    heap.insert(tasks[1], priorities[1]);
+    heap.insert(tasks[2], priorities[2]);
 
     heap.update(tasks[2], 10);
 

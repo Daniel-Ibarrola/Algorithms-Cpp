@@ -10,7 +10,7 @@
 
 struct Task
 {
-    std::string* element;
+    std::string element;
     int priority;
 
     friend bool operator== (const Task& t1, const Task& t2);
@@ -33,15 +33,20 @@ private:
     std::vector<Task> m_tasks;
 
     void bubbleUp(std::size_t index);
+    void pushDown(std::size_t index);
     static std::size_t getParentIndex(std::size_t index);
+    std::size_t getFirstLeafIndex() const;
+    std::size_t highestPriorityChild(std::size_t parentIndex) const;
 
 public:
 
     PQHeap() = default;
 
-    void insert(std::string* task, int priority);
+    void insert(const std::string& task, int priority);
     std::string peek() const;
     std::string top();
+    void remove(const std::string& task);
+    void update(const std::string& task, int priority);
 
     bool empty() const { return m_tasks.empty(); }
     std::size_t size() const { return m_tasks.size(); }
