@@ -5,6 +5,7 @@
 #ifndef ALGORITHMS_PRIORITY_QUEUE_H
 #define ALGORITHMS_PRIORITY_QUEUE_H
 
+#include <algorithm>
 #include <string>
 #include <vector>
 
@@ -46,7 +47,7 @@ public:
     std::string peek() const;
     std::string top();
     void remove(const std::string& task);
-    void update(const std::string& task, int priority);
+    void update(const std::string& task, int newPriority);
 
     bool empty() const { return m_tasks.empty(); }
     std::size_t size() const { return m_tasks.size(); }

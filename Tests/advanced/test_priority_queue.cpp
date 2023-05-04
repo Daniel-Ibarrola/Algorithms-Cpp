@@ -65,7 +65,7 @@ TEST(PriorityQueue, RemoveElement)
 }
 
 
-TEST(PriorityQueue, UpdatePriority)
+TEST(PriorityQueue, UpdatePriorityToHigerValue)
 {
     PQHeap heap;
     heap.insert(tasks[0], priorities[0]);
@@ -75,4 +75,16 @@ TEST(PriorityQueue, UpdatePriority)
     heap.update(tasks[2], 10);
 
     ASSERT_EQ(heap.peek(), tasks[2]);
+}
+
+TEST(PriorityQueue, UpdatePriorityToLowerValue)
+{
+    PQHeap heap;
+    heap.insert(tasks[0], priorities[0]);
+    heap.insert(tasks[1], priorities[1]);
+    heap.insert(tasks[2], priorities[2]);
+
+    heap.update(tasks[1], 5);
+
+    ASSERT_EQ(heap.peek(), tasks[0]);
 }

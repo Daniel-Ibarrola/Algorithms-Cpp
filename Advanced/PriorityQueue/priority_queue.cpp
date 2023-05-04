@@ -111,8 +111,21 @@ void PQHeap::remove(const std::string &task)
 
 }
 
-void PQHeap::update(const std::string &task, int priority)
+void PQHeap::update(const std::string &task, int newPriority)
 {
     // Update the priority of an element
+    auto found {std::find_if(m_tasks.begin(), m_tasks.end(),
+                          [&task](const Task& tk){ return tk.element == task;})
+    };
+    if (found != m_tasks.end())
+    {
+        int oldPriority {found->priority};
+        found->priority = newPriority;
 
+        std::size_t index = found - m_tasks.begin();
+        if (newPriority > oldPriority)
+            bubbleUp(index);
+        else if (newPriority < oldPriority)
+            pushDown(index);
+    }
 }
