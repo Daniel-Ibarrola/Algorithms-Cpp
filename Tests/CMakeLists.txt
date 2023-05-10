@@ -29,6 +29,7 @@ add_executable(Google_Tests_run
         np-complete/test_independent_set.cpp
         advanced/test_priority_queue.cpp
         bits/test_bits.cpp
+        others/test_others.cpp
         )
 
 # linking Google_Tests_run with my other libraries
@@ -38,4 +39,5 @@ target_link_libraries(Google_Tests_run Strings)
 target_link_libraries(Google_Tests_run np-complete)
 target_link_libraries(Google_Tests_run Advanced)
 target_link_libraries(Google_Tests_run Bits)
+target_link_libraries(Google_Tests_run Others)
 target_link_libraries(Google_Tests_run gtest gtest_main)

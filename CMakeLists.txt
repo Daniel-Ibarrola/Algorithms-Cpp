@@ -24,4 +24,7 @@ add_subdirectory(Advanced)
 include_directories(Bits)
 add_subdirectory(Bits)
 
+include_directories(Others)
+add_subdirectory(Others)
+
 add_subdirectory(Tests)

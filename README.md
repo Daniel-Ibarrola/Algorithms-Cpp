@@ -85,7 +85,11 @@ The following algorithms and data structures can be found in the project:
 
 ## Advanced algorithms and data Structures
 
-- [Priority queue](Advanced/PriorityQueue/priority_queue.cpp)
+- [D-way heap](Advanced/PriorityQueue/priority_queue.cpp)
+
+## Others
+
+- [Reverse Digits](Others/others.cpp)
 
 ## Useful Resources
 
