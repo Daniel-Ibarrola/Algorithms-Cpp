@@ -21,4 +21,7 @@ add_subdirectory(Np-complete)
 include_directories(Advanced)
 add_subdirectory(Advanced)
 
+include_directories(Bits)
+add_subdirectory(Bits)
+
 add_subdirectory(Tests)
