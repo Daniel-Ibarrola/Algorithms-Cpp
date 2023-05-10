@@ -9,4 +9,6 @@ int countBits(int num);
 
 int parity(unsigned long num);
 
+double power(double base, int exponent);
+
 #endif //ALGORITHMS_BITS_H

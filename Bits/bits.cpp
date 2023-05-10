@@ -28,3 +28,22 @@ int parity(unsigned long num)
     num ^= num >> 1;
     return static_cast<int>(num & 0x1);
 }
+
+
+double power(double base, int exponent)
+{
+    double result {1.0};
+    long long power = exponent;
+    if (power < 0) {
+        power = -power;
+        base = 1.0 / base;
+    }
+    while (power) {
+        if (power & 1) {
+            result *= base;
+        }
+        base *= base;
+        power >>= 1;
+    }
+    return result;
+}

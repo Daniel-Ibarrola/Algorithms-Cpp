@@ -20,3 +20,15 @@ TEST(TestParity, ComputesCorrectParity)
     num = 136; // 10001000 in binary
     ASSERT_EQ(parity(num), 0);
 }
+
+TEST(TestPower, ComputesCorrectValue)
+{
+    double base {2.5};
+    int exponent {5};
+    ASSERT_EQ(power(base, exponent), 97.65625);
+
+    base = 5;
+    exponent = 4;
+    ASSERT_EQ(power(base, exponent), 625);
+}
+

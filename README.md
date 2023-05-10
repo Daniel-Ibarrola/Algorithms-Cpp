@@ -40,6 +40,7 @@ The following algorithms and data structures can be found in the project:
 
 - [Count Bits](Bits/bits.cpp)
 - [Binary word parity](Bits/bits.cpp)
+- [Power of a number](Bits/bits.cpp)
 
 ## Graphs and Graphs Algorithms
 
