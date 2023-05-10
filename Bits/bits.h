@@ -7,6 +7,6 @@
 
 int countBits(int num);
 
-int parity(int num);
+int parity(unsigned long num);
 
 #endif //ALGORITHMS_BITS_H

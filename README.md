@@ -36,6 +36,11 @@ The following algorithms and data structures can be found in the project:
 - [Stack](DataStructures/Stack/stack.cpp)
 - [Tree](DataStructures/Tree/Tree.h)
 
+## Bit Manipulation
+
+- [Count Bits](Bits/bits.cpp)
+- [Binary word parity](Bits/bits.cpp)
+
 ## Graphs and Graphs Algorithms
 
 #### Undirected graphs

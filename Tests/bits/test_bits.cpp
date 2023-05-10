@@ -14,7 +14,7 @@ TEST(TestCountBits, ComputesCorrectNumber)
 
 TEST(TestParity, ComputesCorrectParity)
 {
-    int num {11}; // 1011 in binary
+    unsigned long num {11}; // 1011 in binary
     ASSERT_EQ(parity(num), 1);
 
     num = 136; // 10001000 in binary

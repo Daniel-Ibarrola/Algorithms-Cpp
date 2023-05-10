@@ -16,15 +16,15 @@ int countBits(int num)
     return numBits;
 }
 
-int parity(int num)
+int parity(unsigned long num)
 {
     // The parity of a binary number is 1 if the number of 1s is odd
     // otherwise it's 0.
-    int result {0};
-    while (num)
-    {
-        result ^= 1;
-        num &= (num - 1); // drop the lowest set bit
-    }
-    return result;
+    num ^= num >> 32;
+    num ^= num >> 16;
+    num ^= num >> 8;
+    num ^= num >> 4;
+    num ^= num >> 2;
+    num ^= num >> 1;
+    return static_cast<int>(num & 0x1);
 }
